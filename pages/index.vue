@@ -1,9 +1,15 @@
 <template>
-  <h1 class="title">geocity_front</h1>
+  <div>
+    <Introduction />
+  </div>
 </template>
 
 <script>
-export default {}
-</script>
+import Introduction from '~/components/introduction.vue'
 
-<style></style>
+export default {
+  components: {
+    Introduction,
+  },
+}
+</script>

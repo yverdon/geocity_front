@@ -1,0 +1,6 @@
+[submodule "geocity_styleguide"]
+	path = geocity_styleguide
+	url = https://github.com/yverdon/geocity_styleguide.git
+[submodule "styleguide"]
+	path = styleguide
+	url = https://github.com/yverdon/geocity_styleguide.git
