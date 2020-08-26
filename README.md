@@ -1,4 +1,4 @@
-# Geociry Front
+# Geocity Front
 
 ## Build Setup
 
