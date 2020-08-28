@@ -23,6 +23,7 @@ export default {
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: [
+    '@nuxtjs/axios',
     '~/modules/vueLayers',
     [
       'nuxt-i18n',
@@ -48,4 +49,7 @@ export default {
     ],
   ],
   build: {},
+  axios: {
+    baseURL: process.env.API_URL,
+  },
 }
