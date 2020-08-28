@@ -3,6 +3,11 @@
 ## Build Setup
 
 ```bash
+# init submodules dependencies
+git submodule update --init --recursive
+```
+
+```bash
 # install dependencies
 $ yarn install
 
