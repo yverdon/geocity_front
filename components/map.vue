@@ -1,6 +1,21 @@
 <template>
   <div class="py-12 bg-gray-100">
     <div class="container mx-auto px-4">
+      <!-- base layers switch -->
+      <div class="base-layers-panel">
+        <div class="buttons has-addons">
+          <button
+            v-for="layer in baseLayers"
+            :key="layer.name"
+            class="button is-light"
+            :class="{ 'is-info': layer.visible }"
+            @click="showBaseLayer(layer.name)"
+          >
+            {{ layer.title }}
+          </button>
+        </div>
+      </div>
+      <!--// base layers -->
       <client-only>
         <vl-map
           :load-tiles-while-animating="true"
@@ -101,9 +116,15 @@
             </template>
           </vl-interaction-select>
           <!--// interactions -->
-
-          <vl-layer-tile>
-            <vl-source-osm></vl-source-osm>
+          <vl-layer-tile
+            v-for="layer in baseLayers"
+            :id="layer.name"
+            :key="layer.name"
+            :visible="layer.visible"
+            ><component
+              :is="'vl-source-' + layer.name"
+              v-bind="layer"
+            ></component>
           </vl-layer-tile>
           <vl-layer-vector>
             <vl-source-vector :features.sync="features"></vl-source-vector>
@@ -127,7 +148,6 @@
         Center: {{ center }}<br />
         Rotation: {{ rotation }}<br />
       </div>
-      <pre>{{ events.features }}</pre>
     </div>
   </div>
 </template>
@@ -153,6 +173,18 @@ export default {
       loading: false,
       drawType: undefined,
       deviceCoordinate: undefined,
+      baseLayers: [
+        {
+          name: 'osm',
+          title: 'OpenStreetMap',
+          visible: true,
+        },
+        {
+          name: 'sputnik',
+          title: ' - Sputnik Maps',
+          visible: false,
+        },
+      ],
     }
   },
 
@@ -165,6 +197,16 @@ export default {
     },
     pointOnSurface() {
       return this.deviceCoordinate
+    },
+    showBaseLayer(name) {
+      let layer = this.baseLayers.find((layer) => layer.visible)
+      if (layer != null) {
+        layer.visible = false
+      }
+      layer = this.baseLayers.find((layer) => layer.name === name)
+      if (layer != null) {
+        layer.visible = true
+      }
     },
   },
 }
