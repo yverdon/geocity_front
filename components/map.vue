@@ -5,7 +5,6 @@
         <vl-map
           :load-tiles-while-animating="true"
           :load-tiles-while-interacting="true"
-          data-projection="EPSG:4326"
           style="height: 400px"
         >
           <vl-view
@@ -14,17 +13,100 @@
             :rotation.sync="rotation"
           ></vl-view>
 
+          <vl-geoloc @update:position="onUpdatePosition">
+            <template slot-scope="geoloc">
+              <vl-feature v-if="geoloc.position" id="position-feature">
+                <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+                <vl-style-box>
+                  <vl-style-circle :radius="10">
+                    <vl-style-fill color="white"></vl-style-fill>
+                    <vl-style-stroke color="red"></vl-style-stroke>
+                  </vl-style-circle>
+                </vl-style-box>
+              </vl-feature>
+            </template>
+          </vl-geoloc>
+          <!-- interactions -->
+          <vl-interaction-select
+            v-if="drawType == null"
+            :features.sync="selectedFeatures"
+            ><template slot-scope="select">
+              <!-- select styles -->
+              <vl-style-box>
+                <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
+                <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
+                <vl-style-circle :radius="5">
+                  <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
+                  <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
+                </vl-style-circle>
+              </vl-style-box>
+              <vl-style-box :z-index="1">
+                <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
+                <vl-style-circle :radius="5">
+                  <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
+                </vl-style-circle>
+              </vl-style-box>
+              <!--// select styles -->
+              <!-- selected feature popup -->
+              <vl-overlay
+                v-for="feature in select.features"
+                :id="feature.id"
+                :key="feature.id"
+                class="feature-popup"
+                :position="pointOnSurface(feature.geometry)"
+                :auto-pan="true"
+                :auto-pan-animation="{ duration: 300 }"
+                ><template>
+                  <section class="card">
+                    <header class="card-header">
+                      <strong>
+                        <p class="card-header-title">
+                          Événement
+                          {{
+                            feature.properties.permit_request
+                              .administrative_entity.name
+                          }}
+                        </p>
+                        <a
+                          class="card-header-icon"
+                          title="Close"
+                          @click="
+                            selectedFeatures = selectedFeatures.filter(
+                              (f) => f.id !== feature.id
+                            )
+                          "
+                          ><b-icon icon="close"></b-icon>
+                        </a>
+                      </strong>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <p>
+                          <strong>Début:</strong>
+                          {{ feature.properties.starts_at }}<br />
+                          <strong>Fin:</strong> {{ feature.properties.ends_at
+                          }}<br />
+                          <strong>Détails:</strong>
+                          {{ feature.properties.comment }}<br />
+                          <strong>Plus d'infos:</strong>
+                          {{ feature.properties.external_link }}<br />
+                          <a href="#">Voir sur le calendrier</a>
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+                </template>
+              </vl-overlay>
+              <!--// selected popup -->
+            </template>
+          </vl-interaction-select>
+          <!--// interactions -->
+
           <vl-layer-tile>
             <vl-source-osm></vl-source-osm>
           </vl-layer-tile>
-
           <vl-layer-vector>
             <vl-source-vector :features.sync="features"></vl-source-vector>
-
-            <vl-style-box>
-              <vl-style-stroke color="green" :width="3"></vl-style-stroke>
-              <vl-style-fill color="rgba(255,255,255,0.5)"></vl-style-fill>
-            </vl-style-box>
           </vl-layer-vector>
         </vl-map>
       </client-only>
@@ -63,16 +145,69 @@ export default {
 
   data() {
     return {
-      zoom: 2,
+      zoom: 13,
       center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
       features: [],
+      selectedFeatures: [],
       loading: false,
+      drawType: undefined,
+      deviceCoordinate: undefined,
     }
   },
 
   mounted() {
     this.features = this.events.features
   },
+  methods: {
+    onUpdatePosition(coordinate) {
+      this.deviceCoordinate = coordinate
+    },
+    pointOnSurface() {
+      return this.deviceCoordinate
+    },
+  },
 }
 </script>
+
+<style>
+.feature-popup {
+  position: absolute;
+  left: -50px;
+  bottom: 12px;
+  width: 20em;
+  max-width: none;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+.feature-popup:after,
+.feature-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.feature-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.feature-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.card-content {
+  max-height: 20em;
+  overflow: auto;
+}
+.content {
+  word-break: break-all;
+}
+</style>

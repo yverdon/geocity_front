@@ -20,7 +20,7 @@ export default {
 
   async asyncData({ $axios }) {
     const { data } = await $axios.get(
-      '/events/?adminentity=1&ends_at=2020-12-30&format=json&starts_at=2020-01-01'
+      'https://form-preprod.mapnv.ch/rest/events/'
     )
     return { events: data }
   },
