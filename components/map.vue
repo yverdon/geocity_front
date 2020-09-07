@@ -1,6 +1,17 @@
 <template>
   <div class="py-12 bg-gray-100">
     <div class="container mx-auto px-4">
+      <div>
+        Où ?
+        <input v-model="search" type="text" @input="fetchResults" />
+        <p v-if="isLoading">Loading datas</p>
+        <ul v-else>
+          <li v-for="result in results" :key="result.id">
+            <pre>{{ result }}</pre>
+          </li>
+        </ul>
+      </div>
+
       <!-- base layers switch -->
       <div class="base-layers-panel">
         <div class="buttons has-addons">
@@ -165,6 +176,9 @@ export default {
 
   data() {
     return {
+      results: [],
+      search: '',
+      isLoading: false,
       zoom: 13,
       center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
@@ -190,11 +204,21 @@ export default {
 
   mounted() {
     this.features = this.events.features
+    console.log(this.$findPointOnSurface)
   },
+
   methods: {
+    async fetchResults() {
+      const data = await this.$axios.$get(
+        `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&searchText=${this.search}`
+      )
+      this.results = data.results
+    },
+
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
     },
+
     pointOnSurface() {
       return this.deviceCoordinate
     },

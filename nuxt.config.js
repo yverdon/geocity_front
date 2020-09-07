@@ -19,6 +19,10 @@ export default {
       src: '@/plugins/vuelayers.js',
       ssr: false,
     },
+    {
+      src: '@/plugins/ol-ext.js',
+      ssr: false,
+    },
   ],
   components: true,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
@@ -48,7 +52,9 @@ export default {
       },
     ],
   ],
-  build: {},
+  build: {
+    transpile: ['vuelayers'],
+  },
   axios: {
     baseURL: process.env.API_URL,
   },
