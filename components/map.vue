@@ -5,9 +5,13 @@
         Où ?
         <input v-model="search" type="text" @input="fetchResults" />
         <p v-if="isLoading">Loading datas</p>
-        <ul v-else>
-          <li v-for="result in results" :key="result.id">
-            <pre>{{ result }}</pre>
+        <ul v-else v-show="isSearchResultOpen">
+          <li
+            v-for="result in results"
+            :key="result.id"
+            v-on:click="zoomToCoordinates(result.attrs.y, result.attrs.x)"
+          >
+            <pre>{{ result.attrs.label }}</pre>
           </li>
         </ul>
       </div>
@@ -178,6 +182,7 @@ export default {
     return {
       results: [],
       search: '',
+      isSearchResultOpen: false,
       isLoading: false,
       zoom: 13,
       center: [2538236.1400353624, 1180746.4827439308],
@@ -204,23 +209,32 @@ export default {
 
   mounted() {
     this.features = this.events.features
-    console.log(this.$findPointOnSurface)
   },
 
   methods: {
     async fetchResults() {
+      if (this.search.length <= 2) {
+        this.results = []
+        this.isSearchResultOpen = false
+        return
+      }
       const data = await this.$axios.$get(
         `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&searchText=${this.search}`
       )
       this.results = data.results
+      this.isSearchResultOpen = true
     },
 
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
     },
-
-    pointOnSurface() {
-      return this.deviceCoordinate
+    zoomToCoordinates(east, north) {
+      this.center = [east, north]
+      this.zoom = 13
+      this.isSearchResultOpen = false
+    },
+    pointOnSurface(geom) {
+      return geom.geometries[0].coordinates[0] // Replace by centroid or mouse position
     },
     showBaseLayer(name) {
       let layer = this.baseLayers.find((layer) => layer.visible)
