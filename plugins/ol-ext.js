@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import proj4 from 'proj4'
 import { register } from 'ol/proj/proj4'
-import { createProj, addProj, findPointOnSurface } from 'vuelayers/lib/ol-ext'
+import {
+  createProj,
+  addProj,
+  findPointOnSurface,
+  createStyle,
+} from 'vuelayers/lib/ol-ext'
 
 proj4.defs(
   'EPSG:2056',
@@ -20,3 +25,5 @@ addProj(swissGrid)
 Vue.prototype.$findPointOnSurface = () => {
   return findPointOnSurface
 }
+
+Vue.prototype.$createStyle = createStyle

@@ -48,10 +48,11 @@
               <vl-feature v-if="geoloc.position" id="position-feature">
                 <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
                 <vl-style-box>
-                  <vl-style-circle :radius="10">
-                    <vl-style-fill color="white"></vl-style-fill>
-                    <vl-style-stroke color="red"></vl-style-stroke>
-                  </vl-style-circle>
+                  <vl-style-icon
+                    src="/mapmarkers/demo-marker.png"
+                    :scale="0.05"
+                    :anchor="[0.5, 1]"
+                  ></vl-style-icon>
                 </vl-style-box>
               </vl-feature>
             </template>
@@ -142,7 +143,9 @@
             ></component>
           </vl-layer-tile>
           <vl-layer-vector>
-            <vl-source-vector :features.sync="features"></vl-source-vector>
+            <vl-source-vector :features.sync="features">
+              <vl-style-func :factory="styleFuncFactory" />
+            </vl-source-vector>
           </vl-layer-vector>
         </vl-map>
       </client-only>
@@ -158,9 +161,7 @@
             )
           }}
         </p>
-
         Zoom: {{ zoom }}<br />
-        Center: {{ center }}<br />
         Rotation: {{ rotation }}<br />
       </div>
     </div>
@@ -398,6 +399,38 @@ export default {
       layer = this.baseLayers.find((layer) => layer.name === name)
       if (layer != null) {
         layer.visible = true
+      }
+    },
+    styleFuncFactory() {
+      //
+      const metaTypeColors = {
+        0: '#e87f00',
+        1: '#90a832',
+        2: '#fcea1c',
+        3: '#5532a8',
+        4: '#25c9cf',
+        5: '#484f5e',
+        6: '#25cf7d',
+        7: '#1c63fc',
+        8: '#32a852',
+        9: '#b9fc1c',
+      }
+
+      return (feature, resolution) => {
+        if (feature.getProperties().permit_request.meta_types.length === 1) {
+          const customStyle = this.$createStyle({
+            strokeColor:
+              metaTypeColors[
+                feature.getProperties().permit_request.meta_types[0]
+              ],
+            strokeWidth: 3,
+            fillColor:
+              metaTypeColors[
+                feature.getProperties().permit_request.meta_types[0]
+              ],
+          })
+          return [customStyle]
+        }
       }
     },
   },
