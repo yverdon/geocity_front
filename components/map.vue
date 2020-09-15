@@ -183,6 +183,7 @@ export default {
       results: [],
       search: '',
       isSearchResultOpen: false,
+      searchBBOX: '2533863,1176363,2541963,1186738', // Get the administrative_entity extent from geocity API
       isLoading: false,
       zoom: 13,
       center: [2538236.1400353624, 1180746.4827439308],
@@ -219,7 +220,7 @@ export default {
         return
       }
       const data = await this.$axios.$get(
-        `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&searchText=${this.search}`
+        `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&searchText=${this.search}&bbox=${this.searchBBOX}`
       )
       this.results = data.results
       this.isSearchResultOpen = true
