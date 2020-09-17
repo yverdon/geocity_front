@@ -36,6 +36,7 @@
           :load-tiles-while-animating="true"
           :load-tiles-while-interacting="true"
           style="height: 400px"
+          @mounted="onMapMounted"
         >
           <vl-view
             :zoom.sync="zoom"
@@ -278,12 +279,13 @@ export default {
             '28',
             '29',
           ],
+          attributions: ['© OIT, OSM'],
         },
         {
-          name: 'swisstopo-vd-1',
+          name: 'swisstopo-1',
           type: 'wmts',
           requestEncoding: 'REST',
-          title: ' - Swissimage orthophoto',
+          title: ' - Swissimage',
           visible: false,
           layerName: 'ch.swisstopo.swissimage',
           matrixSet: '2056',
@@ -357,7 +359,7 @@ export default {
             '27',
             '28',
           ],
-          attributions: [],
+          attributions: ['© Données:swisstopo'],
         },
       ],
     }
@@ -379,6 +381,11 @@ export default {
       )
       this.results = data.results
       this.isSearchResultOpen = true
+    },
+    onMapMounted(vuemap) {
+      vuemap.$createPromise.then(() => {
+        vuemap.$map.addControl(this.$FullScreen)
+      })
     },
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
