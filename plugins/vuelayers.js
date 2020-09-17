@@ -2,6 +2,4 @@ import Vue from 'vue'
 import VueLayers from 'vuelayers'
 import 'vuelayers/lib/style.css'
 
-Vue.use(VueLayers, {
-  dataProjection: 'EPSG:2056',
-})
+Vue.use(VueLayers)

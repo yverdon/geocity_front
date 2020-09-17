@@ -1,12 +1,7 @@
 import Vue from 'vue'
 import proj4 from 'proj4'
 import { register } from 'ol/proj/proj4'
-import {
-  createProj,
-  addProj,
-  findPointOnSurface,
-  createStyle,
-} from 'vuelayers/lib/ol-ext'
+import { createProj, addProj, createStyle } from 'vuelayers/lib/ol-ext'
 
 import FullScreen from 'ol/control/FullScreen'
 
@@ -24,10 +19,8 @@ const swissGrid = createProj({
 
 addProj(swissGrid)
 
-Vue.prototype.$findPointOnSurface = () => {
-  return findPointOnSurface
-}
-
 Vue.prototype.$createStyle = createStyle
 
 Vue.prototype.$FullScreen = new FullScreen()
+
+Vue.prototype.$olMap = {}

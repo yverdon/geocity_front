@@ -9,7 +9,7 @@
           <li
             v-for="result in results"
             :key="result.id"
-            v-on:click="zoomToCoordinates(result.attrs.y, result.attrs.x)"
+            @click="zoomToCoordinates(result.attrs.y, result.attrs.x)"
           >
             <pre>{{ result.attrs.label }}</pre>
           </li>
@@ -17,7 +17,7 @@
       </div>
 
       <!-- base layers switch -->
-      <div class="base-layers-panel">
+      <div>
         <div class="buttons has-addons">
           <button
             v-for="layer in baseLayers"
@@ -30,23 +30,39 @@
           </button>
         </div>
       </div>
+      <div>
+        <div class="buttons has-addons">
+          <button @click="setTrackingActive">Activer la localisation</button>
+          <button @click="isTrackingActive = false">
+            Désactiver la localisation
+          </button>
+        </div>
+      </div>
       <!--// base layers -->
       <client-only>
         <vl-map
           :load-tiles-while-animating="true"
           :load-tiles-while-interacting="true"
-          style="height: 400px"
+          style="height: 500px"
           @mounted="onMapMounted"
+          @click="clickCoordinate = $event.coordinate"
         >
           <vl-view
             :zoom.sync="zoom"
             :center.sync="center"
             :rotation.sync="rotation"
+            projection="EPSG:2056"
           ></vl-view>
 
-          <vl-geoloc @update:position="onUpdatePosition">
+          <vl-geoloc
+            @update:position="onUpdatePosition"
+            :tracking="isTrackingActive"
+          >
             <template slot-scope="geoloc">
-              <vl-feature v-if="geoloc.position" id="position-feature">
+              <vl-feature
+                v-if="geoloc.position && isTrackingActive"
+                id="position-feature"
+              >
                 <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
                 <vl-style-box>
                   <vl-style-icon
@@ -63,52 +79,36 @@
             v-if="drawType == null"
             :features.sync="selectedFeatures"
             ><template slot-scope="select">
-              <!-- select styles -->
-              <vl-style-box>
-                <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
-                <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
-                <vl-style-circle :radius="5">
-                  <vl-style-stroke color="#423e9e" :width="7"></vl-style-stroke>
-                  <vl-style-fill :color="[254, 178, 76, 0.7]"></vl-style-fill>
-                </vl-style-circle>
-              </vl-style-box>
-              <vl-style-box :z-index="1">
-                <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
-                <vl-style-circle :radius="5">
-                  <vl-style-stroke color="#d43f45" :width="2"></vl-style-stroke>
-                </vl-style-circle>
-              </vl-style-box>
-              <!--// select styles -->
               <!-- selected feature popup -->
               <vl-overlay
                 v-for="feature in select.features"
                 :id="feature.id"
                 :key="feature.id"
                 class="feature-popup"
-                :position="pointOnSurface(feature.geometry)"
+                :position="clickCoordinate"
                 :auto-pan="true"
                 :auto-pan-animation="{ duration: 300 }"
-                ><template>
-                  <section class="card">
-                    <header class="card-header">
+                ><template v-if="feature.properties">
+                  <section>
+                    <header>
+                      <a
+                        class="red-link"
+                        @click="
+                          selectedFeatures = selectedFeatures.filter(
+                            (f) => f.id !== feature.id
+                          )
+                        "
+                      >
+                        X
+                      </a>
                       <strong>
-                        <p class="card-header-title">
+                        <p>
                           Événement
                           {{
                             feature.properties.permit_request
                               .administrative_entity.name
                           }}
                         </p>
-                        <a
-                          class="card-header-icon"
-                          title="Close"
-                          @click="
-                            selectedFeatures = selectedFeatures.filter(
-                              (f) => f.id !== feature.id
-                            )
-                          "
-                          ><b-icon icon="close"></b-icon>
-                        </a>
                       </strong>
                     </header>
                     <div class="card-content">
@@ -143,7 +143,7 @@
               v-bind="layer"
             ></component>
           </vl-layer-tile>
-          <vl-layer-vector>
+          <vl-layer-vector id="geocity-vector-layer">
             <vl-source-vector :features.sync="features">
               <vl-style-func :factory="styleFuncFactory" />
             </vl-source-vector>
@@ -187,26 +187,28 @@ export default {
       isSearchResultOpen: false,
       searchBBOX: '2533863,1176363,2541963,1186738', // Get the administrative_entity extent from geocity API
       isLoading: false,
-      zoom: 13,
+      zoom: 8,
       center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
       features: [],
       selectedFeatures: [],
+      clickCoordinate: undefined,
       loading: false,
       drawType: undefined,
       deviceCoordinate: undefined,
+      isTrackingActive: true,
       baseLayers: [
         {
+          name: 'Sputnik Maps -',
           type: 'sputnik',
-          name: 'OSM',
-          title: ' OpenStreetMaps',
-          visible: true,
+          title: 'Sputnik Maps -',
+          visible: false,
         },
         {
           name: 'asit-vd-1',
           type: 'wmts',
-          title: ' - Cadastre',
-          visible: false,
+          title: ' Cadastre',
+          visible: true,
           layerName: 'asitvd.fond_cadastral',
           matrixSet: '2056',
           style: 'default',
@@ -385,18 +387,23 @@ export default {
     onMapMounted(vuemap) {
       vuemap.$createPromise.then(() => {
         vuemap.$map.addControl(this.$FullScreen)
+        this.$olMap = vuemap // Will be useful to recenter: this.$olMap.getView().fitView([extent...])
       })
     },
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
+      this.$olMap.getView().setCenter(coordinate)
+    },
+    setTrackingActive() {
+      this.isTrackingActive = true
+      if (this.deviceCoordinate) {
+        this.$olMap.getView().setCenter(this.deviceCoordinate)
+      }
     },
     zoomToCoordinates(east, north) {
       this.center = [east, north]
-      this.zoom = 18
+      this.zoom = 10
       this.isSearchResultOpen = false
-    },
-    pointOnSurface(geom) {
-      return geom.geometries[0].coordinates[0] // Replace by centroid or mouse position
     },
     showBaseLayer(name) {
       let layer = this.baseLayers.find((layer) => layer.visible)
@@ -411,8 +418,8 @@ export default {
     styleFuncFactory() {
       //
       const metaTypeColors = {
-        0: '#e87f00',
-        1: '#90a832',
+        0: '#90a832',
+        1: '#e87f00',
         2: '#fcea1c',
         3: '#5532a8',
         4: '#25c9cf',
@@ -425,6 +432,7 @@ export default {
 
       return (feature, resolution) => {
         if (feature.getProperties().permit_request.meta_types.length === 1) {
+          feature.getProperties().permit_request.meta_types[0] = 3
           const customStyle = this.$createStyle({
             strokeColor:
               metaTypeColors[
@@ -435,8 +443,18 @@ export default {
               metaTypeColors[
                 feature.getProperties().permit_request.meta_types[0]
               ],
+            imageColor:
+              metaTypeColors[
+                feature.getProperties().permit_request.meta_types[0]
+              ],
+            imageRadius: 10,
           })
-          return [customStyle]
+
+          const overlapStyle = this.$createStyle({
+            imageScale: 0.04,
+            imageSrc: '/mapmarkers/white_cross.svg',
+          })
+          return [customStyle, overlapStyle]
         }
       }
     },
@@ -483,5 +501,11 @@ export default {
 }
 .content {
   word-break: break-all;
+}
+
+.red-link {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
