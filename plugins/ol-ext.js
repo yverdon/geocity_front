@@ -24,3 +24,19 @@ Vue.prototype.$createStyle = createStyle
 Vue.prototype.$FullScreen = new FullScreen()
 
 Vue.prototype.$olMap = {}
+
+// TODO: get all following parameters from config file
+Vue.prototype.$metaTypeStyle = {
+  0: { symbol: '/mapmarkers/forms_question_mark.svg', color: [0, 140, 111, 1] },
+  1: { symbol: '/mapmarkers/forms_construction.svg', color: [201, 2, 25, 1] },
+  2: { symbol: '/mapmarkers/forms_cone.svg', color: [255, 166, 0, 1] },
+  3: { symbol: '/mapmarkers/forms_sport.svg', color: [39, 115, 230, 1] },
+  4: { symbol: '/mapmarkers/forms_culture.svg', color: [27, 76, 150, 1] },
+  5: { symbol: '/mapmarkers/forms_commercial.svg', color: [14, 36, 69, 1] },
+  6: { symbol: '/mapmarkers/forms_police.svg', color: [4, 0, 255, 1] },
+}
+
+Vue.prototype.$fillOpacity = 0.5
+Vue.prototype.$symbolScale = 0.025
+Vue.prototype.$circleRadius = 14
+Vue.prototype.$selectStrokeWidth = 2

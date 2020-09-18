@@ -79,6 +79,7 @@
             v-if="drawType == null"
             :features.sync="selectedFeatures"
             ><template slot-scope="select">
+              <vl-style-func :factory="selectStyleFuncFactory" />
               <!-- selected feature popup -->
               <vl-overlay
                 v-for="feature in select.features"
@@ -416,45 +417,65 @@ export default {
       }
     },
     styleFuncFactory() {
-      //
-      const metaTypeColors = {
-        0: '#90a832',
-        1: '#e87f00',
-        2: '#fcea1c',
-        3: '#5532a8',
-        4: '#25c9cf',
-        5: '#484f5e',
-        6: '#25cf7d',
-        7: '#1c63fc',
-        8: '#32a852',
-        9: '#b9fc1c',
-      }
-
       return (feature, resolution) => {
         if (feature.getProperties().permit_request.meta_types.length === 1) {
-          feature.getProperties().permit_request.meta_types[0] = 3
-          const customStyle = this.$createStyle({
-            strokeColor:
-              metaTypeColors[
-                feature.getProperties().permit_request.meta_types[0]
-              ],
+          const typeStyle = this.$metaTypeStyle[
+            feature.getProperties().permit_request.meta_types[0]
+          ]
+
+          const genericStyle = this.$createStyle({
+            strokeColor: typeStyle.color,
             strokeWidth: 3,
-            fillColor:
-              metaTypeColors[
-                feature.getProperties().permit_request.meta_types[0]
-              ],
-            imageColor:
-              metaTypeColors[
-                feature.getProperties().permit_request.meta_types[0]
-              ],
-            imageRadius: 10,
+            imageColor: typeStyle.color,
+            imageFillColor: typeStyle.color,
+            imageRadius: this.$circleRadius,
+            imageOpacity: 1,
           })
 
-          const overlapStyle = this.$createStyle({
-            imageScale: 0.04,
-            imageSrc: '/mapmarkers/white_cross.svg',
+          const colorFill = [...typeStyle.color]
+          colorFill[3] = this.$fillOpacity
+          const polygonFillStyle = this.$createStyle({
+            fillColor: colorFill,
           })
-          return [customStyle, overlapStyle]
+
+          const pointStyle = this.$createStyle({
+            imageScale: this.$symbolScale,
+            imageSrc: typeStyle.symbol,
+          })
+
+          return [polygonFillStyle, genericStyle, pointStyle]
+        }
+      }
+    },
+    // TODO reuse styleFuncFactory instead of duplicating code ?
+    selectStyleFuncFactory() {
+      return (feature, resolution) => {
+        if (feature.getProperties().permit_request.meta_types.length === 1) {
+          const typeStyle = this.$metaTypeStyle[
+            feature.getProperties().permit_request.meta_types[0]
+          ]
+
+          const genericStyle = this.$createStyle({
+            strokeColor: typeStyle.color,
+            strokeWidth: 3 + this.$selectStrokeWidth,
+            imageColor: typeStyle.color,
+            imageFillColor: typeStyle.color,
+            imageRadius: this.$circleRadius + this.$selectStrokeWidth,
+            imageOpacity: 1,
+          })
+
+          const colorFill = [...typeStyle.color]
+          colorFill[3] = this.$fillOpacity
+          const polygonFillStyle = this.$createStyle({
+            fillColor: colorFill,
+          })
+
+          const pointStyle = this.$createStyle({
+            imageScale: this.$symbolScale,
+            imageSrc: typeStyle.symbol,
+          })
+
+          return [polygonFillStyle, genericStyle, pointStyle]
         }
       }
     },
