@@ -198,6 +198,7 @@ export default {
       drawType: undefined,
       deviceCoordinate: undefined,
       isTrackingActive: false,
+      // TODO: get this from config file
       baseLayers: [
         {
           name: 'Sputnik Maps -',
