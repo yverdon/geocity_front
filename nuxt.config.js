@@ -24,7 +24,7 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: [
     '@nuxtjs/axios',
-    '~/modules/vueLayers',
+    '~/modules/vuelayers',
     [
       'nuxt-i18n',
       {
