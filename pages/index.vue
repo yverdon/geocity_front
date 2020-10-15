@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Introduction from '~/components/introduction.vue'
-import Map from '~/components/map.vue'
+import Introduction from '@/components/Introduction.vue'
+import Map from '@/components/Map.vue'
 
 export default {
   components: {
