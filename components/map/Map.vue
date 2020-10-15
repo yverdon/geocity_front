@@ -1,27 +1,17 @@
 <template>
   <div class="py-12 bg-gray-100 mt-4">
     <div class="container mx-auto px-4">
+      <SelectField @change="zoomToCoordinates" />
+
+      <ToggleLayers />
+
       <div>
-        <SelectField @change="zoomToCoordinates" />
-        <div>
-          <button
-            v-for="layer in baseLayers"
-            :key="layer.name"
-            :class="{ 'is-info': layer.visible }"
-            @click="showBaseLayer(layer.name)"
-          >
-            {{ layer.title }}
-          </button>
-        </div>
+        <button @click="setTrackingActive">Activer la localisation</button>
+        <button @click="isTrackingActive = false">
+          Désactiver la localisation
+        </button>
       </div>
-      <div>
-        <div>
-          <button @click="setTrackingActive">Activer la localisation</button>
-          <button @click="isTrackingActive = false">
-            Désactiver la localisation
-          </button>
-        </div>
-      </div>
+
       <client-only>
         <vl-map
           :load-tiles-while-animating="true"
@@ -116,6 +106,7 @@
               <!--// selected popup -->
             </template>
           </vl-interaction-select>
+
           <!--// interactions -->
           <vl-layer-tile
             v-for="layer in baseLayers"
@@ -127,6 +118,7 @@
               v-bind="layer"
             ></component>
           </vl-layer-tile>
+
           <vl-layer-vector id="geocity-vector-layer">
             <vl-source-vector
               :features.sync="features"
@@ -158,13 +150,17 @@
 </template>
 
 <script>
+import layers from '@/components/map/layers.json'
+
 import SelectField from '@/components/atoms/SelectField'
+import ToggleLayers from '@/components/map/ToggleLayers'
 
 export default {
   Name: 'Map',
 
   compoennts: {
     SelectField,
+    ToggleLayers,
   },
 
   props: {
@@ -177,6 +173,7 @@ export default {
   data() {
     return {
       results: [],
+      baseLayers: layers,
       zoom: 8,
       center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
@@ -187,174 +184,6 @@ export default {
       drawType: undefined,
       deviceCoordinate: undefined,
       isTrackingActive: false,
-      // TODO: get this from config file
-      baseLayers: [
-        {
-          name: 'Sputnik Maps -',
-          type: 'sputnik',
-          title: 'Sputnik Maps -',
-          visible: false,
-        },
-        {
-          name: 'asit-vd-1',
-          type: 'wmts',
-          title: ' Cadastre',
-          visible: true,
-          layerName: 'asitvd.fond_cadastral',
-          matrixSet: '2056',
-          style: 'default',
-          url: 'https://ows.asitvd.ch/wmts/',
-          origin: [2420000, 1350000],
-          format: 'image/png',
-          projection: 'EPSG:2056',
-          styleName: 'default',
-          resolutions: [
-            4000,
-            3750,
-            3500,
-            3250,
-            3000,
-            2750,
-            2500,
-            2250,
-            2000,
-            1750,
-            1500,
-            1250,
-            1000,
-            750,
-            650,
-            500,
-            250,
-            100,
-            50,
-            20,
-            10,
-            5,
-            2.5,
-            2,
-            1.5,
-            1,
-            0.5,
-            0.25,
-            0.1,
-            0.05,
-          ],
-          matrixIds: [
-            '0',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12',
-            '13',
-            '14',
-            '15',
-            '16',
-            '17',
-            '18',
-            '19',
-            '20',
-            '21',
-            '22',
-            '23',
-            '24',
-            '25',
-            '26',
-            '27',
-            '28',
-            '29',
-          ],
-          attributions: ['© OIT, OSM'],
-        },
-        {
-          name: 'swisstopo-1',
-          type: 'wmts',
-          requestEncoding: 'REST',
-          title: ' - Swissimage',
-          visible: false,
-          layerName: 'ch.swisstopo.swissimage',
-          matrixSet: '2056',
-          style: 'default',
-          url:
-            'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/2056/{TileMatrix}/{TileCol}/{TileRow}.jpeg',
-          origin: [2420000, 1350000],
-          format: 'image/jpeg',
-          projection: 'EPSG:2056',
-          styleName: 'default',
-          resolutions: [
-            4000,
-            3750,
-            3500,
-            3250,
-            3000,
-            2750,
-            2500,
-            2250,
-            2000,
-            1750,
-            1500,
-            1250,
-            1000,
-            750,
-            650,
-            500,
-            250,
-            100,
-            50,
-            20,
-            10,
-            5,
-            2.5,
-            2,
-            1.5,
-            1,
-            0.5,
-            0.25,
-            0.1,
-            0.05,
-          ],
-          matrixIds: [
-            '0',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12',
-            '13',
-            '14',
-            '15',
-            '16',
-            '17',
-            '18',
-            '19',
-            '20',
-            '21',
-            '22',
-            '23',
-            '24',
-            '25',
-            '26',
-            '27',
-            '28',
-          ],
-          attributions: ['© Données:swisstopo'],
-        },
-      ],
     }
   },
 
@@ -395,17 +224,6 @@ export default {
     zoomToCoordinates(location) {
       this.center = [location.attrs.y, location.attrs.x]
       this.zoom = 10
-    },
-
-    showBaseLayer(name) {
-      let layer = this.baseLayers.find((layer) => layer.visible)
-      if (layer != null) {
-        layer.visible = false
-      }
-      layer = this.baseLayers.find((layer) => layer.name === name)
-      if (layer != null) {
-        layer.visible = true
-      }
     },
 
     styleFuncFactory() {
