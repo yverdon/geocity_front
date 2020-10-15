@@ -29,6 +29,7 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '~/modules/vuelayers',
+    'nuxt-vue-select',
     [
       'nuxt-i18n',
       {

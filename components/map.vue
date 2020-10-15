@@ -1,21 +1,8 @@
 <template>
-  <div class="py-12 bg-gray-100">
+  <div class="py-12 bg-gray-100 mt-4">
     <div class="container mx-auto px-4">
       <div>
-        Où ?
-        <input v-model="search" type="text" @input="fetchResults" />
-        <p v-if="isLoading">Loading datas</p>
-        <ul v-else v-show="isSearchResultOpen">
-          <li
-            v-for="result in results"
-            :key="result.id"
-            @click="zoomToCoordinates(result.attrs.y, result.attrs.x)"
-          >
-            <pre>{{ result.attrs.label }}</pre>
-          </li>
-        </ul>
-      </div>
-      <div>
+        <SelectField @change="zoomToCoordinates" />
         <div>
           <button
             v-for="layer in baseLayers"
@@ -171,8 +158,14 @@
 </template>
 
 <script>
+import SelectField from '@/components/atoms/SelectField'
+
 export default {
   Name: 'Map',
+
+  compoennts: {
+    SelectField,
+  },
 
   props: {
     events: {
@@ -184,10 +177,6 @@ export default {
   data() {
     return {
       results: [],
-      search: '',
-      isSearchResultOpen: false,
-      searchBBOX: '2533863,1176363,2541963,1186738', // Get the administrative_entity extent from geocity API
-      isLoading: false,
       zoom: 8,
       center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
@@ -374,47 +363,40 @@ export default {
   },
 
   methods: {
-    async fetchResults() {
-      if (this.search.length <= 2) {
-        this.results = []
-        this.isSearchResultOpen = false
-        return
-      }
-      const data = await this.$axios.$get(
-        `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&searchText=${this.search}&bbox=${this.searchBBOX}`
-      )
-      this.results = data.results
-      this.isSearchResultOpen = true
-    },
     onMapMounted(vuemap) {
       vuemap.$createPromise.then(() => {
         vuemap.$map.addControl(this.$FullScreen)
         this.$olMap = vuemap
       })
     },
+
     onSourceMounted(vuemap) {
       this.$eventVectorSource = vuemap.$source
     },
+
     onFeaturesUpdate() {
       this.$olMap.getView(this.$eventVectorSource.getExtent(), {
         padding: this.$fitViewPadding,
       })
     },
+
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
       this.$olMap.getView().setCenter(coordinate)
     },
+
     setTrackingActive() {
       this.isTrackingActive = true
       if (this.deviceCoordinate) {
         this.$olMap.getView().setCenter(this.deviceCoordinate)
       }
     },
-    zoomToCoordinates(east, north) {
-      this.center = [east, north]
+
+    zoomToCoordinates(location) {
+      this.center = [location.attrs.y, location.attrs.x]
       this.zoom = 10
-      this.isSearchResultOpen = false
     },
+
     showBaseLayer(name) {
       let layer = this.baseLayers.find((layer) => layer.visible)
       if (layer != null) {
@@ -425,6 +407,7 @@ export default {
         layer.visible = true
       }
     },
+
     styleFuncFactory() {
       return (feature, resolution) => {
         if (feature.getProperties().permit_request.meta_types.length === 1) {
@@ -456,6 +439,7 @@ export default {
         }
       }
     },
+
     // TODO reuse styleFuncFactory instead of duplicating code ?
     selectStyleFuncFactory() {
       return (feature, resolution) => {

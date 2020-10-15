@@ -5942,6 +5942,13 @@ nuxt-i18n@^6.13.12:
     js-cookie "^2.2.1"
     vue-i18n "^8.18.1"
 
+nuxt-vue-select@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/nuxt-vue-select/-/nuxt-vue-select-0.1.4.tgz#773ad2ef78902b440f9b5766d9cc73f103f083b2"
+  integrity sha512-8njkU9XZV2it9IjZHFwLj2mChsxFhiAJ6MFj3ZU8wBffirylZXcZmzOuO/hBduz8jf1os8Q5A7x94QmoPK4A8A==
+  dependencies:
+    vue-select "^3.2.0"
+
 nuxt@^2.14.0:
   version "2.14.3"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.14.3.tgz#1e1fb762d407dc275253360b87f3257c609b4dfd"
@@ -8809,6 +8816,11 @@ vue-router@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.4.3.tgz#fa93768616ee338aa174f160ac965167fa572ffa"
   integrity sha512-BADg1mjGWX18Dpmy6bOGzGNnk7B/ZA0RxuA6qedY/YJwirMfKXIDzcccmHbQI0A6k5PzMdMloc0ElHfyOoX35A==
+
+vue-select@^3.2.0:
+  version "3.10.8"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.10.8.tgz#5d0839cba228a9a5efa1a88e5436840eb3fd0c7a"
+  integrity sha512-PnjtZWCTiSr04bs8ctPIiU41qnBK+oh/SOe6Pb4gElMMxofDFwUxiUe++mz0+84aTy4zrleGxtvVVyWbiPYBiw==
 
 vue-server-renderer@^2.6.11:
   version "2.6.12"

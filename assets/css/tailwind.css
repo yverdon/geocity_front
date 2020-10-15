@@ -1,4 +1,19 @@
+/**
+ * Tailwind
+ */
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/**
+ * Styleguide
+ */
+
 @import 'styleguide/public/common';
+
+/**
+ * Plugins
+ */
+
+@import 'vue-select/dist/vue-select.css';
