@@ -24,10 +24,11 @@ Vue.prototype.$createStyle = createStyle
 Vue.prototype.$FullScreen = new FullScreen()
 
 Vue.prototype.$olMap = {}
+Vue.prototype.$eventVectorSource = {}
 
 // TODO: get all following parameters from config file
 Vue.prototype.$metaTypeStyle = {
-  0: { symbol: '/mapmarkers/forms_question_mark.svg', color: [0, 140, 111, 1] },
+  0: { symbol: '/mapmarkers/forms_question_mark.svg', color: [0, 140, 111, 1] }, // meta_type = 0 => default value if multiple meta_type
   1: { symbol: '/mapmarkers/forms_construction.svg', color: [201, 2, 25, 1] },
   2: { symbol: '/mapmarkers/forms_cone.svg', color: [255, 166, 0, 1] },
   3: { symbol: '/mapmarkers/forms_sport.svg', color: [39, 115, 230, 1] },
@@ -40,3 +41,4 @@ Vue.prototype.$fillOpacity = 0.5
 Vue.prototype.$symbolScale = 0.025
 Vue.prototype.$circleRadius = 14
 Vue.prototype.$selectStrokeWidth = 2
+Vue.prototype.$fitViewPadding = [1000, 1000, 1000, 1000] // in pixels

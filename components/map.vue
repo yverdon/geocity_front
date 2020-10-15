@@ -15,14 +15,11 @@
           </li>
         </ul>
       </div>
-
-      <!-- base layers switch -->
       <div>
-        <div class="buttons has-addons">
+        <div>
           <button
             v-for="layer in baseLayers"
             :key="layer.name"
-            class="button is-light"
             :class="{ 'is-info': layer.visible }"
             @click="showBaseLayer(layer.name)"
           >
@@ -31,14 +28,13 @@
         </div>
       </div>
       <div>
-        <div class="buttons has-addons">
+        <div>
           <button @click="setTrackingActive">Activer la localisation</button>
           <button @click="isTrackingActive = false">
             Désactiver la localisation
           </button>
         </div>
       </div>
-      <!--// base layers -->
       <client-only>
         <vl-map
           :load-tiles-while-animating="true"
@@ -55,8 +51,8 @@
           ></vl-view>
 
           <vl-geoloc
-            @update:position="onUpdatePosition"
             :tracking="isTrackingActive"
+            @update:position="onUpdatePosition"
           >
             <template slot-scope="geoloc">
               <vl-feature
@@ -66,8 +62,8 @@
                 <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
                 <vl-style-box>
                   <vl-style-icon
-                    src="/mapmarkers/demo-marker.png"
-                    :scale="0.05"
+                    src="/mapmarkers/forms_geolocation.svg"
+                    :scale="0.04"
                     :anchor="[0.5, 1]"
                   ></vl-style-icon>
                 </vl-style-box>
@@ -145,7 +141,11 @@
             ></component>
           </vl-layer-tile>
           <vl-layer-vector id="geocity-vector-layer">
-            <vl-source-vector :features.sync="features">
+            <vl-source-vector
+              :features.sync="features"
+              @update:features="onFeaturesUpdate"
+              @mounted="onSourceMounted"
+            >
               <vl-style-func :factory="styleFuncFactory" />
             </vl-source-vector>
           </vl-layer-vector>
@@ -197,7 +197,8 @@ export default {
       loading: false,
       drawType: undefined,
       deviceCoordinate: undefined,
-      isTrackingActive: true,
+      isTrackingActive: false,
+      // TODO: get this from config file
       baseLayers: [
         {
           name: 'Sputnik Maps -',
@@ -388,7 +389,15 @@ export default {
     onMapMounted(vuemap) {
       vuemap.$createPromise.then(() => {
         vuemap.$map.addControl(this.$FullScreen)
-        this.$olMap = vuemap // Will be useful to recenter: this.$olMap.getView().fitView([extent...])
+        this.$olMap = vuemap
+      })
+    },
+    onSourceMounted(vuemap) {
+      this.$eventVectorSource = vuemap.$source
+    },
+    onFeaturesUpdate() {
+      this.$olMap.getView(this.$eventVectorSource.getExtent(), {
+        padding: this.$fitViewPadding,
       })
     },
     onUpdatePosition(coordinate) {
