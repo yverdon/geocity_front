@@ -155,8 +155,13 @@ export default {
     },
 
     zoomToCoordinates(location) {
-      this.center = [location.attrs.y, location.attrs.x]
-      this.zoom = 10
+      if (location) {
+        this.center = [location.attrs.y, location.attrs.x]
+        this.zoom = 10
+      } else {
+        this.center = [2538236.1400353624, 1180746.4827439308]
+        this.zoom = 8
+      }
     },
 
     styleFuncFactory() {
