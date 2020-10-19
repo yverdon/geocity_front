@@ -1,5 +1,5 @@
 /* eslint-disable nuxt/no-cjs-in-config */
-const fr = require('./messages/fr.json')
+const fr = require('./locales/fr.json')
 
 export default {
   mode: 'universal',
@@ -27,7 +27,11 @@ export default {
     },
   ],
   components: true,
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
+  buildModules: [
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/date-fns',
+  ],
   modules: [
     '@nuxtjs/axios',
     '~/modules/vuelayers',

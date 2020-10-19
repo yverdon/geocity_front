@@ -1,14 +1,14 @@
 [
   {
-    "name": "Sputnik Maps -",
+    "name": "Sputnik Maps",
     "type": "sputnik",
-    "title": "Sputnik Maps -",
+    "title": "Sputnik Maps",
     "visible": false
   },
   {
     "name": "asit-vd-1",
     "type": "wmts",
-    "title": " Cadastre",
+    "title": "Cadastre",
     "visible": true,
     "layerName": "asitvd.fond_cadastral",
     "matrixSet": "2056",
@@ -88,7 +88,7 @@
     "name": "swisstopo-1",
     "type": "wmts",
     "requestEncoding": "REST",
-    "title": " - Swissimage",
+    "title": "Swissimage",
     "visible": false,
     "layerName": "ch.swisstopo.swissimage",
     "matrixSet": "2056",

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/date-fns": "^1.4.0",
     "@nuxtjs/svg-sprite": "^0.5.0",
     "nuxt": "^2.14.0",
     "nuxt-i18n": "^6.13.12",

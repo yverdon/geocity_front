@@ -1,9 +1,16 @@
 <template>
   <div class="py-12 bg-gray-100 mt-4">
-    <div class="container mx-auto px-4">
-      <SelectField @change="zoomToCoordinates" />
+    <div class="container relative mx-auto px-4">
       <ToggleLayers />
-      <ToggleGeoLocation @click="setTrackingActive" />
+
+      <section class="flex mb-4">
+        <div class="w-1/2">
+          <SelectField @change="zoomToCoordinates" />
+        </div>
+        <div class="w-1/2">
+          <ToggleGeoLocation @click="setTrackingActive" />
+        </div>
+      </section>
 
       <client-only>
         <vl-map
@@ -40,67 +47,23 @@
               </vl-feature>
             </template>
           </vl-geoloc>
-          <!-- interactions -->
-          <vl-interaction-select
-            v-if="drawType == null"
-            :features.sync="selectedFeatures"
-            ><template slot-scope="select">
+
+          <vl-interaction-select :features.sync="selectedFeature">
+            <template slot-scope="select">
               <vl-style-func :factory="selectStyleFuncFactory" />
-              <!-- selected feature popup -->
               <vl-overlay
                 v-for="feature in select.features"
                 :id="feature.id"
                 :key="feature.id"
-                class="feature-popup"
                 :position="clickCoordinate"
                 :auto-pan="true"
                 :auto-pan-animation="{ duration: 300 }"
-                ><template v-if="feature.properties">
-                  <section>
-                    <header>
-                      <a
-                        class="red-link"
-                        @click="
-                          selectedFeatures = selectedFeatures.filter(
-                            (f) => f.id !== feature.id
-                          )
-                        "
-                      >
-                        X
-                      </a>
-                      <strong>
-                        <p>
-                          Événement
-                          {{
-                            feature.properties.permit_request
-                              .administrative_entity.name
-                          }}
-                        </p>
-                      </strong>
-                    </header>
-                    <div class="card-content">
-                      <div class="content">
-                        <p>
-                          <strong>Début:</strong>
-                          {{ feature.properties.starts_at }}<br />
-                          <strong>Fin:</strong> {{ feature.properties.ends_at
-                          }}<br />
-                          <strong>Détails:</strong>
-                          {{ feature.properties.comment }}<br />
-                          <strong>Plus d'infos:</strong>
-                          {{ feature.properties.external_link }}<br />
-                          <a href="#">Voir sur le calendrier</a>
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-                </template>
+              >
+                <Popover :feature="feature" @close="selectedFeature = []" />
               </vl-overlay>
-              <!--// selected popup -->
             </template>
           </vl-interaction-select>
 
-          <!--// interactions -->
           <vl-layer-tile
             v-for="layer in baseLayers"
             :id="layer.name"
@@ -123,21 +86,6 @@
           </vl-layer-vector>
         </vl-map>
       </client-only>
-
-      <div class="mt-12">
-        <p v-if="loading">Loading features, please wait...</p>
-        <p v-if="features.length > 0">
-          Loaded features:
-          {{
-            features.map(
-              (feature) =>
-                feature.properties.permit_request.administrative_entity.name
-            )
-          }}
-        </p>
-        Zoom: {{ zoom }}<br />
-        Rotation: {{ rotation }}<br />
-      </div>
     </div>
   </div>
 </template>
@@ -148,6 +96,7 @@ import layers from '@/components/map/layers.json'
 import SelectField from '@/components/atoms/SelectField'
 import ToggleLayers from '@/components/map/ToggleLayers'
 import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
+import Popover from '@/components/map/Popover'
 
 export default {
   Name: 'Map',
@@ -156,6 +105,7 @@ export default {
     SelectField,
     ToggleLayers,
     ToggleGeoLocation,
+    Popover,
   },
 
   props: {
@@ -167,16 +117,16 @@ export default {
 
   data() {
     return {
-      results: [],
       baseLayers: layers,
       zoom: 8,
-      center: [2538236.1400353624, 1180746.4827439308],
       rotation: 0,
+      center: [2538236.1400353624, 1180746.4827439308],
+
       features: [],
-      selectedFeatures: [],
+      selectedFeature: [],
+
       clickCoordinate: undefined,
       loading: false,
-      drawType: undefined,
       deviceCoordinate: undefined,
       isTrackingActive: false,
     }
@@ -289,51 +239,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.feature-popup {
-  position: absolute;
-  left: -50px;
-  bottom: 12px;
-  width: 20em;
-  max-width: none;
-  background-color: white;
-  border-radius: 5px;
-  padding: 5px;
-}
-.feature-popup:after,
-.feature-popup:before {
-  top: 100%;
-  border: solid transparent;
-  content: ' ';
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-.feature-popup:after {
-  border-top-color: white;
-  border-width: 10px;
-  left: 48px;
-  margin-left: -10px;
-}
-.feature-popup:before {
-  border-top-color: #cccccc;
-  border-width: 11px;
-  left: 48px;
-  margin-left: -11px;
-}
-.card-content {
-  max-height: 20em;
-  overflow: auto;
-}
-.content {
-  word-break: break-all;
-}
-
-.red-link {
-  color: red;
-  font-weight: bold;
-  cursor: pointer;
-}
-</style>

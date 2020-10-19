@@ -4,5 +4,10 @@
   "introduction": "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune. Vous y trouverez des informations sur divers événements qui auront lieu prochainement et qui pourront vous intéresser dans l'organisation de votre vie quotidienne.",
   "ask": "Vous souhaitez demander une autorisation relative à un chantier, une manifestation ou des travaux de minime importance ?",
   "askcta": "Faire une demande",
-  "events": "Trouver un evenement, chantier, construction …"
+  "events": "Trouver un evenement, chantier, construction …",
+  "start": "Début",
+  "end": "Fin",
+  "details": "Détails",
+  "more": "Plus d'info",
+  "see-on-calendar": "Voir sur le calendrier"
 }
