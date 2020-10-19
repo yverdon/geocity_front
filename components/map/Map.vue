@@ -25,17 +25,14 @@
             :center.sync="center"
             :rotation.sync="rotation"
             projection="EPSG:2056"
-          ></vl-view>
+          />
 
           <vl-geoloc
             :tracking="isTrackingActive"
             @update:position="onUpdatePosition"
           >
             <template slot-scope="geoloc">
-              <vl-feature
-                v-if="geoloc.position && isTrackingActive"
-                id="position-feature"
-              >
+              <vl-feature v-if="geoloc.position && isTrackingActive">
                 <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
                 <vl-style-box>
                   <vl-style-icon
@@ -50,7 +47,7 @@
 
           <vl-interaction-select :features.sync="selectedFeature">
             <template slot-scope="select">
-              <vl-style-func :factory="selectStyleFuncFactory" />
+              <vl-style-func :factory="styleFuncFactory" />
               <vl-overlay
                 v-for="feature in select.features"
                 :id="feature.id"
@@ -64,18 +61,9 @@
             </template>
           </vl-interaction-select>
 
-          <vl-layer-tile
-            v-for="layer in baseLayers"
-            :id="layer.name"
-            :key="layer.name"
-            :visible="layer.visible"
-            ><component
-              :is="'vl-source-' + layer.type"
-              v-bind="layer"
-            ></component>
-          </vl-layer-tile>
+          <LayerTile :layers="baseLayers" />
 
-          <vl-layer-vector id="geocity-vector-layer">
+          <vl-layer-vector>
             <vl-source-vector
               :features.sync="features"
               @update:features="onFeaturesUpdate"
@@ -97,6 +85,7 @@ import SelectField from '@/components/atoms/SelectField'
 import ToggleLayers from '@/components/map/ToggleLayers'
 import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
 import Popover from '@/components/map/Popover'
+import LayerTile from '@/components/map/LayerTile'
 
 export default {
   Name: 'Map',
@@ -106,6 +95,7 @@ export default {
     ToggleLayers,
     ToggleGeoLocation,
     Popover,
+    LayerTile,
   },
 
   props: {
@@ -121,14 +111,11 @@ export default {
       zoom: 8,
       rotation: 0,
       center: [2538236.1400353624, 1180746.4827439308],
-
+      isTrackingActive: false,
       features: [],
       selectedFeature: [],
-
       clickCoordinate: undefined,
-      loading: false,
       deviceCoordinate: undefined,
-      isTrackingActive: false,
     }
   },
 
@@ -185,39 +172,6 @@ export default {
             imageColor: typeStyle.color,
             imageFillColor: typeStyle.color,
             imageRadius: this.$circleRadius,
-            imageOpacity: 1,
-          })
-
-          const colorFill = [...typeStyle.color]
-          colorFill[3] = this.$fillOpacity
-          const polygonFillStyle = this.$createStyle({
-            fillColor: colorFill,
-          })
-
-          const pointStyle = this.$createStyle({
-            imageScale: this.$symbolScale,
-            imageSrc: typeStyle.symbol,
-          })
-
-          return [polygonFillStyle, genericStyle, pointStyle]
-        }
-      }
-    },
-
-    // TODO reuse styleFuncFactory instead of duplicating code ?
-    selectStyleFuncFactory() {
-      return (feature, resolution) => {
-        if (feature.getProperties().permit_request.meta_types.length === 1) {
-          const typeStyle = this.$metaTypeStyle[
-            feature.getProperties().permit_request.meta_types[0]
-          ]
-
-          const genericStyle = this.$createStyle({
-            strokeColor: typeStyle.color,
-            strokeWidth: 3 + this.$selectStrokeWidth,
-            imageColor: typeStyle.color,
-            imageFillColor: typeStyle.color,
-            imageRadius: this.$circleRadius + this.$selectStrokeWidth,
             imageOpacity: 1,
           })
 
