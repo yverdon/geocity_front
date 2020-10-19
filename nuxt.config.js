@@ -1,3 +1,6 @@
+/* eslint-disable nuxt/no-cjs-in-config */
+const fr = require('./messages/fr.json')
+
 export default {
   mode: 'universal',
   target: 'static',
@@ -13,7 +16,6 @@ export default {
       },
     ],
   },
-  css: [],
   plugins: [
     {
       src: '@/plugins/vuelayers.js',
@@ -30,33 +32,26 @@ export default {
     '@nuxtjs/axios',
     '~/modules/vuelayers',
     'nuxt-vue-select',
-    [
-      'nuxt-i18n',
-      {
-        locales: ['fr'],
-        defaultLocale: 'fr',
-        vueI18n: {
-          fallbackLocale: 'fr',
-          messages: {
-            fr: {
-              copyright: "© Ville d'Yverdon-les-Bains 2020",
-              connexion: 'Connexion',
-              introduction:
-                "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune. Vous y trouverez des informations sur divers événements qui auront lieu prochainement et qui pourront vous intéresser dans l'organisation de votre vie quotidienne.",
-              ask:
-                'Vous souhaitez demander une autorisation relative à un chantier, une manifestation ou des travaux de minime importance ?',
-              askcta: 'Faire une demande',
-              events: 'Trouver un evenement, chantier, construction …',
-            },
-          },
-        },
-      },
-    ],
+    'nuxt-i18n',
+    '@nuxtjs/svg-sprite',
   ],
   build: {
     transpile: ['vuelayers'],
   },
   axios: {
     baseURL: process.env.API_URL,
+  },
+  svgSprite: {
+    input: '~/styleguide/assets/icons/',
+  },
+  i18n: {
+    locales: ['fr'],
+    defaultLocale: 'fr',
+    vueI18n: {
+      fallbackLocale: 'fr',
+      messages: {
+        fr,
+      },
+    },
   },
 }

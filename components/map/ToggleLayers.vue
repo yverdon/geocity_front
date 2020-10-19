@@ -3,8 +3,9 @@
     <button
       v-for="layer in baseLayers"
       :key="layer.name"
-      :class="{ 'is-info': layer.visible }"
-      @click="showBaseLayer(layer.name)"
+      :class="{ 'bg-brand-dark': layer.visible }"
+      class="btn btn--primary"
+      @click="toggle(layer.name)"
     >
       {{ layer.title }}
     </button>
@@ -24,7 +25,7 @@ export default {
   },
 
   methods: {
-    showBaseLayer(name) {
+    toggle(name) {
       let layer = this.baseLayers.find((layer) => layer.visible)
       if (layer != null) {
         layer.visible = false

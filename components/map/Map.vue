@@ -2,15 +2,8 @@
   <div class="py-12 bg-gray-100 mt-4">
     <div class="container mx-auto px-4">
       <SelectField @change="zoomToCoordinates" />
-
       <ToggleLayers />
-
-      <div>
-        <button @click="setTrackingActive">Activer la localisation</button>
-        <button @click="isTrackingActive = false">
-          Désactiver la localisation
-        </button>
-      </div>
+      <ToggleGeoLocation @click="setTrackingActive" />
 
       <client-only>
         <vl-map
@@ -154,6 +147,7 @@ import layers from '@/components/map/layers.json'
 
 import SelectField from '@/components/atoms/SelectField'
 import ToggleLayers from '@/components/map/ToggleLayers'
+import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
 
 export default {
   Name: 'Map',
@@ -161,6 +155,7 @@ export default {
   compoennts: {
     SelectField,
     ToggleLayers,
+    ToggleGeoLocation,
   },
 
   props: {
@@ -214,8 +209,9 @@ export default {
       this.$olMap.getView().setCenter(coordinate)
     },
 
-    setTrackingActive() {
-      this.isTrackingActive = true
+    setTrackingActive(isActive) {
+      this.isTrackingActive = isActive
+
       if (this.deviceCoordinate) {
         this.$olMap.getView().setCenter(this.deviceCoordinate)
       }
