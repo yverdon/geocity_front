@@ -16,7 +16,7 @@
         <vl-map
           :load-tiles-while-animating="true"
           :load-tiles-while-interacting="true"
-          style="height: 500px"
+          class="map"
           @mounted="onMapMounted"
           @click="clickCoordinate = $event.coordinate"
         >
@@ -110,11 +110,12 @@ export default {
       rotation: 0,
       center: [2538236.1400353624, 1180746.4827439308],
       isTrackingActive: false,
+
+      map: [],
       features: [],
       selectedFeature: [],
-      map: [],
-      clickCoordinate: undefined,
-      deviceCoordinate: undefined,
+      clickCoordinate: [],
+      deviceCoordinate: [],
     }
   },
 
@@ -214,6 +215,7 @@ export default {
 
           const colorFill = [...typeStyle.color]
           colorFill[3] = this.$fillOpacity
+
           const polygonFillStyle = this.$createStyle({
             fillColor: colorFill,
           })
@@ -230,3 +232,9 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss" scoped>
+.map {
+  height: 600px;
+}
+</style>
