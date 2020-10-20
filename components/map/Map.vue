@@ -36,7 +36,7 @@
                 <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
                 <vl-style-box>
                   <vl-style-icon
-                    src="/mapmarkers/forms_geolocation.svg"
+                    src="/mapmarkers/geolocation.svg"
                     :scale="0.04"
                     :anchor="[0.5, 1]"
                   ></vl-style-icon>

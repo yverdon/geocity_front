@@ -28,13 +28,13 @@ Vue.prototype.$eventVectorSource = {}
 
 // TODO: get all following parameters from config file
 Vue.prototype.$metaTypeStyle = {
-  0: { symbol: '/mapmarkers/forms_question_mark.svg', color: [0, 140, 111, 1] }, // meta_type = 0 => default value if multiple meta_type
-  1: { symbol: '/mapmarkers/forms_construction.svg', color: [201, 2, 25, 1] },
-  2: { symbol: '/mapmarkers/forms_cone.svg', color: [255, 166, 0, 1] },
-  3: { symbol: '/mapmarkers/forms_sport.svg', color: [39, 115, 230, 1] },
-  4: { symbol: '/mapmarkers/forms_culture.svg', color: [27, 76, 150, 1] },
-  5: { symbol: '/mapmarkers/forms_commercial.svg', color: [14, 36, 69, 1] },
-  6: { symbol: '/mapmarkers/forms_police.svg', color: [4, 0, 255, 1] },
+  0: { symbol: '/mapmarkers/question-mark.svg', color: [0, 140, 111, 1] }, // meta_type = 0 => default value if multiple meta_type
+  1: { symbol: '/mapmarkers/construction.svg', color: [201, 2, 25, 1] },
+  2: { symbol: '/mapmarkers/cone.svg', color: [255, 166, 0, 1] },
+  3: { symbol: '/mapmarkers/sport.svg', color: [39, 115, 230, 1] },
+  4: { symbol: '/mapmarkers/culture.svg', color: [27, 76, 150, 1] },
+  5: { symbol: '/mapmarkers/commercial.svg', color: [14, 36, 69, 1] },
+  6: { symbol: '/mapmarkers/police.svg', color: [4, 0, 255, 1] },
 }
 
 Vue.prototype.$fillOpacity = 0.5
