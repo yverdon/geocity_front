@@ -62,16 +62,12 @@
           </vl-interaction-select>
 
           <LayerTile :layers="baseLayers" />
-
-          <vl-layer-vector>
-            <vl-source-vector
-              :features.sync="features"
-              @update:features="onFeaturesUpdate"
-              @mounted="onSourceMounted"
-            >
-              <vl-style-func :factory="styleFuncFactory" />
-            </vl-source-vector>
-          </vl-layer-vector>
+          <LayerVector
+            :features="features"
+            :factory="styleFuncFactory"
+            @update="onFeaturesUpdate(map)"
+            @mounted="onSourceVectorMounted(map)"
+          />
         </vl-map>
       </client-only>
     </div>
@@ -86,6 +82,7 @@ import ToggleLayers from '@/components/map/ToggleLayers'
 import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
 import Popover from '@/components/map/Popover'
 import LayerTile from '@/components/map/LayerTile'
+import LayerVector from '@/components/map/LayerVector'
 
 export default {
   Name: 'Map',
@@ -96,6 +93,7 @@ export default {
     ToggleGeoLocation,
     Popover,
     LayerTile,
+    LayerVector,
   },
 
   props: {
@@ -114,6 +112,7 @@ export default {
       isTrackingActive: false,
       features: [],
       selectedFeature: [],
+      map: [],
       clickCoordinate: undefined,
       deviceCoordinate: undefined,
     }
@@ -124,36 +123,66 @@ export default {
   },
 
   methods: {
-    onMapMounted(vuemap) {
-      vuemap.$createPromise.then(() => {
-        vuemap.$map.addControl(this.$FullScreen)
-        this.$olMap = vuemap
+    /**
+     * On mounted Map instance
+     * Add controls fullscreen & assign instance to map data.
+     */
+    onMapMounted(map) {
+      map.$createPromise.then(() => {
+        map.$map.addControl(this.$FullScreen)
+        this.map = map
       })
     },
 
-    onSourceMounted(vuemap) {
-      this.$eventVectorSource = vuemap.$source
+    /**
+     * On Feature Update
+     */
+    onFeaturesUpdate(map) {
+      if (map.$eventVectorSource) {
+        this.map.getView(map.$eventVectorSource.getExtent(), {
+          padding: map.$fitViewPadding,
+        })
+      }
     },
 
-    onFeaturesUpdate() {
-      this.$olMap.getView(this.$eventVectorSource.getExtent(), {
-        padding: this.$fitViewPadding,
-      })
+    /**
+     * On Source Vector Mounted
+     * Assign to map data the event vector source.
+     */
+    onSourceVectorMounted(map) {
+      this.map.$eventVectorSource = map.$source
     },
 
+    /**
+     * On Update Position
+     * @param {Array} coordinate
+     * Update device coordinate & set map view.
+     */
     onUpdatePosition(coordinate) {
       this.deviceCoordinate = coordinate
-      this.$olMap.getView().setCenter(coordinate)
+      this.map.getView().setCenter(coordinate)
     },
 
+    /**
+     * Set Tracking Active
+     * @param {Bool} isActive
+     * Set Tracking active & center map view with
+     * device coordinate
+     */
     setTrackingActive(isActive) {
       this.isTrackingActive = isActive
 
       if (this.deviceCoordinate) {
-        this.$olMap.getView().setCenter(this.deviceCoordinate)
+        this.map.getView().setCenter(this.deviceCoordinate)
       }
     },
 
+    /**
+     * Zoom To Coordinate
+     * @param {Array} location
+     * Set the center to location values esle set to default
+     * value centred on Yverdon-Les-Bains.
+     */
     zoomToCoordinates(location) {
       if (location) {
         this.center = [location.attrs.y, location.attrs.x]
@@ -164,6 +193,9 @@ export default {
       }
     },
 
+    /**
+     * Style Function Factory
+     */
     styleFuncFactory() {
       return (feature, resolution) => {
         if (feature.getProperties().permit_request.meta_types.length === 1) {
