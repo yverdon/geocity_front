@@ -56,12 +56,7 @@
           </vl-interaction-select>
 
           <LayerTile :layers="baseLayers" />
-          <LayerVector
-            :features="features"
-            :factory="styleFuncFactory"
-            @update="onFeaturesUpdate(map)"
-            @mounted="onSourceVectorMounted(map)"
-          />
+          <LayerVector :features="features" :factory="styleFuncFactory" />
         </vl-map>
 
         <ToggleLayers />
@@ -72,6 +67,7 @@
 
 <script>
 import layers from '@/components/map/layers.json'
+import eventsType from '@/components/map/eventsType.json'
 
 import ToggleLayers from '@/components/map/ToggleLayers'
 import Popover from '@/components/map/Popover'
@@ -131,25 +127,6 @@ export default {
     },
 
     /**
-     * On Feature Update
-     */
-    onFeaturesUpdate(map) {
-      if (map.$eventVectorSource) {
-        this.map.getView(map.$eventVectorSource.getExtent(), {
-          padding: map.$fitViewPadding,
-        })
-      }
-    },
-
-    /**
-     * On Source Vector Mounted
-     * Assign to map data the event vector source.
-     */
-    onSourceVectorMounted(map) {
-      this.map.$eventVectorSource = map.$source
-    },
-
-    /**
      * On Update Position
      * @param {Array} coordinate
      * Update device coordinate & set map view.
@@ -191,33 +168,33 @@ export default {
 
     /**
      * Style Function Factory
+     * Return styled Map Markers for each type of event
      */
     styleFuncFactory() {
       return (feature, resolution) => {
-        if (feature.getProperties().permit_request.meta_types.length === 1) {
-          const typeStyle = this.$metaTypeStyle[
-            feature.getProperties().permit_request.meta_types[0]
-          ]
+        if (feature.getProperties().permit_request.meta_types) {
+          const typeStyle =
+            eventsType[feature.getProperties().permit_request.meta_types]
 
-          const genericStyle = this.$createStyle({
+          const genericStyle = this.map.$createStyle({
             strokeColor: typeStyle.color,
             strokeWidth: 3,
             imageColor: typeStyle.color,
             imageFillColor: typeStyle.color,
-            imageRadius: this.$circleRadius,
+            imageRadius: 14,
             imageOpacity: 1,
           })
 
           const colorFill = [...typeStyle.color]
-          colorFill[3] = this.$fillOpacity
+          colorFill[3] = 0.5
 
-          const polygonFillStyle = this.$createStyle({
+          const polygonFillStyle = this.map.$createStyle({
             fillColor: colorFill,
           })
 
-          const pointStyle = this.$createStyle({
-            imageScale: this.$symbolScale,
-            imageSrc: typeStyle.symbol,
+          const pointStyle = this.map.$createStyle({
+            imageScale: 0.025,
+            imageSrc: `/mapmarkers/${typeStyle.name}.svg`,
           })
 
           return [polygonFillStyle, genericStyle, pointStyle]

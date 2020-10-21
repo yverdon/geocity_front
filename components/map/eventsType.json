@@ -1,0 +1,37 @@
+[
+  {
+    "id": 0,
+    "name": "question-mark",
+    "color": [0, 140, 111, 1]
+  },
+  {
+    "id": 1,
+    "name": "construction",
+    "color": [201, 2, 25, 1]
+  },
+  {
+    "id": 2,
+    "name": "cone",
+    "color": [255, 166, 0, 1]
+  },
+  {
+    "id": 3,
+    "name": "sport",
+    "color": [39, 115, 230, 1]
+  },
+  {
+    "id": 4,
+    "name": "culture",
+    "color": [27, 76, 150, 1]
+  },
+  {
+    "id": 5,
+    "name": "commercial",
+    "color": [14, 36, 69, 1]
+  },
+  {
+    "id": 6,
+    "name": "police",
+    "color": [4, 0, 255, 1]
+  }
+]
