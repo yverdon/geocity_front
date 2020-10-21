@@ -25,6 +25,10 @@ export default {
       src: '@/plugins/ol-ext.js',
       ssr: false,
     },
+    {
+      src: '@/plugins/flatpickr.js',
+      ssr: false,
+    },
   ],
   components: true,
   buildModules: [
@@ -41,9 +45,6 @@ export default {
   ],
   build: {
     transpile: ['vuelayers'],
-  },
-  axios: {
-    baseURL: process.env.API_URL,
   },
   svgSprite: {
     input: '~/styleguide/assets/icons/',

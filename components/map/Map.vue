@@ -1,22 +1,16 @@
 <template>
   <div class="py-12 bg-gray-100 mt-4">
     <div class="container relative mx-auto px-4">
-      <ToggleLayers />
-
-      <section class="flex mb-4">
-        <div class="w-1/2">
-          <SelectField @change="zoomToCoordinates" />
-        </div>
-        <div class="w-1/2">
-          <ToggleGeoLocation @click="setTrackingActive" />
-        </div>
-      </section>
-
+      <Strainer
+        :features="features"
+        @tracking="setTrackingActive"
+        @zoom="zoomToCoordinates"
+      />
       <client-only>
         <vl-map
           :load-tiles-while-animating="true"
           :load-tiles-while-interacting="true"
-          class="map"
+          class="map cursor-pointer"
           @mounted="onMapMounted"
           @click="clickCoordinate = $event.coordinate"
         >
@@ -69,6 +63,8 @@
             @mounted="onSourceVectorMounted(map)"
           />
         </vl-map>
+
+        <ToggleLayers />
       </client-only>
     </div>
   </div>
@@ -77,23 +73,22 @@
 <script>
 import layers from '@/components/map/layers.json'
 
-import SelectField from '@/components/atoms/SelectField'
 import ToggleLayers from '@/components/map/ToggleLayers'
-import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
 import Popover from '@/components/map/Popover'
 import LayerTile from '@/components/map/LayerTile'
 import LayerVector from '@/components/map/LayerVector'
+
+import Strainer from '@/components/filter/Strainer'
 
 export default {
   Name: 'Map',
 
   compoennts: {
-    SelectField,
     ToggleLayers,
-    ToggleGeoLocation,
     Popover,
     LayerTile,
     LayerVector,
+    Strainer,
   },
 
   props: {

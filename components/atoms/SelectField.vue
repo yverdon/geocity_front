@@ -1,13 +1,22 @@
 <template>
-  <div>
+  <div class="form-group">
     <client-only>
       <v-select
         v-model="selected"
-        :options="locations"
+        class="form-group__input"
+        :options="options"
         @input="$emit('change', selected)"
       >
+        <template #header>
+          <div class="form-group__label">
+            {{ header }}
+          </div>
+        </template>
+
+        <span slot="no-options">{{ $t('select-no-option') }}</span>
+
         <template #option="{ label }">
-          <span v-html="label"></span>
+          <span>{{ label }}</span>
         </template>
       </v-select>
     </client-only>
@@ -18,31 +27,38 @@
 export default {
   Name: 'SelectField',
 
-  async fetch() {
-    const data = await this.$axios.$get(
-      `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&bbox=${this.bbox}`
-    )
-
-    this.formatLocations(data.results)
+  props: {
+    header: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    options: {
+      type: Array,
+      required: true,
+    },
+    default: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
     return {
-      selected: '',
-      bbox: '2533863,1176363,2541963,1186738',
-      locations: [],
+      selected: this.default,
     }
-  },
-
-  methods: {
-    formatLocations(locations) {
-      locations.forEach((location) => {
-        this.locations.push({
-          label: location.attrs.detail,
-          attrs: location.attrs,
-        })
-      })
-    },
   },
 }
 </script>
+
+<style lang="postcss">
+.form-group__input.v-select {
+  @apply p-0;
+  border: none;
+}
+
+.form-group__input .vs__dropdown-toggle {
+  @apply bg-negative border-gray-300;
+  border-radius: 0 !important;
+}
+</style>

@@ -9,5 +9,9 @@
   "end": "Fin",
   "details": "Détails",
   "more": "Plus d'info",
-  "see-on-calendar": "Voir sur le calendrier"
+  "see-on-calendar": "Voir sur le calendrier",
+  "event-type": "Type d'événement",
+  "where": "Où?",
+  "select-no-option": "Pas de résultas",
+  "date-range": "Période"
 }

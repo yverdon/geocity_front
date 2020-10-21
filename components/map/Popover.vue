@@ -8,6 +8,7 @@
         <svg-icon name="close" class="icon--50" />
       </button>
     </header>
+
     <ul>
       <li v-if="name" class="font-bold mb-4">{{ name }}</li>
       <li v-if="start">
@@ -18,11 +19,12 @@
       </li>
       <li v-if="comment">{{ $t('details') }}: {{ comment }}</li>
       <li v-if="link">{{ $t('more') }}: {{ link }}</li>
-      <button class="btn btn--primary btn-calendar text-sm mt-4">
-        <svg-icon name="calendar" class="icon--50 mr-2" />
-        {{ $t('see-on-calendar') }}
-      </button>
     </ul>
+
+    <button class="btn btn--primary btn-calendar text-sm mt-4">
+      <svg-icon name="calendar" class="icon--50 mr-2" />
+      {{ $t('see-on-calendar') }}
+    </button>
   </section>
 </template>
 
@@ -59,10 +61,12 @@ li:last-child {
 }
 
 .btn-calendar {
-  line-height: 1;
+  width: 80%;
   @apply absolute;
   bottom: -15px;
   left: 50%;
+
+  line-height: 1;
   transform: translate(-50%, 0);
 }
 </style>

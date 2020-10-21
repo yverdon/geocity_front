@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <button class="p-2 leading-none" @click="toggle">
-      <svg-icon
-        name="location"
-        :class="{ 'text-brand-dark': isActive }"
-        class="icon--100 text-brand"
-      />
+  <div class="form-group">
+    <button
+      class="btn btn--secondary btn--small btn--filter rounded"
+      :class="{ 'bg-brand focus:bg-brand': isActive }"
+      @click="toggle"
+    >
+      <svg-icon name="location" class="icon--100 text-negative" />
     </button>
   </div>
 </template>
@@ -30,3 +30,9 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss">
+.btn--filter {
+  height: 37px;
+}
+</style>
