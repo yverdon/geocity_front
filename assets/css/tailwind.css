@@ -1,16 +1,16 @@
 /**
+ * Styleguide
+ */
+
+@import 'styleguide/public/common';
+
+/**
  * Tailwind
  */
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
-/**
- * Styleguide
- */
-
-@import 'styleguide/public/common';
 
 /**
  * Plugins
