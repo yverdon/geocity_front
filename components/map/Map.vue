@@ -3,6 +3,7 @@
     <div class="container relative mx-auto px-4">
       <Strainer
         :features="features"
+        :locations="locations"
         @tracking="setTrackingActive"
         @zoom="zoomToCoordinates"
       />
@@ -90,6 +91,12 @@ export default {
   props: {
     events: {
       type: Object,
+      default: () => {},
+      required: true,
+    },
+    locations: {
+      type: Array,
+      default: () => [],
       required: true,
     },
   },

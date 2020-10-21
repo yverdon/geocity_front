@@ -1,7 +1,7 @@
 <template>
   <div>
     <Introduction class="container mx-auto px-4" />
-    <Map :events="events" />
+    <Map :events="events" :locations="locations" />
   </div>
 </template>
 
@@ -16,10 +16,17 @@ export default {
   },
 
   async asyncData({ $axios }) {
-    const { data } = await $axios.get(
+    const events = await $axios.get(
       'https://form-preprod.mapnv.ch/rest/events/'
     )
-    return { events: data }
+    const locations = await $axios.get(
+      'https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&bbox=2533863,1176363,2541963,1186738'
+    )
+
+    return {
+      events: events.data,
+      locations: locations.data.results,
+    }
   },
 }
 </script>

@@ -5,7 +5,7 @@
       <ToggleGeoLocation @click="$emit('tracking', $event)" />
       <SelectField
         :header="$t('where')"
-        :options="locations"
+        :options="formattedLocations"
         :default="selectedLocation"
         class="flex-grow"
         @change="$emit('zoom', $event)"
@@ -37,21 +37,23 @@ export default {
   props: {
     features: {
       type: Array,
+      default: () => [],
+      required: true,
+    },
+    locations: {
+      type: Array,
+      default: () => [],
       required: true,
     },
   },
 
-  async fetch() {
-    const data = await this.$axios.$get(
-      `https://api3.geo.admin.ch/rest/services/api/SearchServer?limit=20&partitionlimit=24&type=locations&sr=2056&lang=fr&origins=address&bbox=${this.apiGeoAdminBbox}`
-    )
-
-    this.formatLocations(data.results)
+  mounted() {
+    this.formatLocations(this.locations)
   },
 
   data() {
     return {
-      locations: [],
+      formattedLocations: [],
       selectedLocation: '',
       apiGeoAdminBbox: '2533863,1176363,2541963,1186738',
       eventsType: [],
@@ -61,7 +63,7 @@ export default {
   methods: {
     formatLocations(locations) {
       locations.forEach((location) => {
-        this.locations.push({
+        this.formattedLocations.push({
           label: location.attrs.detail,
           attrs: location.attrs,
         })
