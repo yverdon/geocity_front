@@ -1,12 +1,12 @@
 <template>
   <div class="form-group">
-    <label :for="id" class="form-group__label">{{ label }}</label>
+    <label :for="id" class="form-group__label h-8">{{ label }}</label>
     <client-only>
       <flat-pickr
         :id="id"
         v-model="dates"
         :config="config"
-        class="form-group__input"
+        class="form-group__input h-10"
       />
     </client-only>
   </div>

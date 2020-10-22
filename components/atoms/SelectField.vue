@@ -8,7 +8,7 @@
         @input="$emit('change', selected)"
       >
         <template #header>
-          <div class="form-group__label">
+          <div class="form-group__label h-8">
             {{ header }}
           </div>
         </template>
@@ -58,7 +58,12 @@ export default {
   border: none;
 }
 
+.form-group__input .vs__selected {
+  @apply text-brand;
+}
+
 .form-group__input .vs__dropdown-toggle {
+  height: 40px;
   @apply bg-negative border-gray-300;
   border-radius: 0 !important;
 }

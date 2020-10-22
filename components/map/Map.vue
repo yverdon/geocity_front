@@ -1,81 +1,70 @@
 <template>
-  <div class="py-12 bg-gray-100 mt-4">
-    <div class="container relative mx-auto px-4">
-      <Strainer
-        :features="features"
-        :locations="locations"
-        @tracking="setTrackingActive"
-        @zoom="zoomToCoordinates"
-      />
-      <client-only>
-        <vl-map
-          :load-tiles-while-animating="true"
-          :load-tiles-while-interacting="true"
-          class="map cursor-pointer"
-          @mounted="onMapMounted"
-          @click="clickCoordinate = $event.coordinate"
+  <div class="container relative mx-auto px-4">
+    <client-only>
+      <vl-map
+        :load-tiles-while-animating="true"
+        :load-tiles-while-interacting="true"
+        class="map cursor-pointer"
+        @mounted="onMapMounted"
+        @click="clickCoordinate = $event.coordinate"
+      >
+        <vl-view
+          :zoom.sync="zoomDefault"
+          :center.sync="center"
+          :rotation.sync="rotation"
+          projection="EPSG:2056"
+        />
+
+        <vl-geoloc
+          :tracking="isTrackingActive"
+          @update:position="onUpdatePosition"
         >
-          <vl-view
-            :zoom.sync="zoom"
-            :center.sync="center"
-            :rotation.sync="rotation"
-            projection="EPSG:2056"
-          />
+          <template slot-scope="geoloc">
+            <vl-feature v-if="geoloc.position && isTrackingActive">
+              <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+              <vl-style-box>
+                <vl-style-icon
+                  src="/mapmarkers/geolocation.svg"
+                  :scale="0.04"
+                  :anchor="[0.5, 1]"
+                ></vl-style-icon>
+              </vl-style-box>
+            </vl-feature>
+          </template>
+        </vl-geoloc>
 
-          <vl-geoloc
-            :tracking="isTrackingActive"
-            @update:position="onUpdatePosition"
-          >
-            <template slot-scope="geoloc">
-              <vl-feature v-if="geoloc.position && isTrackingActive">
-                <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
-                <vl-style-box>
-                  <vl-style-icon
-                    src="/mapmarkers/geolocation.svg"
-                    :scale="0.04"
-                    :anchor="[0.5, 1]"
-                  ></vl-style-icon>
-                </vl-style-box>
-              </vl-feature>
-            </template>
-          </vl-geoloc>
+        <vl-interaction-select :features.sync="selectedFeature">
+          <template slot-scope="select">
+            <vl-style-func :factory="styleFuncFactory" />
+            <vl-overlay
+              v-for="feature in select.features"
+              :id="feature.id"
+              :key="feature.id"
+              :position="clickCoordinate"
+              :auto-pan="true"
+              :auto-pan-animation="{ duration: 300 }"
+            >
+              <Popover :feature="feature" @close="selectedFeature = []" />
+            </vl-overlay>
+          </template>
+        </vl-interaction-select>
 
-          <vl-interaction-select :features.sync="selectedFeature">
-            <template slot-scope="select">
-              <vl-style-func :factory="styleFuncFactory" />
-              <vl-overlay
-                v-for="feature in select.features"
-                :id="feature.id"
-                :key="feature.id"
-                :position="clickCoordinate"
-                :auto-pan="true"
-                :auto-pan-animation="{ duration: 300 }"
-              >
-                <Popover :feature="feature" @close="selectedFeature = []" />
-              </vl-overlay>
-            </template>
-          </vl-interaction-select>
+        <LayerTile :layers="baseLayers" />
+        <LayerVector :features="features" :factory="styleFuncFactory" />
+      </vl-map>
 
-          <LayerTile :layers="baseLayers" />
-          <LayerVector :features="features" :factory="styleFuncFactory" />
-        </vl-map>
-
-        <ToggleLayers />
-      </client-only>
-    </div>
+      <ToggleLayers />
+    </client-only>
   </div>
 </template>
 
 <script>
 import layers from '@/components/map/layers.json'
-import eventsType from '@/components/map/eventsType.json'
 
 import ToggleLayers from '@/components/map/ToggleLayers'
 import Popover from '@/components/map/Popover'
 import LayerTile from '@/components/map/LayerTile'
 import LayerVector from '@/components/map/LayerVector'
-
-import Strainer from '@/components/filter/Strainer'
 
 export default {
   Name: 'Map',
@@ -85,7 +74,6 @@ export default {
     Popover,
     LayerTile,
     LayerVector,
-    Strainer,
   },
 
   props: {
@@ -94,17 +82,12 @@ export default {
       default: () => {},
       required: true,
     },
-    locations: {
-      type: Array,
-      default: () => [],
-      required: true,
-    },
   },
 
   data() {
     return {
       baseLayers: layers,
-      zoom: 8,
+      zoomDefault: 8,
       rotation: 0,
       center: [2538236.1400353624, 1180746.4827439308],
       isTrackingActive: false,
@@ -150,7 +133,9 @@ export default {
      * device coordinate
      */
     setTrackingActive(isActive) {
-      this.isTrackingActive = isActive
+      if (isActive) {
+        this.isTrackingActive = isActive
+      }
 
       if (this.deviceCoordinate) {
         this.map.getView().setCenter(this.deviceCoordinate)
@@ -166,10 +151,10 @@ export default {
     zoomToCoordinates(location) {
       if (location) {
         this.center = [location.attrs.y, location.attrs.x]
-        this.zoom = 10
+        this.zoomDefault = 10
       } else {
         this.center = [2538236.1400353624, 1180746.4827439308]
-        this.zoom = 8
+        this.zoomDefault = 8
       }
     },
 
@@ -178,11 +163,12 @@ export default {
      * Return styled Map Markers for each type of event
      */
     styleFuncFactory() {
-      return (feature, resolution) => {
+      return (feature) => {
         if (feature.getProperties().permit_request.meta_types) {
-          const typeStyle =
-            eventsType[feature.getProperties().permit_request.meta_types]
-
+          // TODO-Question: Does an `event.type` can have multiple MetaType
+          const typeStyle = this.events.type[
+            feature.getProperties().permit_request.meta_types[0]
+          ]
           const genericStyle = this.map.$createStyle({
             strokeColor: typeStyle.color,
             strokeWidth: 3,

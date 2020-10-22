@@ -13,5 +13,7 @@
   "event-type": "Type d'événement",
   "where": "Où?",
   "select-no-option": "Pas de résultas",
-  "date-range": "Période"
+  "date-range": "Période",
+  "map": "Plan",
+  "calendar": "Calendrier"
 }

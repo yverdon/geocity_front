@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <button
-      class="btn btn--secondary btn--small btn--filter rounded"
+      class="btn btn--secondary btn--small h-10 rounded"
       :class="{ 'bg-brand focus:bg-brand': isActive }"
       @click="toggle"
     >
@@ -30,9 +30,3 @@ export default {
   },
 }
 </script>
-
-<style lang="postcss">
-.btn--filter {
-  height: 37px;
-}
-</style>
