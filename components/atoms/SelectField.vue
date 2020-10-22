@@ -63,7 +63,7 @@ export default {
 }
 
 .form-group__input .vs__dropdown-toggle {
-  height: 40px;
+  min-height: 40px;
   @apply bg-negative border-gray-300;
   border-radius: 0 !important;
 }
