@@ -2,7 +2,7 @@
 
 ## Generic tools
 
-In order to build the project you'll need *yarn*
+In order to build the project you'll need *yarn* and *nodejs* installed
 
 ### yarn installation
 
