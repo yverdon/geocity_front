@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { areIntervalsOverlapping } from 'date-fns'
+
 import layers from '@/components/map/layers.json'
 
 import ToggleLayers from '@/components/map/ToggleLayers'
@@ -95,6 +97,8 @@ export default {
       map: [],
       features: [],
       selectedFeature: [],
+      typeFilterQuery: {},
+      dateFilterQuery: [],
       clickCoordinate: [],
       deviceCoordinate: [],
     }
@@ -160,22 +164,84 @@ export default {
     },
 
     /**
-     * Filter by envents Type
-     * @param {Array} event
+     * Filter events by Type
+     * @param {Object} event
      * Get the event selected thought the `SelectField` component and
-     * filter the data `features` Array to pass down the filtred `features`
+     * filter the data `features` Object to pass down the filtred `features`
      * to the `LayerVector` component.
      * Note that if event is null we display all `features` as default.
      */
-    filterEventsByType(event) {
-      if (event === null) {
-        this.features = this.events.features
+    eventsByType(event) {
+      if (this.dateFilterQuery.length > 0) {
+        this.eventsByDate(this.dateFilterQuery)
       } else {
-        this.features = this.features.filter(
-          (feature) =>
-            feature.properties.permit_request.meta_types[0] === event.id
-        )
+        this.features = this.events.features
+        this.dateFilterQuery = []
       }
+
+      if (event === null) {
+        this.typeFilterQuery = {}
+        return
+      }
+
+      this.typeFilterQuery = event
+      this.features = this.events.features.filter(
+        (feature) =>
+          feature.properties.permit_request.meta_types[0] === event.id
+      )
+    },
+
+    /**
+     * Filter events by Date
+     * @param {Array} dates
+     * Get the dates selected thought the `Datepicker` component and
+     * filter the data `features` Array to pass down the filtred `features`
+     * to the `LayerVector` component
+     *
+     * To do so, we check if the selected range date overlap the event range date
+     * There is mutlitple possibility as describe below :
+     *
+     * Event range ░░░░░░░░░░════════════════════░░░░░░░░░░
+     *          1/ ░═════════════════░░░░░░░░░░░░░░░░░░░░░░
+     *          2/ ░░░░░░░░░░░░░░░░░░░░░══════════════════░
+     *          3/ ░░░░░░░░░░░░░░░══════════░░░░░░░░░░░░░░░
+     *          4/ ░░░░═══════════════════════════════░░░░░
+     *          5/ ═══════░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     *          6/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░═══════
+     *
+     * Note that the options 1/ to 4/ will be display to the user and 5/ & 6/ will be hidden
+     */
+    eventsByDate(dates) {
+      if (Object.keys(this.typeFilterQuery).length > 0) {
+        this.eventsByType(this.typeFilterQuery)
+      } else {
+        this.features = this.events.features
+        this.typeFilterQuery = {}
+      }
+
+      if (dates.length === 0) {
+        this.dateFilterQuery = []
+        return
+      }
+
+      const startSelectedDate = dates[0]
+      let endSelectedDate = ''
+      if (dates[1]) {
+        endSelectedDate = dates[1]
+      } else {
+        return
+      }
+
+      this.dateFilterQuery = dates
+      this.features = this.events.features.filter((feature) => {
+        return areIntervalsOverlapping(
+          { start: startSelectedDate, end: endSelectedDate },
+          {
+            start: new Date(feature.properties.starts_at),
+            end: new Date(feature.properties.ends_at),
+          }
+        )
+      })
     },
 
     /**

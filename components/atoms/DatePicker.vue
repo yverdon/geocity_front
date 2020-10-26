@@ -7,6 +7,7 @@
         v-model="dates"
         :config="config"
         class="form-group__input h-10"
+        @on-change="$emit('change', $event)"
       />
     </client-only>
   </div>

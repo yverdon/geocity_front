@@ -20,7 +20,11 @@
       </div>
       <div>
         <div>
-          <DatePicker :id="'filter-date'" :label="$t('date-range')" />
+          <DatePicker
+            :id="'filter-date'"
+            :label="$t('date-range')"
+            @change="$emit('filter-date', $event)"
+          />
         </div>
         <div>
           <ToggleSwitch
