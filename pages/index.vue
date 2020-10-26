@@ -7,6 +7,7 @@
         :locations="locations"
         @tracking="trackingFilter"
         @zoom="locationFilter"
+        @filter-event="eventFilter"
         @toggle="view = $event"
       />
       <Map v-if="view === 'map'" ref="map" :events="events" />
@@ -60,6 +61,10 @@ export default {
 
     locationFilter(location) {
       this.$refs.map.zoomToCoordinates(location)
+    },
+
+    eventFilter(event) {
+      this.$refs.map.filterEventsByType(event)
     },
   },
 }

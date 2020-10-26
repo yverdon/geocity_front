@@ -107,6 +107,7 @@ export default {
   methods: {
     /**
      * On mounted Map instance
+     * @param {Component instance} map
      * Add controls fullscreen & assign instance to map data.
      */
     onMapMounted(map) {
@@ -155,6 +156,25 @@ export default {
       } else {
         this.center = [2538236.1400353624, 1180746.4827439308]
         this.zoomDefault = 8
+      }
+    },
+
+    /**
+     * Filter by envents Type
+     * @param {Array} event
+     * Get the event selected thought the `SelectField` component and
+     * filter the data `features` Array to pass down the filtred `features`
+     * to the `LayerVector` component.
+     * Note that if event is null we display all `features` as default.
+     */
+    filterEventsByType(event) {
+      if (event === null) {
+        this.features = this.events.features
+      } else {
+        this.features = this.features.filter(
+          (feature) =>
+            feature.properties.permit_request.meta_types[0] === event.id
+        )
       }
     },
 

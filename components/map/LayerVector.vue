@@ -1,6 +1,6 @@
 <template>
   <vl-layer-vector>
-    <vl-source-vector :features.sync="feat">
+    <vl-source-vector :features.sync="defaultFeature">
       <vl-style-func :factory="factory" />
     </vl-source-vector>
   </vl-layer-vector>
@@ -23,8 +23,15 @@ export default {
 
   data() {
     return {
-      feat: this.features,
+      defaultFeature: this.features,
     }
+  },
+
+  watch: {
+    // eslint-disable-next-line object-shorthand
+    features: function (filterdFeatures) {
+      this.defaultFeature = filterdFeatures
+    },
   },
 }
 </script>

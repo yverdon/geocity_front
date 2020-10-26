@@ -6,6 +6,7 @@
           :header="$t('event-type')"
           :options="formattedEvents"
           class="flex-grow"
+          @change="$emit('filter-event', $event)"
         />
         <div class="flex items-end">
           <SelectField
@@ -97,6 +98,7 @@ export default {
       events.type.forEach((event) => {
         this.formattedEvents.push({
           label: event.label,
+          id: event.id,
         })
       })
     },
