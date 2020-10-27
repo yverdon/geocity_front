@@ -71,7 +71,7 @@ import LayerVector from '@/components/map/LayerVector'
 export default {
   Name: 'Map',
 
-  compoennts: {
+  components: {
     ToggleLayers,
     Popover,
     LayerTile,
@@ -142,8 +142,13 @@ export default {
         this.isTrackingActive = isActive
       }
 
-      if (this.deviceCoordinate) {
+      if (
+        typeof this.deviceCoordinate !== 'undefined' &&
+        this.deviceCoordinate.length > 0
+      ) {
         this.map.getView().setCenter(this.deviceCoordinate)
+      } else {
+        this.map.getView().setCenter(this.center)
       }
     },
 
