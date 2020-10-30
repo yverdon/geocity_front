@@ -4,9 +4,11 @@
       <vl-map
         :load-tiles-while-animating="true"
         :load-tiles-while-interacting="true"
+        :style="{ cursor: mapCursor }"
         class="map cursor-pointer"
         @mounted="onMapMounted"
         @click="clickCoordinate = $event.coordinate"
+        @pointermove="onMapPointerMove"
       >
         <vl-view
           :zoom.sync="zoomDefault"
@@ -93,6 +95,8 @@ export default {
       rotation: 0,
       center: [2538236.1400353624, 1180746.4827439308],
       isTrackingActive: false,
+      mapCursor: 'default',
+      selectedByHover: null,
 
       map: [],
       features: [],
@@ -278,6 +282,66 @@ export default {
 
           return [polygonFillStyle, genericStyle, pointStyle]
         }
+      }
+    },
+
+    /**
+     * On Map Pointer Move
+     * @param {Array} pixel
+     * Set highlighted style Map Markers for each type of event and change
+     * default Map Cursor to pointer
+     */
+    onMapPointerMove({ pixel }) {
+      const hit = this.map.forEachFeatureAtPixel(pixel, () => true)
+
+      if (this.selectedByHover !== null) {
+        this.selectedByHover.setStyle(undefined)
+        this.selectedByHover = null
+      }
+
+      this.map.forEachFeatureAtPixel(
+        pixel,
+        function (f) {
+          if (f.getProperties().permit_request.meta_types) {
+            const typeStyle = this.events.type[
+              f.getProperties().permit_request.meta_types[0]
+            ]
+            const highlightStyle = this.map.$createStyle({
+              strokeColor: typeStyle.color,
+              strokeWidth: 6,
+              imageColor: typeStyle.color,
+              imageFillColor: typeStyle.color,
+              imageRadius: 18,
+              imageOpacity: 1,
+            })
+
+            const colorFill = [...typeStyle.color]
+            colorFill[3] = 0.5
+
+            const polygonFillStyle = this.map.$createStyle({
+              fillColor: colorFill,
+            })
+
+            const pointStyle = this.map.$createStyle({
+              imageScale: 0.032,
+              imageSrc: `/mapmarkers/${typeStyle.name}.svg`,
+            })
+
+            this.selectedByHover = f
+            this.selectedByHover.setStyle([
+              polygonFillStyle,
+              highlightStyle,
+              pointStyle,
+            ])
+          }
+          return true
+        }.bind(this)
+      )
+
+      if (hit) {
+        this.mapCursor = 'pointer'
+      } else {
+        this.mapCursor = 'default'
       }
     },
   },
