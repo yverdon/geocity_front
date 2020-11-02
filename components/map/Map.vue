@@ -4,9 +4,11 @@
       <vl-map
         :load-tiles-while-animating="true"
         :load-tiles-while-interacting="true"
-        class="map cursor-pointer"
+        :class="{ 'cursor-pointer': mapCursor }"
+        class="map"
         @mounted="onMapMounted"
         @click="clickCoordinate = $event.coordinate"
+        @pointermove="onMapPointerMove"
       >
         <vl-view
           :zoom.sync="zoomDefault"
@@ -62,6 +64,7 @@
 import { areIntervalsOverlapping } from 'date-fns'
 
 import layers from '@/components/map/layers.json'
+import { pointer, fill, mapMarker } from '@/components/map/helpers/styles'
 
 import ToggleLayers from '@/components/map/ToggleLayers'
 import Popover from '@/components/map/Popover'
@@ -93,6 +96,8 @@ export default {
       rotation: 0,
       center: [2538236.1400353624, 1180746.4827439308],
       isTrackingActive: false,
+      mapCursor: false,
+      featureHover: null,
 
       map: [],
       features: [],
@@ -251,34 +256,53 @@ export default {
     styleFuncFactory() {
       return (feature) => {
         if (feature.getProperties().permit_request.meta_types) {
-          // TODO-Question: Does an `event.type` can have multiple MetaType
           const typeStyle = this.events.type[
             feature.getProperties().permit_request.meta_types[0]
           ]
-          const genericStyle = this.map.$createStyle({
-            strokeColor: typeStyle.color,
-            strokeWidth: 3,
-            imageColor: typeStyle.color,
-            imageFillColor: typeStyle.color,
-            imageRadius: 14,
-            imageOpacity: 1,
-          })
-
-          const colorFill = [...typeStyle.color]
-          colorFill[3] = 0.5
-
+          const genericStyle = this.map.$createStyle(pointer(typeStyle))
           const polygonFillStyle = this.map.$createStyle({
-            fillColor: colorFill,
+            fillColor: fill(typeStyle),
           })
+          const markers = this.map.$createStyle(mapMarker(typeStyle))
 
-          const pointStyle = this.map.$createStyle({
-            imageScale: 0.025,
-            imageSrc: `/mapmarkers/${typeStyle.name}.svg`,
-          })
-
-          return [polygonFillStyle, genericStyle, pointStyle]
+          return [polygonFillStyle, genericStyle, markers]
         }
       }
+    },
+
+    /**
+     * On Map Pointer Move
+     * @param {Array} pixel
+     * Set highlighted style Map Markers for each type of event and change
+     * default Map Cursor to pointer
+     */
+    onMapPointerMove({ pixel }) {
+      this.map.forEachFeatureAtPixel(pixel, () => (this.mapCursor = true))
+
+      if (this.featureHover !== null) {
+        this.featureHover.setStyle(undefined)
+        this.featureHover = null
+      }
+
+      this.map.forEachFeatureAtPixel(
+        pixel,
+        function (feature) {
+          if (feature.getProperties().permit_request.meta_types) {
+            const typeStyle = this.events.type[
+              feature.getProperties().permit_request.meta_types[0]
+            ]
+            const hoverStyle = this.map.$createStyle(pointer(typeStyle, true))
+            const polygonFillStyle = this.map.$createStyle({
+              fillColor: fill(typeStyle, true),
+            })
+            const markers = this.map.$createStyle(mapMarker(typeStyle, true))
+
+            this.featureHover = feature
+            this.featureHover.setStyle([polygonFillStyle, hoverStyle, markers])
+          }
+          return true
+        }.bind(this)
+      )
     },
   },
 }
