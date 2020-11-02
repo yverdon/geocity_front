@@ -1,0 +1,16 @@
+{
+  "genericStyle": {
+    "strokeWidth": 3,
+    "imageRadius": 14,
+    "imageOpacity": 1,
+    "colorFill": 0.5,
+    "imageScale": 0.025
+  },
+  "hoverStyle": {
+    "strokeWidth": 4,
+    "imageRadius": 16,
+    "imageOpacity": 1,
+    "colorFill": 0.5,
+    "imageScale": 0.032
+  }
+}
