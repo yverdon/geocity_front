@@ -308,10 +308,10 @@ export default {
             ]
             const highlightStyle = this.map.$createStyle({
               strokeColor: typeStyle.color,
-              strokeWidth: 6,
+              strokeWidth: 4,
               imageColor: typeStyle.color,
               imageFillColor: typeStyle.color,
-              imageRadius: 18,
+              imageRadius: 14,
               imageOpacity: 1,
             })
 
