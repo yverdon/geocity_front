@@ -14,8 +14,6 @@
 export default {
   name: 'ToggleGeoLocation',
 
-  components: {},
-
   data() {
     return {
       isActive: false,

@@ -74,7 +74,7 @@ import LayerVector from '@/components/map/LayerVector'
 export default {
   Name: 'Map',
 
-  compoennts: {
+  components: {
     ToggleLayers,
     Popover,
     LayerTile,
@@ -143,19 +143,24 @@ export default {
      * device coordinate
      */
     setTrackingActive(isActive) {
-      if (isActive) {
-        this.isTrackingActive = isActive
+      this.isTrackingActive = isActive
+
+      if (!isActive) {
+        this.deviceCoordinate = []
       }
 
-      if (this.deviceCoordinate) {
-        this.map.getView().setCenter(this.deviceCoordinate)
+      if (this.deviceCoordinate.length > 0) {
+        this.center = this.deviceCoordinate
+      } else {
+        // As there is no location the zoom will be reset
+        this.zoomToCoordinates()
       }
     },
 
     /**
      * Zoom To Coordinate
      * @param {Array} location
-     * Set the center to location values esle set to default
+     * Set the center to location values else set to default
      * value centred on Yverdon-Les-Bains.
      */
     zoomToCoordinates(location) {
