@@ -6,7 +6,7 @@
           :header="$t('event-type')"
           :options="formattedEvents"
           class="flex-grow"
-          @change="$emit('filter-event', $event)"
+          @change="typeFilter($event)"
         />
         <div class="flex items-end">
           <SelectField
@@ -23,7 +23,7 @@
           <DatePicker
             :id="'filter-date'"
             :label="$t('date-range')"
-            @change="$emit('filter-date', $event)"
+            @change="dateFilter($event)"
           />
         </div>
         <div>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { subYears } from 'date-fns'
+
 import SelectField from '@/components/atoms/SelectField'
 import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
 import DatePicker from '@/components/atoms/DatePicker'
@@ -75,6 +77,8 @@ export default {
       switcherOption: ['map', 'calendar'],
       switcherSelected: 'map',
       switcherGroupName: 'toggle-views',
+      typeQuery: [],
+      datesQuery: [],
     }
   },
 
@@ -84,6 +88,35 @@ export default {
   },
 
   methods: {
+    typeFilter(payload) {
+      if (payload !== null) {
+        this.typeQuery = [payload.id, payload.label]
+      } else {
+        this.typeQuery = []
+      }
+
+      this.emitFilterQuery()
+    },
+
+    dateFilter(payload) {
+      if (!payload?.length) {
+        this.datesQuery = [subYears(new Date(), 1), new Date()]
+      } else if (payload[1]) {
+        this.datesQuery = [payload[0], payload[1]]
+      } else {
+        return
+      }
+
+      this.emitFilterQuery()
+    },
+
+    emitFilterQuery() {
+      this.$emit('filter-query', {
+        type: this.typeQuery,
+        dates: this.datesQuery,
+      })
+    },
+
     toggleSwitcher(selected) {
       this.switcherSelected = selected
       this.$emit('toggle', selected)

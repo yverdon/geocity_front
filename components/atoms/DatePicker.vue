@@ -34,7 +34,7 @@ export default {
 
   data() {
     return {
-      dates: '',
+      dates: [],
       config: {
         mode: 'range',
         dateFormat: 'd.m.Y',

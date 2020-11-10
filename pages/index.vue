@@ -7,8 +7,7 @@
         :locations="locations"
         @tracking="trackingFilter"
         @zoom="locationFilter"
-        @filter-event="typeFilter"
-        @filter-date="dateFilter"
+        @filter-query="filter"
         @toggle="view = $event"
       />
       <Map v-if="view === 'map'" ref="map" :events="events" />
@@ -64,12 +63,8 @@ export default {
       this.$refs.map.zoomToCoordinates(location)
     },
 
-    typeFilter(event) {
-      this.$refs.map.eventsByType(event)
-    },
-
-    dateFilter(dates) {
-      this.$refs.map.eventsByDate(dates)
+    filter(query) {
+      this.$refs.map.filterFeatures(query)
     },
   },
 }

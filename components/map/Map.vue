@@ -102,8 +102,6 @@ export default {
       map: [],
       features: [],
       selectedFeature: [],
-      typeFilterQuery: {},
-      dateFilterQuery: [],
       clickCoordinate: [],
       deviceCoordinate: [],
     }
@@ -174,42 +172,41 @@ export default {
     },
 
     /**
-     * Filter events by Type
-     * @param {Object} event
-     * Get the event selected thought the `SelectField` component and
+     * Filter Features
+     * @param {Object} query
+     * Get the query search selected thought the `Strainer` component and
      * filter the data `features` Object to pass down the filtred `features`
      * to the `LayerVector` component.
-     * Note that if event is null we display all `features` as default.
      */
-    eventsByType(event) {
-      if (this.dateFilterQuery.length > 0) {
-        this.eventsByDate(this.dateFilterQuery)
-      } else {
-        this.features = this.events.features
-        this.dateFilterQuery = []
-      }
+    filterFeatures(query) {
+      this.features = this.events.features.filter((feature) => {
+        const featureStartDate = new Date(feature.properties.starts_at)
+        const featureEndDate = new Date(feature.properties.ends_at)
 
-      if (event === null) {
-        this.typeFilterQuery = {}
-        return
-      }
-
-      this.typeFilterQuery = event
-      this.features = this.events.features.filter(
-        (feature) =>
-          feature.properties.permit_request.meta_types[0] === event.id
-      )
+        if (query.type.length) {
+          return (
+            feature.properties.permit_request.meta_types[0] === query.type[0] &&
+            this.dateIntervalFilter({
+              queryDates: [query.dates[0], query.dates[1]],
+              featureDates: [featureStartDate, featureEndDate],
+            })
+          )
+        } else {
+          return this.dateIntervalFilter({
+            queryDates: [query.dates[0], query.dates[1]],
+            featureDates: [featureStartDate, featureEndDate],
+          })
+        }
+      })
     },
 
     /**
-     * Filter events by Date
-     * @param {Array} dates
-     * Get the dates selected thought the `Datepicker` component and
-     * filter the data `features` Array to pass down the filtred `features`
-     * to the `LayerVector` component
+     * Date Interval Filter
+     * @param {Object} dates
+     * @return {Array}
      *
-     * To do so, we check if the selected range date overlap the event range date
-     * There is mutlitple possibility as describe below :
+     * Return date range that overlap the event range date
+     * There is mutlitple possibility as shown below :
      *
      * Event range ░░░░░░░░░░════════════════════░░░░░░░░░░
      *          1/ ░═════════════════░░░░░░░░░░░░░░░░░░░░░░
@@ -221,37 +218,11 @@ export default {
      *
      * Note that the options 1/ to 4/ will be display to the user and 5/ & 6/ will be hidden
      */
-    eventsByDate(dates) {
-      if (Object.keys(this.typeFilterQuery).length > 0) {
-        this.eventsByType(this.typeFilterQuery)
-      } else {
-        this.features = this.events.features
-        this.typeFilterQuery = {}
-      }
-
-      if (dates.length === 0) {
-        this.dateFilterQuery = []
-        return
-      }
-
-      const startSelectedDate = dates[0]
-      let endSelectedDate = ''
-      if (dates[1]) {
-        endSelectedDate = dates[1]
-      } else {
-        return
-      }
-
-      this.dateFilterQuery = dates
-      this.features = this.events.features.filter((feature) => {
-        return areIntervalsOverlapping(
-          { start: startSelectedDate, end: endSelectedDate },
-          {
-            start: new Date(feature.properties.starts_at),
-            end: new Date(feature.properties.ends_at),
-          }
-        )
-      })
+    dateIntervalFilter(dates) {
+      return areIntervalsOverlapping(
+        { start: dates.queryDates[0], end: dates.queryDates[1] },
+        { start: dates.featureDates[0], end: dates.featureDates[1] }
+      )
     },
 
     /**
