@@ -47,7 +47,7 @@ export default {
     '@nuxtjs/svg-sprite',
   ],
   build: {
-    transpile: ['vuelayers'],
+    transpile: ['vuelayers', '/@fullcalendar.*/'],
   },
   svgSprite: {
     input: '~/styleguide/assets/icons/',

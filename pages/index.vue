@@ -11,7 +11,7 @@
         @toggle="view = $event"
       />
       <Map v-if="view === 'map'" ref="map" :events="events" />
-      <Calendar v-else />
+      <Calendar v-else :events="events" />
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
 
   data() {
     return {
-      view: 'map',
+      view: 'calendar',
     }
   },
 

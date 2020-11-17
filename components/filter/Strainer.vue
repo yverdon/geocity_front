@@ -75,7 +75,7 @@ export default {
       formattedLocations: [],
       formattedEvents: [],
       switcherOption: ['map', 'calendar'],
-      switcherSelected: 'map',
+      switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
       datesQuery: [subYears(new Date(), 1), new Date()],
