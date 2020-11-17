@@ -78,7 +78,7 @@ export default {
       switcherSelected: 'map',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
-      datesQuery: [],
+      datesQuery: [subYears(new Date(), 1), new Date()],
     }
   },
 
