@@ -8,7 +8,7 @@
       class="flex flex-col items-center border-t-1 md:border-t-0 md:border-l-1 border-brand pt-6 md:pt-0 md:pl-12"
     >
       <p>{{ $t('ask') }}</p>
-      <a href="#" class="btn btn--primary mt-12">{{ $t('askcta') }}</a>
+      <a href="#" class="btn btn--default mt-12">{{ $t('askcta') }}</a>
     </div>
   </div>
 </template>
