@@ -6,6 +6,8 @@
         :id="id"
         v-model="dates"
         :config="config"
+        :disabled="disabled"
+        :class="{ 'cursor-not-allowed': disabled }"
         class="form-group__input h-10"
         @on-change="$emit('change', $event)"
       />
@@ -29,6 +31,10 @@ export default {
       type: String,
       default: '',
       required: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
 

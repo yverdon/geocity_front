@@ -12,10 +12,14 @@
           <SelectField
             :header="$t('where')"
             :options="formattedLocations"
+            :disabled="switcherSelected === 'map' ? false : true"
             class="flex-grow"
             @change="$emit('zoom', $event)"
           />
-          <ToggleGeoLocation @click="$emit('tracking', $event)" />
+          <ToggleGeoLocation
+            :disabled="switcherSelected === 'map' ? false : true"
+            @click="$emit('tracking', $event)"
+          />
         </div>
       </div>
       <div>
@@ -23,6 +27,7 @@
           <DatePicker
             :id="'filter-date'"
             :label="$t('date-range')"
+            :disabled="switcherSelected === 'map' ? false : true"
             @change="dateFilter($event)"
           />
         </div>

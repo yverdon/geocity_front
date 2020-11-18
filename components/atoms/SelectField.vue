@@ -5,6 +5,7 @@
         v-model="selected"
         class="select-field"
         :options="options"
+        :disabled="disabled"
         @input="$emit('change', selected)"
       >
         <template #header>
@@ -42,6 +43,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -66,5 +71,13 @@ export default {
   min-height: 40px;
   @apply bg-negative border-gray-300;
   border-radius: 0 !important;
+}
+
+.select-field.vs--disabled .vs__dropdown-toggle {
+  @apply opacity-50;
+}
+
+.select-field.vs--disabled .vs__search {
+  @apply bg-negative;
 }
 </style>

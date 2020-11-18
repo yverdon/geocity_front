@@ -15,5 +15,6 @@
   "select-no-option": "Pas de résultas",
   "date-range": "Période",
   "map": "Plan",
-  "calendar": "Calendrier"
+  "calendar": "Calendrier",
+  "tracking-toggle": "Active geolocation"
 }
