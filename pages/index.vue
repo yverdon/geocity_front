@@ -13,7 +13,7 @@
           @toggle="view = $event"
         />
         <Map v-if="view === 'map'" ref="map" :events="events" />
-        <Calendar v-else :events="events" />
+        <Calendar v-else ref="calendar" :events="events" />
       </div>
     </div>
   </div>
@@ -74,7 +74,11 @@ export default {
     },
 
     filter(query) {
-      this.$refs.map.filterFeatures(query)
+      if (this.view === 'map') {
+        this.$refs.map.filterFeatures(query)
+      } else {
+        this.$refs.calendar.filterFeatures(query)
+      }
     },
   },
 }

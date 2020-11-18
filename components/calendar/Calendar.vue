@@ -51,6 +51,7 @@ export default {
 
   methods: {
     formatFeatures(features) {
+      this.calendarOptions.events = []
       features.forEach((feature) => {
         this.calendarOptions.events.push({
           title: feature.properties.permit_request.administrative_entity.name,
@@ -58,6 +59,28 @@ export default {
           end: feature.properties.ends_at,
         })
       })
+    },
+
+    /**
+     * Filter Features
+     * @param {Object} query
+     * Get the query search selected thought the `Strainer` component and
+     * filter the data `features` Object to pass down the filtred `features`
+     * to the `FullCalendar` component.
+     */
+    filterFeatures(query) {
+      const filterdFeatures = []
+      if (!query.type.length) {
+        this.formatFeatures(this.events.features)
+        return
+      }
+
+      this.events.features.filter((feature) => {
+        if (feature.properties.permit_request.meta_types[0] === query.type[0]) {
+          filterdFeatures.push(feature)
+        }
+      })
+      this.formatFeatures(filterdFeatures)
     },
   },
 }
