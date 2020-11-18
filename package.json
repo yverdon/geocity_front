@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@fullcalendar/interaction": "^5.4.0",
+    "@fullcalendar/list": "^5.4.0",
     "@fullcalendar/timegrid": "^5.4.0",
     "@fullcalendar/vue": "^5.4.0",
     "@nuxtjs/axios": "^5.12.2",

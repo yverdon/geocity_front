@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <button
-      class="btn btn--secondary btn--small h-10 rounded"
+      class="btn btn--secondary btn--small h-10 focus:outline-none focus:shadow-outline"
       :class="{ 'bg-brand focus:bg-brand': isActive }"
       @click="toggle"
     >

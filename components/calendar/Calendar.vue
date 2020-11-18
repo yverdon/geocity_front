@@ -6,8 +6,11 @@
 
 <script>
 import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
+import fr from '@fullcalendar/core/locales/fr'
 
 export default {
   name: 'Calendar',
@@ -27,10 +30,15 @@ export default {
   data() {
     return {
       calendarOptions: {
-        plugins: [interactionPlugin, timeGridPlugin],
-        initialView: 'timeGridWeek',
-        nowIndicator: true,
-        editable: true,
+        aspectRatio: 2,
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+        },
+        initialView: 'dayGridMonth',
+        locale: fr,
         initialEvents: [],
         events: [],
       },

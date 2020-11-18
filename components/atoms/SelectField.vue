@@ -3,7 +3,7 @@
     <client-only>
       <v-select
         v-model="selected"
-        class="form-group__input"
+        class="select-field"
         :options="options"
         @input="$emit('change', selected)"
       >
@@ -53,16 +53,16 @@ export default {
 </script>
 
 <style lang="postcss">
-.form-group__input.v-select {
+.select-field.v-select {
   @apply p-0;
   border: none;
 }
 
-.form-group__input .vs__selected {
+.select-field .vs__selected {
   @apply text-brand;
 }
 
-.form-group__input .vs__dropdown-toggle {
+.select-field .vs__dropdown-toggle {
   min-height: 40px;
   @apply bg-negative border-gray-300;
   border-radius: 0 !important;
