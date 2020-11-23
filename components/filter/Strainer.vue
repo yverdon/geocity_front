@@ -79,7 +79,10 @@ export default {
     return {
       formattedLocations: [],
       formattedEvents: [],
-      switcherOption: ['map', 'calendar'],
+      switcherOption: [
+        { id: 'map', value: this.$nuxt.$t('map') },
+        { id: 'calendar', value: this.$nuxt.$t('calendar') },
+      ],
       switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
