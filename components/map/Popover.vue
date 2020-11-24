@@ -21,7 +21,8 @@
       <li v-if="link">{{ $t('more') }}: {{ link }}</li>
     </ul>
 
-    <button class="btn btn--primary btn-calendar text-sm mt-4">
+    <!-- TODO: remove & link button to event calendar -->
+    <button class="hidden btn btn--primary btn-calendar text-sm mt-4">
       <svg-icon name="calendar" class="icon--50 mr-2" />
       {{ $t('see-on-calendar') }}
     </button>

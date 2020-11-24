@@ -37,6 +37,7 @@ export default {
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
         },
+        eventClick: this.handleEventClick,
         initialView: 'dayGridMonth',
         locale: fr,
         initialEvents: [],
@@ -55,6 +56,8 @@ export default {
       features.forEach((feature) => {
         this.calendarOptions.events.push({
           title: feature.properties.permit_request.administrative_entity.name,
+          comment: feature.properties.comment,
+          externalLink: feature.properties.external_link,
           start: feature.properties.starts_at,
           end: feature.properties.ends_at,
         })
@@ -82,6 +85,21 @@ export default {
       })
       this.formatFeatures(filterdFeatures)
     },
+
+    handleEventClick(info) {
+      console.log(info)
+      console.log(info.event.title)
+      console.log(info.event.extendedProps.comment)
+      console.log(info.event.extendedProps.externalLink)
+      console.log(info.event.start)
+      console.log(info.event.end)
+    },
   },
 }
 </script>
+
+<style lang="postcss">
+.fc .fc-view-harness {
+  @apply bg-negative;
+}
+</style>

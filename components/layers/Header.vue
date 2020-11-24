@@ -1,7 +1,9 @@
 <template>
   <div class="md:flex justify-between items-center my-4 mb-12">
     <Logo />
-    <a href="#" class="btn btn--primary mt-6 md:mt-0">{{ $t('connexion') }}</a>
+    <a href="#" class="hidden btn btn--primary mt-6 md:mt-0">{{
+      $t('connexion')
+    }}</a>
   </div>
 </template>
 
