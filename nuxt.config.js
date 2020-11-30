@@ -16,6 +16,9 @@ export default {
       },
     ],
   },
+  router: {
+    base: process.env.NODE_ENV === 'production' ? process.env.pathname : '/',
+  },
   plugins: [
     {
       src: '@/plugins/vuelayers.js',

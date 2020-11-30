@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "Public space is the point of access to information on the activities planned on the territory of your municipality",
+  "pathname": "/",
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
     "generate": "nuxt generate",
+    "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
+    "release": "release-it",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
@@ -26,6 +27,7 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/tailwindcss": "^2.1.0",
+    "@release-it/conventional-changelog": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",

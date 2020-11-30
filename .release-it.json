@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "after:release": "yarn generate && yarn deploy"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}
