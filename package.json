@@ -1,6 +1,6 @@
 {
   "name": "geocity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Public space is the point of access to information on the activities planned on the territory of your municipality",
   "pathname": "/",
