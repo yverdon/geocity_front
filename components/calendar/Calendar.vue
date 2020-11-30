@@ -38,10 +38,10 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek',
         },
         eventClick: this.handleEventClick,
-        initialView: 'dayGridMonth',
+        initialView: window.innerWidth >= 1024 ? 'dayGridMonth' : 'listWeek',
         locale: fr,
         initialEvents: [],
         events: [],
@@ -108,5 +108,23 @@ export default {
 <style lang="postcss">
 .fc .fc-view-harness {
   @apply bg-negative;
+}
+
+.fc-list-day th {
+  z-index: 10;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .fc .fc-timeGridDay-button,
+  .fc .fc-timeGridWeek-button,
+  .fc .fc-dayGridMonth-button,
+  .fc .fc-listWeek-button {
+    @apply hidden;
+  }
+
+  .fc .fc-toolbar-title {
+    @apply block text-sm;
+  }
 }
 </style>
