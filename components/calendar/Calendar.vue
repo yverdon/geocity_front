@@ -1,10 +1,12 @@
 <template>
   <div class="container relative mx-auto px-4">
     <FullCalendar :options="calendarOptions" />
+    <Modal :content="modalContent" />
   </div>
 </template>
 
 <script>
+import Modal from '@/components/atoms/Modal'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -17,6 +19,7 @@ export default {
 
   components: {
     FullCalendar,
+    Modal,
   },
 
   props: {
@@ -43,6 +46,7 @@ export default {
         initialEvents: [],
         events: [],
       },
+      modalContent: {},
     }
   },
 
@@ -87,12 +91,15 @@ export default {
     },
 
     handleEventClick(info) {
-      console.log(info)
-      console.log(info.event.title)
-      console.log(info.event.extendedProps.comment)
-      console.log(info.event.extendedProps.externalLink)
-      console.log(info.event.start)
-      console.log(info.event.end)
+      this.modalContent = {
+        title: info.event.title,
+        comment: info.event.extendedProps.comment,
+        link: info.event.extendedProps.externalLink,
+        start: info.event.start,
+        end: info.event.end,
+      }
+
+      this.$modal.show('calendar-modal')
     },
   },
 }

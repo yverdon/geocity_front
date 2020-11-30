@@ -32,6 +32,10 @@ export default {
       src: '@/plugins/flatpickr.js',
       ssr: false,
     },
+    {
+      src: '@/plugins/vue-js-modal.js',
+      ssr: false,
+    },
   ],
   components: true,
   buildModules: [
