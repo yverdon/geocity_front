@@ -53,14 +53,14 @@ An example of a simple deploy command using `rsync`:
 "deploy": "rsync -avz --delete --exclude='.*' dist/ user@server.com:/var/www/html/my-project"
 ```
 
-⚠️ Notice the `--delete` flag which means all files not present locally will be deleted on the remote server. Be careful, this can leads to data loss!
-
-⚠️ If your want to deploy not on the root you need to add the pathname accordingly inside the `package.json` under `pathname` default is set to `/`.
-
 You can also deploy manually at any time by running:
-
-⚠️ Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/master/env.demo#L30
 
 ```bash
 yarn deploy
 ```
+
+⚠️ Notice the `--delete` flag which means all files not present locally will be deleted on the remote server. Be careful, this can leads to data loss!
+
+⚠️ If your want to deploy not on the root you need to add the pathname accordingly inside the `package.json` under `pathname` default is set to `/`.
+
+⚠️ Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/master/env.demo#L30
