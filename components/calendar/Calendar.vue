@@ -3,7 +3,8 @@
     <div class="mx-1">
       <FullCalendar :options="calendarOptions" />
     </div>
-    <Modal :content="modalContent" />
+
+    <Modal :name="'calendar-modal'" :content="modalContent" />
   </div>
 </template>
 

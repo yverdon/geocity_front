@@ -36,20 +36,11 @@
             </template>
           </vl-geoloc>
 
-          <vl-interaction-select :features.sync="selectedFeature">
-            <template slot-scope="select">
-              <vl-style-func :factory="styleFuncFactory" />
-              <vl-overlay
-                v-for="feature in select.features"
-                :id="feature.id"
-                :key="feature.id"
-                :position="clickCoordinate"
-                :auto-pan="true"
-                :auto-pan-animation="{ duration: 300 }"
-              >
-                <Popover :feature="feature" @close="selectedFeature = []" />
-              </vl-overlay>
-            </template>
+          <vl-interaction-select
+            :features.sync="selectedFeature"
+            @select="$modal.show('map-modal')"
+          >
+            <vl-style-func :factory="styleFuncFactory" />
           </vl-interaction-select>
 
           <LayerTile :layers="baseLayers" />
@@ -59,6 +50,8 @@
         <ToggleLayers />
       </client-only>
     </div>
+
+    <Modal :name="'map-modal'" :content="modalContent" />
   </div>
 </template>
 
@@ -68,8 +61,9 @@ import { areIntervalsOverlapping } from 'date-fns'
 import layers from '@/components/map/layers.json'
 import { pointer, fill, mapMarker } from '@/components/map/helpers/styles'
 
+import Modal from '@/components/atoms/Modal'
+
 import ToggleLayers from '@/components/map/ToggleLayers'
-import Popover from '@/components/map/Popover'
 import LayerTile from '@/components/map/LayerTile'
 import LayerVector from '@/components/map/LayerVector'
 
@@ -77,8 +71,8 @@ export default {
   Name: 'Map',
 
   components: {
+    Modal,
     ToggleLayers,
-    Popover,
     LayerTile,
     LayerVector,
   },
@@ -107,6 +101,23 @@ export default {
       clickCoordinate: [],
       deviceCoordinate: [],
     }
+  },
+
+  computed: {
+    modalContent() {
+      if (this.selectedFeature.length) {
+        return {
+          title: this.selectedFeature[0].properties.permit_request
+            .administrative_entity.name,
+          comment: this.selectedFeature[0].properties.comment,
+          link: this.selectedFeature[0].properties.external_link,
+          start: this.selectedFeature[0].properties.starts_at,
+          end: this.selectedFeature[0].properties.ends_at,
+        }
+      } else {
+        return {}
+      }
+    },
   },
 
   mounted() {
