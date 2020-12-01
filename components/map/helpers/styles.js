@@ -21,8 +21,12 @@ export function fill(typeStyle, hover = false) {
 
 export function mapMarker(typeStyle, hover = false) {
   const style = hover ? 'hoverStyle' : 'genericStyle'
+  let pathname = '/mapmarkers'
+  if (process.env.NODE_ENV === 'production') {
+    pathname = `${process.env.npm_package_pathname}/mapmarkers`
+  }
   return {
     imageScale: styles[style].imageScale,
-    imageSrc: `/mapmarkers/${typeStyle.name}.svg`,
+    imageSrc: `${pathname}/${typeStyle.name}.svg`,
   }
 }
