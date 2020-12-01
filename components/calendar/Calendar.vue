@@ -1,6 +1,8 @@
 <template>
   <div class="container relative mx-auto px-4">
-    <FullCalendar :options="calendarOptions" />
+    <div class="mx-1">
+      <FullCalendar :options="calendarOptions" />
+    </div>
     <Modal :content="modalContent" />
   </div>
 </template>
@@ -33,6 +35,7 @@ export default {
   data() {
     return {
       calendarOptions: {
+        height: 600,
         aspectRatio: 2,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
         headerToolbar: {
@@ -115,6 +118,42 @@ export default {
   position: relative;
 }
 
+.fc .fc-button,
+.fc .fc-button,
+.fc .fc-button,
+.fc .fc-button {
+  @apply py-1 px-2;
+  @apply text-sm;
+  @apply rounded-none;
+  @apply bg-gray-900 text-negative;
+
+  &:hover {
+    @apply bg-gray-700;
+  }
+
+  &:focus {
+    @apply outline-none shadow-outline;
+  }
+
+  &[disabled] {
+    @apply bg-gray-900;
+  }
+}
+
+.fc .fc-toolbar-title {
+  @apply block text-lead;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  @apply bg-brand-light;
+}
+
+.fc .fc-list-event td,
+.fc-h-event .fc-event-title-container,
+.fc-v-event .fc-event-title-container {
+  @apply cursor-pointer;
+}
+
 @media (max-width: 1024px) {
   .fc .fc-timeGridDay-button,
   .fc .fc-timeGridWeek-button,
@@ -124,7 +163,7 @@ export default {
   }
 
   .fc .fc-toolbar-title {
-    @apply block text-sm;
+    @apply block text-base;
   }
 }
 </style>

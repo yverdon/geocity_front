@@ -8,7 +8,12 @@
           class="flex-grow"
           @change="typeFilter($event)"
         />
-        <div class="flex items-end">
+        <div
+          :class="{
+            'hidden md:flex md:items-end': switcherSelected === 'calendar',
+            'flex items-end': switcherSelected === 'map',
+          }"
+        >
           <SelectField
             :header="$t('where')"
             :options="formattedLocations"
@@ -23,7 +28,11 @@
         </div>
       </div>
       <div>
-        <div>
+        <div
+          :class="{
+            'hidden md:block': switcherSelected === 'calendar',
+          }"
+        >
           <DatePicker
             :id="'filter-date'"
             :label="$t('date-range')"
@@ -31,7 +40,12 @@
             @change="dateFilter($event)"
           />
         </div>
-        <div>
+        <div
+          :class="{
+            'mt-8': switcherSelected === 'map',
+            'md:mt-8': switcherSelected === 'calendar',
+          }"
+        >
           <ToggleSwitch
             :options="switcherOption"
             :selected="switcherSelected"

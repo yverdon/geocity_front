@@ -1,7 +1,7 @@
 <template>
-  <div class="form-group mt-8">
+  <div class="form-group">
     <ul
-      class="flex items-center mx-1 p-1 border-1 border-solid border-gray-300 bg-negative"
+      class="flex items-center p-1 border-1 border-solid border-gray-300 bg-negative"
     >
       <li
         v-for="option in defaultOptions"

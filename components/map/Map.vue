@@ -1,62 +1,64 @@
 <template>
   <div class="container relative mx-auto px-4">
-    <client-only>
-      <vl-map
-        :load-tiles-while-animating="true"
-        :load-tiles-while-interacting="true"
-        :class="{ 'cursor-pointer': mapCursor }"
-        class="map"
-        @mounted="onMapMounted"
-        @click="clickCoordinate = $event.coordinate"
-        @pointermove="onMapPointerMove"
-      >
-        <vl-view
-          :zoom.sync="zoomDefault"
-          :center.sync="center"
-          :rotation.sync="rotation"
-          projection="EPSG:2056"
-        />
-
-        <vl-geoloc
-          :tracking="isTrackingActive"
-          @update:position="onUpdatePosition"
+    <div class="mx-1">
+      <client-only>
+        <vl-map
+          :load-tiles-while-animating="true"
+          :load-tiles-while-interacting="true"
+          :class="{ 'cursor-pointer': mapCursor }"
+          class="map"
+          @mounted="onMapMounted"
+          @click="clickCoordinate = $event.coordinate"
+          @pointermove="onMapPointerMove"
         >
-          <template slot-scope="geoloc">
-            <vl-feature v-if="geoloc.position && isTrackingActive">
-              <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
-              <vl-style-box>
-                <vl-style-icon
-                  src="/mapmarkers/geolocation.svg"
-                  :scale="0.04"
-                  :anchor="[0.5, 1]"
-                ></vl-style-icon>
-              </vl-style-box>
-            </vl-feature>
-          </template>
-        </vl-geoloc>
+          <vl-view
+            :zoom.sync="zoomDefault"
+            :center.sync="center"
+            :rotation.sync="rotation"
+            projection="EPSG:2056"
+          />
 
-        <vl-interaction-select :features.sync="selectedFeature">
-          <template slot-scope="select">
-            <vl-style-func :factory="styleFuncFactory" />
-            <vl-overlay
-              v-for="feature in select.features"
-              :id="feature.id"
-              :key="feature.id"
-              :position="clickCoordinate"
-              :auto-pan="true"
-              :auto-pan-animation="{ duration: 300 }"
-            >
-              <Popover :feature="feature" @close="selectedFeature = []" />
-            </vl-overlay>
-          </template>
-        </vl-interaction-select>
+          <vl-geoloc
+            :tracking="isTrackingActive"
+            @update:position="onUpdatePosition"
+          >
+            <template slot-scope="geoloc">
+              <vl-feature v-if="geoloc.position && isTrackingActive">
+                <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+                <vl-style-box>
+                  <vl-style-icon
+                    src="/mapmarkers/geolocation.svg"
+                    :scale="0.04"
+                    :anchor="[0.5, 1]"
+                  ></vl-style-icon>
+                </vl-style-box>
+              </vl-feature>
+            </template>
+          </vl-geoloc>
 
-        <LayerTile :layers="baseLayers" />
-        <LayerVector :features="features" :factory="styleFuncFactory" />
-      </vl-map>
+          <vl-interaction-select :features.sync="selectedFeature">
+            <template slot-scope="select">
+              <vl-style-func :factory="styleFuncFactory" />
+              <vl-overlay
+                v-for="feature in select.features"
+                :id="feature.id"
+                :key="feature.id"
+                :position="clickCoordinate"
+                :auto-pan="true"
+                :auto-pan-animation="{ duration: 300 }"
+              >
+                <Popover :feature="feature" @close="selectedFeature = []" />
+              </vl-overlay>
+            </template>
+          </vl-interaction-select>
 
-      <ToggleLayers />
-    </client-only>
+          <LayerTile :layers="baseLayers" />
+          <LayerVector :features="features" :factory="styleFuncFactory" />
+        </vl-map>
+
+        <ToggleLayers />
+      </client-only>
+    </div>
   </div>
 </template>
 
