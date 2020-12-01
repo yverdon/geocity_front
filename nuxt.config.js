@@ -18,9 +18,7 @@ export default {
   },
   router: {
     base:
-      process.env.NODE_ENV === 'production'
-        ? process.env.npm_package_pathname
-        : '/',
+      process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_PATH : '/',
   },
   plugins: [
     {
@@ -38,6 +36,7 @@ export default {
   ],
   components: true,
   buildModules: [
+    '@nuxtjs/dotenv',
     '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns',

@@ -23,7 +23,7 @@ export function mapMarker(typeStyle, hover = false) {
   const style = hover ? 'hoverStyle' : 'genericStyle'
   let pathname = '/mapmarkers'
   if (process.env.NODE_ENV === 'production') {
-    pathname = `${process.env.npm_package_pathname}/mapmarkers`
+    pathname = `${process.env.PRODUCTION_PATH}/mapmarkers`
   }
   return {
     imageScale: styles[style].imageScale,

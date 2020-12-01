@@ -9,7 +9,7 @@ In order to build the project you'll need _yarn_ and _nodejs_ installed
 Please refer to https://classic.yarnpkg.com/en/docs/install
 On windows, install chocolately when asked to
 
-## Build Setup
+## Build Setup & Developpment
 
 ```bash
 # init submodules dependencies
@@ -28,6 +28,50 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Configuration file
+
+```bash
+# Create your env. file
+$ cp .env.example .env
+```
+
+The `.env` file should contains:
+
+🚨 Mandatory API URLs
+
+The location API
+
+```bash
+LOCATION_API=https://api3.geo.admin.ch
+```
+
+The main GeoCity API
+
+```bash
+GEOCITY_API=https://form-preprod.mapnv.ch/rest/events/
+```
+
+🚀 For production
+
+Needed if the application is not deployed on the root
+
+```bash
+PRODUCTION_PATH=/your-custom-path/
+```
+
+🔍 Filtering events from GeoCity API
+
+```bash
+GEOCITY_API_EVENTS_START=2020-01-01
+GEOCITY_API_EVENTS_END=2022-12-01
+```
+
+🔗 Link to the Django app login page
+
+```bash
+CTA_LINK=
+```
 
 ## Release
 
@@ -59,8 +103,6 @@ You can also deploy manually at any time by running:
 yarn deploy
 ```
 
-⚠️ Notice the `--delete` flag which means all files not present locally will be deleted on the remote server. Be careful, this can leads to data loss!
+🚨 Notice the `--delete` flag which means all files not present locally will be deleted on the remote server. Be careful, this can leads to data loss!
 
-⚠️ If your want to deploy not on the root you need to add the pathname accordingly inside the `package.json` under `pathname` default is set to `/`.
-
-⚠️ Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/master/env.demo#L30
+🚨 Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/master/env.demo#L30
