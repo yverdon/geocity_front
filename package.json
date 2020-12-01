@@ -3,11 +3,11 @@
   "version": "1.0.4",
   "private": true,
   "description": "Public space is the point of access to information on the activities planned on the territory of your municipality",
-  "pathname": "/geocalendar",
+  "pathname": "/geocalendar/",
   "scripts": {
     "dev": "nuxt",
-    "generate": "nuxt generate",
-    "deploy": "rsync -avz --delete --exclude='.*' dist/ user@server.com:/var/www/html/my-project",
+    "generate": "NODE_ENV=production nuxt generate",
+    "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
     "release": "release-it",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "yarn lint:js"

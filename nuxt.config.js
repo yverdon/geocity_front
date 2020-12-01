@@ -17,7 +17,10 @@ export default {
     ],
   },
   router: {
-    base: process.env.NODE_ENV === 'production' ? process.env.pathname : '/',
+    base:
+      process.env.NODE_ENV === 'production'
+        ? process.env.npm_package_pathname
+        : '/',
   },
   plugins: [
     {
