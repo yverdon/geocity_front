@@ -5,7 +5,7 @@
   "description": "Public space is the point of access to information on the activities planned on the territory of your municipality",
   "scripts": {
     "dev": "nuxt",
-    "generate": "NODE_ENV=production nuxt generate",
+    "generate": "nuxt generate",
     "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
     "release": "release-it",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
