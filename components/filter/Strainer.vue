@@ -99,7 +99,7 @@ export default {
     },
 
     dateFilter(payload) {
-      if (!payload?.length) {
+      if (!payload.length) {
         this.datesQuery = [subYears(new Date(), 1), new Date()]
       } else if (payload[1]) {
         this.datesQuery = [payload[0], payload[1]]
