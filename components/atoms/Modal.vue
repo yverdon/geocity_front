@@ -33,9 +33,12 @@
       </li>
       <li v-if="content.link" class="flex py-2">
         <span class="font-bold pr-2">{{ $t('more') }}:</span>
-        <a :href="content.link" class="text-brand hover:text-brand-dark">{{
-          content.link
-        }}</a>
+        <a
+          :href="content.link"
+          target="_blank"
+          class="text-brand hover:text-brand-dark"
+          >{{ content.link }}</a
+        >
       </li>
     </ul>
   </vue-modal>
