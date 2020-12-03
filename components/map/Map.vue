@@ -51,7 +51,11 @@
       </client-only>
     </div>
 
-    <Modal :name="'map-modal'" :content="modalContent" />
+    <Modal
+      :name="'map-modal'"
+      :content="modalContent"
+      @close="selectedFeature = []"
+    />
   </div>
 </template>
 
