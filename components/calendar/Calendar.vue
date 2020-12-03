@@ -145,7 +145,8 @@ export default {
   @apply block text-lead;
 }
 
-.fc .fc-daygrid-day.fc-day-today {
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
   @apply bg-brand-light;
 }
 
