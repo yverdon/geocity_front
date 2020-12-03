@@ -8,25 +8,44 @@
           class="flex-grow"
           @change="typeFilter($event)"
         />
-        <div class="flex items-end">
+        <div
+          :class="{
+            'hidden md:flex md:items-end': switcherSelected === 'calendar',
+            'flex items-end': switcherSelected === 'map',
+          }"
+        >
           <SelectField
             :header="$t('where')"
             :options="formattedLocations"
+            :disabled="switcherSelected === 'map' ? false : true"
             class="flex-grow"
             @change="$emit('zoom', $event)"
           />
-          <ToggleGeoLocation @click="$emit('tracking', $event)" />
+          <ToggleGeoLocation
+            :disabled="switcherSelected === 'map' ? false : true"
+            @click="$emit('tracking', $event)"
+          />
         </div>
       </div>
       <div>
-        <div>
+        <div
+          :class="{
+            'hidden md:block': switcherSelected === 'calendar',
+          }"
+        >
           <DatePicker
             :id="'filter-date'"
             :label="$t('date-range')"
+            :disabled="switcherSelected === 'map' ? false : true"
             @change="dateFilter($event)"
           />
         </div>
-        <div>
+        <div
+          :class="{
+            'mt-8': switcherSelected === 'map',
+            'md:mt-8': switcherSelected === 'calendar',
+          }"
+        >
           <ToggleSwitch
             :options="switcherOption"
             :selected="switcherSelected"
@@ -74,8 +93,11 @@ export default {
     return {
       formattedLocations: [],
       formattedEvents: [],
-      switcherOption: ['map', 'calendar'],
-      switcherSelected: 'map',
+      switcherOption: [
+        { id: 'map', value: this.$nuxt.$t('map') },
+        { id: 'calendar', value: this.$nuxt.$t('calendar') },
+      ],
+      switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
       datesQuery: [subYears(new Date(), 1), new Date()],

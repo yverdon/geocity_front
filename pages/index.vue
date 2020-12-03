@@ -2,16 +2,19 @@
   <div>
     <Introduction class="container mx-auto px-4" />
     <div class="mt-12 py-12 bg-gray-100">
-      <Strainer
-        :events="events"
-        :locations="locations"
-        @tracking="trackingFilter"
-        @zoom="locationFilter"
-        @filter-query="filter"
-        @toggle="view = $event"
-      />
-      <Map v-if="view === 'map'" ref="map" :events="events" />
-      <Calendar v-else />
+      <div v-if="isLoading" class="h-64 flex items-center"><Loader /></div>
+      <div v-else>
+        <Strainer
+          :events="events"
+          :locations="locations"
+          @tracking="trackingFilter"
+          @zoom="locationFilter"
+          @filter-query="filter"
+          @toggle="view = $event"
+        />
+        <Map v-if="view === 'map'" ref="map" :events="events" />
+        <Calendar v-else ref="calendar" :events="events" />
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +24,7 @@ import { format, parseISO, subYears, addYears } from 'date-fns'
 
 import eventsType from '@/components/map/eventsType.json'
 
+import Loader from '@/components/atoms/Loader'
 import Introduction from '@/components/layers/Introduction.vue'
 import Map from '@/components/map/Map.vue'
 import Calendar from '@/components/calendar/Calendar.vue'
@@ -28,6 +32,7 @@ import Strainer from '@/components/filter/Strainer'
 
 export default {
   components: {
+    Loader,
     Introduction,
     Map,
     Calendar,
@@ -58,13 +63,18 @@ export default {
     return {
       events: eventWithType,
       locations: locations.data.results,
+      isLoading: true,
     }
   },
 
   data() {
     return {
-      view: 'map',
+      view: 'calendar',
     }
+  },
+
+  mounted() {
+    this.isLoading = false
   },
 
   methods: {
@@ -77,7 +87,11 @@ export default {
     },
 
     filter(query) {
-      this.$refs.map.filterFeatures(query)
+      if (this.view === 'map') {
+        this.$refs.map.filterFeatures(query)
+      } else {
+        this.$refs.calendar.filterFeatures(query)
+      }
     },
   },
 }

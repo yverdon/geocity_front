@@ -5,14 +5,15 @@ export default {
   mode: 'universal',
   target: 'static',
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Espace Public',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || '',
+        content:
+          "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune. Vous y trouverez des informations sur divers événements qui auront lieu prochainement et qui pourront vous intéresser dans l'organisation de votre vie quotidienne.",
       },
     ],
   },
@@ -33,6 +34,10 @@ export default {
       src: '@/plugins/flatpickr.js',
       ssr: false,
     },
+    {
+      src: '@/plugins/vue-js-modal.js',
+      ssr: false,
+    },
   ],
   components: true,
   buildModules: [
@@ -49,7 +54,7 @@ export default {
     '@nuxtjs/svg-sprite',
   ],
   build: {
-    transpile: ['vuelayers'],
+    transpile: ['vuelayers', '/@fullcalendar.*/'],
   },
   svgSprite: {
     input: '~/styleguide/assets/icons/',

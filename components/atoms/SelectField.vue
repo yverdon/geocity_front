@@ -3,8 +3,9 @@
     <client-only>
       <v-select
         v-model="selected"
-        class="form-group__input"
+        class="select-field"
         :options="options"
+        :disabled="disabled"
         @input="$emit('change', selected)"
       >
         <template #header>
@@ -42,6 +43,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -53,18 +58,26 @@ export default {
 </script>
 
 <style lang="postcss">
-.form-group__input.v-select {
+.select-field.v-select {
   @apply p-0;
   border: none;
 }
 
-.form-group__input .vs__selected {
+.select-field .vs__selected {
   @apply text-brand;
 }
 
-.form-group__input .vs__dropdown-toggle {
+.select-field .vs__dropdown-toggle {
   min-height: 40px;
   @apply bg-negative border-gray-300;
   border-radius: 0 !important;
+}
+
+.select-field.vs--disabled .vs__dropdown-toggle {
+  @apply opacity-50;
+}
+
+.select-field.vs--disabled .vs__search {
+  @apply bg-negative;
 }
 </style>

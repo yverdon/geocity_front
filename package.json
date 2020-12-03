@@ -12,6 +12,10 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@fullcalendar/interaction": "^5.4.0",
+    "@fullcalendar/list": "^5.4.0",
+    "@fullcalendar/timegrid": "^5.4.0",
+    "@fullcalendar/vue": "^5.4.0",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/date-fns": "^1.4.0",
     "@nuxtjs/svg-sprite": "^0.5.0",
@@ -20,6 +24,7 @@
     "nuxt-i18n": "^6.13.12",
     "nuxt-vue-select": "^0.1.4",
     "proj4": "^2.6.2",
+    "vue-js-modal": "^2.0.0-rc.6",
     "vuelayers": "^0.11.27"
   },
   "devDependencies": {
