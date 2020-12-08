@@ -2,8 +2,7 @@
 const fr = require('./locales/fr.json')
 
 export default {
-  ssr: true,
-  target: 'server',
+  mode: 'spa',
   head: {
     title: 'Espace Public',
     meta: [
