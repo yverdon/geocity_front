@@ -97,7 +97,7 @@ export default {
         { id: 'map', value: this.$nuxt.$t('map') },
         { id: 'calendar', value: this.$nuxt.$t('calendar') },
       ],
-      switcherSelected: 'calendar',
+      switcherSelected: 'map',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
       datesQuery: [subYears(new Date(), 1), new Date()],
