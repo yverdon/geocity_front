@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { subYears } from 'date-fns'
+import { subYears, addYears } from 'date-fns'
 
 import SelectField from '@/components/atoms/SelectField'
 import ToggleGeoLocation from '@/components/map/ToggleGeoLocation'
@@ -100,7 +100,7 @@ export default {
       switcherSelected: 'map',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
-      datesQuery: [subYears(new Date(), 1), new Date()],
+      datesQuery: [subYears(new Date(), 1), addYears(new Date(), 1)],
     }
   },
 
@@ -122,7 +122,7 @@ export default {
 
     dateFilter(payload) {
       if (!payload.length) {
-        this.datesQuery = [subYears(new Date(), 1), new Date()]
+        this.datesQuery = [subYears(new Date(), 1), addYears(new Date(), 1)]
       } else if (payload[1]) {
         this.datesQuery = [payload[0], payload[1]]
       } else {
