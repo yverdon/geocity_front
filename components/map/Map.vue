@@ -1,54 +1,52 @@
 <template>
   <div class="container relative mx-auto px-4">
     <div class="mx-1">
-      <client-only>
-        <vl-map
-          :load-tiles-while-animating="true"
-          :load-tiles-while-interacting="true"
-          :class="{ 'cursor-pointer': mapCursor }"
-          class="map"
-          @mounted="onMapMounted"
-          @click="clickCoordinate = $event.coordinate"
-          @pointermove="onMapPointerMove"
+      <vl-map
+        :load-tiles-while-animating="true"
+        :load-tiles-while-interacting="true"
+        :class="{ 'cursor-pointer': mapCursor }"
+        class="map"
+        @mounted="onMapMounted"
+        @click="clickCoordinate = $event.coordinate"
+        @pointermove="onMapPointerMove"
+      >
+        <vl-view
+          :zoom.sync="zoomDefault"
+          :center.sync="center"
+          :rotation.sync="rotation"
+          projection="EPSG:2056"
+        />
+
+        <vl-geoloc
+          :tracking="isTrackingActive"
+          @update:position="onUpdatePosition"
         >
-          <vl-view
-            :zoom.sync="zoomDefault"
-            :center.sync="center"
-            :rotation.sync="rotation"
-            projection="EPSG:2056"
-          />
+          <template slot-scope="geoloc">
+            <vl-feature v-if="geoloc.position && isTrackingActive">
+              <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
+              <vl-style-box>
+                <vl-style-icon
+                  src="/mapmarkers/geolocation.svg"
+                  :scale="0.04"
+                  :anchor="[0.5, 1]"
+                ></vl-style-icon>
+              </vl-style-box>
+            </vl-feature>
+          </template>
+        </vl-geoloc>
 
-          <vl-geoloc
-            :tracking="isTrackingActive"
-            @update:position="onUpdatePosition"
-          >
-            <template slot-scope="geoloc">
-              <vl-feature v-if="geoloc.position && isTrackingActive">
-                <vl-geom-point :coordinates="geoloc.position"></vl-geom-point>
-                <vl-style-box>
-                  <vl-style-icon
-                    src="/mapmarkers/geolocation.svg"
-                    :scale="0.04"
-                    :anchor="[0.5, 1]"
-                  ></vl-style-icon>
-                </vl-style-box>
-              </vl-feature>
-            </template>
-          </vl-geoloc>
+        <vl-interaction-select
+          :features.sync="selectedFeature"
+          @select="$modal.show('map-modal')"
+        >
+          <vl-style-func :factory="styleFuncFactory" />
+        </vl-interaction-select>
 
-          <vl-interaction-select
-            :features.sync="selectedFeature"
-            @select="$modal.show('map-modal')"
-          >
-            <vl-style-func :factory="styleFuncFactory" />
-          </vl-interaction-select>
+        <LayerTile :layers="baseLayers" />
+        <LayerVector :features="features" :factory="styleFuncFactory" />
+      </vl-map>
 
-          <LayerTile :layers="baseLayers" />
-          <LayerVector :features="features" :factory="styleFuncFactory" />
-        </vl-map>
-
-        <ToggleLayers />
-      </client-only>
+      <ToggleLayers />
     </div>
 
     <Modal

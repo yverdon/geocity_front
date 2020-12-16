@@ -16,5 +16,6 @@
   "date-range": "Période",
   "map": "Plan",
   "calendar": "Calendrier",
-  "tracking-toggle": "Active geolocation"
+  "tracking-toggle": "Active geolocation",
+  "clear-date-selection": "Supprimer dates sélection"
 }

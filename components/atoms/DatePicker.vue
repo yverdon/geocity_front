@@ -1,17 +1,29 @@
 <template>
   <div class="form-group">
     <label :for="id" class="form-group__label h-8">{{ label }}</label>
-    <client-only>
+    <div class="flex">
       <flat-pickr
         :id="id"
         v-model="dates"
         :config="config"
         :class="{ 'cursor-not-allowed': disabled }"
         :disabled="disabled ? true : false"
-        class="form-group__input h-10"
+        class="form-group__input h-10 flex-grow"
         @on-change="$emit('change', $event)"
       />
-    </client-only>
+      <button
+        class="btn btn--secondary btn--small h-10 w-10 focus:outline-none focus:shadow-outline ml-2"
+        :disabled="disabled ? true : false"
+        data-clear
+      >
+        <span class="sr-only">{{ $t('clear-date-selection') }}</span>
+        <svg-icon
+          name="close"
+          class="icon--75 text-negative"
+          aria-hidden="true"
+        />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -42,6 +54,7 @@ export default {
     return {
       dates: [],
       config: {
+        wrap: true,
         mode: 'range',
         dateFormat: 'd.m.Y',
         locale: French,

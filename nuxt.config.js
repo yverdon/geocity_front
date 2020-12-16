@@ -23,19 +23,15 @@ export default {
   plugins: [
     {
       src: '@/plugins/vuelayers.js',
-      ssr: false,
     },
     {
       src: '@/plugins/ol-ext.js',
-      ssr: false,
     },
     {
       src: '@/plugins/flatpickr.js',
-      ssr: false,
     },
     {
       src: '@/plugins/vue-js-modal.js',
-      ssr: false,
     },
   ],
   components: true,
