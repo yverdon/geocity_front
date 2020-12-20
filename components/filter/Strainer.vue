@@ -17,7 +17,7 @@
           <SelectField
             :header="$t('where')"
             :options="formattedLocations"
-            :disabled="switcherSelected === 'map' ? false : true"
+            :disabled="switcherSelected === 'map' ? false : false"
             class="flex-grow"
             @change="$emit('zoom', $event)"
           />

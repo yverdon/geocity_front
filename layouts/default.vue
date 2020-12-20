@@ -17,3 +17,11 @@ export default {
   },
 }
 </script>
+
+<style>
+@media (max-width: 1024px) {
+  .r-component {
+    @apply hidden;
+  }
+}
+</style>

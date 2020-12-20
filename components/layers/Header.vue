@@ -22,3 +22,11 @@ export default {
   },
 }
 </script>
+
+<style>
+@media (max-width: 1024px) {
+  header {
+    height: 50px;
+  }
+}
+</style>
