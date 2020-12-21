@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{ 'bg-gray-200 animate-pulse': isLoading }"
-    class="flex-grow mt-12 py-12 bg-gray-100"
+    class="flex-grow lg:mt-12 py-6 lg:py-12 bg-gray-100"
   >
     <div v-if="!isLoading">
       <Strainer
