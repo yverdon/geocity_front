@@ -17,7 +17,7 @@
           <SelectField
             :header="$t('where')"
             :options="formattedLocations"
-            :disabled="switcherSelected === 'map' ? false : false"
+            :disabled="switcherSelected === 'map' ? false : true"
             class="flex-grow"
             @change="$emit('zoom', $event)"
           />
@@ -94,8 +94,8 @@ export default {
       formattedLocations: [],
       formattedEvents: [],
       switcherOption: [
-        { id: 'map', value: this.$nuxt.$t('map') },
         { id: 'calendar', value: this.$nuxt.$t('calendar') },
+        { id: 'map', value: this.$nuxt.$t('map') },
       ],
       switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
