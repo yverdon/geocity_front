@@ -94,10 +94,10 @@ export default {
       formattedLocations: [],
       formattedEvents: [],
       switcherOption: [
-        { id: 'map', value: this.$nuxt.$t('map') },
         { id: 'calendar', value: this.$nuxt.$t('calendar') },
+        { id: 'map', value: this.$nuxt.$t('map') },
       ],
-      switcherSelected: 'map',
+      switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
       datesQuery: [subYears(new Date(), 1), addYears(new Date(), 1)],

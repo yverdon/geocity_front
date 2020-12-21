@@ -2,7 +2,7 @@
 const fr = require('./locales/fr.json')
 
 export default {
-  mode: 'spa',
+  ssr: false,
   head: {
     title: 'Espace Public',
     meta: [
@@ -13,6 +13,13 @@ export default {
         name: 'description',
         content:
           "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune. Vous y trouverez des informations sur divers événements qui auront lieu prochainement et qui pourront vous intéresser dans l'organisation de votre vie quotidienne.",
+      },
+    ],
+    link: [
+      {
+        rel: 'manifest',
+        type: 'application/manifest+json',
+        href: 'manifest.json',
       },
     ],
   },
@@ -47,6 +54,7 @@ export default {
     'nuxt-vue-select',
     'nuxt-i18n',
     '@nuxtjs/svg-sprite',
+    '@nuxtjs/pwa',
   ],
   build: {
     transpile: ['vuelayers', '/@fullcalendar.*/'],
@@ -62,6 +70,25 @@ export default {
       messages: {
         fr,
       },
+    },
+  },
+  pwa: {
+    manifest: {
+      name: 'Geocity',
+      lang: 'fr',
+      description: 'Geocity PWA',
+      publicPath: 'https://geocity.mapnv.ch/geocalendar/',
+      start_url: 'https://geocity.mapnv.ch/geocalendar/',
+      display: 'fullscreen',
+      prefer_related_applications: false,
+      theme_color: '#008c6f',
+      icons: [
+        {
+          src: 'logo-pwa.png',
+          type: 'image/png',
+          sizes: '512x512',
+        },
+      ],
     },
   },
 }
