@@ -64,7 +64,7 @@ export default {
 
   data() {
     return {
-      view: 'map',
+      view: 'calendar',
     }
   },
 
