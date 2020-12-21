@@ -15,7 +15,13 @@ export default {
           "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune. Vous y trouverez des informations sur divers événements qui auront lieu prochainement et qui pourront vous intéresser dans l'organisation de votre vie quotidienne.",
       },
     ],
-    link: [{ rel: 'manifest', type: 'application/manifest+json', href: 'manifest.json' }]
+    link: [
+      {
+        rel: 'manifest',
+        type: 'application/manifest+json',
+        href: 'manifest.json',
+      },
+    ],
   },
   router: {
     base:
@@ -66,27 +72,22 @@ export default {
       },
     },
   },
-  pwa:  {
+  pwa: {
     manifest: {
       name: 'Geocity',
       lang: 'fr',
       description: 'Geocity PWA',
-      publicPath: 'https://geocity.mapnv.ch/geocalendar/', 
+      publicPath: 'https://geocity.mapnv.ch/geocalendar/',
       start_url: 'https://geocity.mapnv.ch/geocalendar/',
       display: 'fullscreen',
       prefer_related_applications: false,
       theme_color: '#008c6f',
       icons: [
         {
-          src: "icons-192.png",
-          type: "image/png",
-          sizes: "192x192"
+          src: 'logo-pwa.png',
+          type: 'image/png',
+          sizes: '512x512',
         },
-        {
-          src: "icons-512.png",
-          type: "image/png",
-          sizes: "512x512"
-        }
       ],
     },
   },
