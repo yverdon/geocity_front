@@ -41,6 +41,18 @@
         >
       </li>
     </ul>
+
+    <section
+      v-if="name === 'calendar-modal'"
+      class="flex flex-col items-center mt-6"
+    >
+      <button
+        class="btn btn--secondary"
+        @click="$emit('modal-trigger-map', content.feature)"
+      >
+        {{ $t('see-on-map') }}
+      </button>
+    </section>
   </vue-modal>
 </template>
 

@@ -87,6 +87,10 @@ export default {
       default: () => [],
       required: true,
     },
+    view: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
@@ -97,11 +101,16 @@ export default {
         { id: 'calendar', value: this.$nuxt.$t('calendar') },
         { id: 'map', value: this.$nuxt.$t('map') },
       ],
-      switcherSelected: 'calendar',
       switcherGroupName: 'toggle-views',
       typeQuery: [],
       datesQuery: [subYears(new Date(), 1), addYears(new Date(), 1)],
     }
+  },
+
+  computed: {
+    switcherSelected() {
+      return this.view
+    },
   },
 
   mounted() {
@@ -140,7 +149,6 @@ export default {
     },
 
     toggleSwitcher(selected) {
-      this.switcherSelected = selected
       this.$emit('toggle', selected)
     },
 

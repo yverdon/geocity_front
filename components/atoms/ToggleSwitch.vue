@@ -9,7 +9,7 @@
         class="w-1/2 inline-block relative cursor-pointer"
       >
         <span
-          :class="{ 'bg-brand text-negative': option.id === defaultSelected }"
+          :class="{ 'bg-brand text-negative': option.id === selected }"
           class="flex items-center h-8 rounded cursor-pointer"
         >
           <label :for="option.id" class="w-full text-center cursor-pointer">
@@ -55,18 +55,16 @@ export default {
   data() {
     return {
       defaultOptions: this.options,
-      defaultSelected: this.selected,
     }
   },
 
   methods: {
     toggle(e) {
-      this.defaultSelected = e.target.id
       this.$emit('toggle', e.target.id)
     },
 
     isChecked(option) {
-      return option === this.defaultSelected
+      return option === this.selected
     },
   },
 }

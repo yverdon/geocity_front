@@ -4,7 +4,11 @@
       <FullCalendar :options="calendarOptions" />
     </div>
 
-    <Modal :name="'calendar-modal'" :content="modalContent" />
+    <Modal
+      :name="'calendar-modal'"
+      :content="modalContent"
+      @modal-trigger-map="modalTrigger"
+    />
   </div>
 </template>
 
@@ -59,6 +63,10 @@ export default {
   },
 
   methods: {
+    modalTrigger(feature) {
+      this.$emit('calendar-trigger-map', feature)
+    },
+
     formatFeatures(features) {
       this.calendarOptions.events = []
       features.forEach((feature) => {
@@ -68,6 +76,7 @@ export default {
           externalLink: feature.properties.external_link,
           start: feature.properties.starts_at,
           end: feature.properties.ends_at,
+          feature,
         })
       })
     },
@@ -99,6 +108,7 @@ export default {
         title: info.event.title,
         comment: info.event.extendedProps.comment,
         link: info.event.extendedProps.externalLink,
+        feature: info.event.extendedProps.feature,
         start: info.event.start,
         end: info.event.end,
       }
@@ -152,7 +162,8 @@ export default {
 
 .fc .fc-list-event td,
 .fc-h-event .fc-event-title-container,
-.fc-v-event .fc-event-title-container {
+.fc-v-event .fc-event-title-container,
+.fc-daygrid-dot-event .fc-event-title {
   @apply cursor-pointer;
 }
 

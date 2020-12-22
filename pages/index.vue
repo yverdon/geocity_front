@@ -7,13 +7,19 @@
       <Strainer
         :events="events"
         :locations="locations"
+        :view="view"
         @tracking="trackingFilter"
         @zoom="locationFilter"
         @filter-query="filter"
         @toggle="view = $event"
       />
       <Map v-if="view === 'map'" ref="map" :events="events" />
-      <Calendar v-else ref="calendar" :events="events" />
+      <Calendar
+        v-else
+        ref="calendar"
+        :events="events"
+        @calendar-trigger-map="triggerMapFromModalCalendar"
+      />
     </div>
   </div>
 </template>
@@ -79,6 +85,18 @@ export default {
 
     locationFilter(location) {
       this.$refs.map.zoomToCoordinates(location)
+    },
+
+    triggerMapFromModalCalendar(feature) {
+      this.view = 'map'
+
+      // Add setTimeout otherwise the $refs.map was not define,
+      // TODO: refactor the way how we set the center position
+      // with something like that : feature.getGeometry().
+      setTimeout(() => {
+        this.$refs.map.center = feature.geometry.geometries[0].coordinates[0]
+        this.$refs.map.zoomDefault = 10
+      }, 10)
     },
 
     filter(query) {
