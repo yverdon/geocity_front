@@ -77,8 +77,6 @@ export default {
       name: 'Geocity',
       lang: 'fr',
       description: 'Geocity PWA',
-      publicPath: 'https://geocity.mapnv.ch/geocalendar/',
-      start_url: 'https://geocity.mapnv.ch/geocalendar/',
       display: 'fullscreen',
       prefer_related_applications: false,
       theme_color: '#008c6f',
