@@ -1,5 +1,5 @@
-import fr from './locales/fr.json'
 import { defineNuxtConfig } from '@nuxt/bridge'
+import fr from './locales/fr.json'
 
 export default defineNuxtConfig({
   ssr: false,

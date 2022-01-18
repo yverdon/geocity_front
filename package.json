@@ -10,8 +10,9 @@
     "start": "nuxi preview",
     "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
     "release": "release-it",
-    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint": "yarn lint:js"
+    "eslint": "eslint --ext .js,.vue",
+    "eslint:fix": "eslint --ext .js,.vue --fix",
+    "format": "yarn eslint:fix"
   },
   "dependencies": {
     "@fullcalendar/interaction": "^5.10.1",

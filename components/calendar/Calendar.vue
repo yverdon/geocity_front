@@ -96,6 +96,7 @@ export default {
         return
       }
 
+      // eslint-disable-next-line array-callback-return
       this.events.features.filter((feature) => {
         if (feature.properties.permit_request.meta_types[0] === query.type[0]) {
           filterdFeatures.push(feature)
