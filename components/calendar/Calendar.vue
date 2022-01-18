@@ -13,13 +13,14 @@
 </template>
 
 <script>
-import Modal from '@/components/atoms/Modal'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import fr from '@fullcalendar/core/locales/fr'
+
+import Modal from '@/components/atoms/Modal'
 
 export default {
   name: 'Calendar',

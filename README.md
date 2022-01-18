@@ -9,6 +9,10 @@ In order to build the project you'll need _yarn_ and _nodejs_ installed
 Please refer to https://classic.yarnpkg.com/en/docs/install
 On windows, install chocolately when asked to
 
+### Node version
+
+If you have `nvm` installed on your system, you can simply `nvm use` in the root directory to pick up the correct version provided in the `.nvmrc` file.
+
 ## Build Setup & Developpment
 
 ```bash
