@@ -109,8 +109,9 @@ export default {
     modalContent() {
       if (this.selectedFeature.length) {
         return {
-          title: this.selectedFeature[0].properties.permit_request
-            .administrative_entity.name,
+          title:
+            this.selectedFeature[0].properties.permit_request
+              .administrative_entity.name,
           comment: this.selectedFeature[0].properties.comment,
           link: this.selectedFeature[0].properties.external_link,
           start: this.selectedFeature[0].properties.starts_at,
@@ -247,9 +248,10 @@ export default {
     styleFuncFactory() {
       return (feature) => {
         if (feature.getProperties().permit_request.meta_types) {
-          const typeStyle = this.events.type[
-            feature.getProperties().permit_request.meta_types[0]
-          ]
+          const typeStyle =
+            this.events.type[
+              feature.getProperties().permit_request.meta_types[0]
+            ]
           const genericStyle = this.map.$createStyle(pointer(typeStyle))
           const polygonFillStyle = this.map.$createStyle({
             fillColor: fill(typeStyle),
@@ -279,9 +281,10 @@ export default {
         pixel,
         function (feature) {
           if (feature.getProperties().permit_request.meta_types) {
-            const typeStyle = this.events.type[
-              feature.getProperties().permit_request.meta_types[0]
-            ]
+            const typeStyle =
+              this.events.type[
+                feature.getProperties().permit_request.meta_types[0]
+              ]
             const hoverStyle = this.map.$createStyle(pointer(typeStyle, true))
             const polygonFillStyle = this.map.$createStyle({
               fillColor: fill(typeStyle, true),

@@ -13,13 +13,14 @@
 </template>
 
 <script>
-import Modal from '@/components/atoms/Modal'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import fr from '@fullcalendar/core/locales/fr'
+
+import Modal from '@/components/atoms/Modal'
 
 export default {
   name: 'Calendar',
@@ -95,6 +96,7 @@ export default {
         return
       }
 
+      // eslint-disable-next-line array-callback-return
       this.events.features.filter((feature) => {
         if (feature.properties.permit_request.meta_types[0] === query.type[0]) {
           filterdFeatures.push(feature)

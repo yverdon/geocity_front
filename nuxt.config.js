@@ -1,8 +1,9 @@
-/* eslint-disable nuxt/no-cjs-in-config */
-const fr = require('./locales/fr.json')
+import { defineNuxtConfig } from '@nuxt/bridge'
+import fr from './locales/fr.json'
 
-export default {
+export default defineNuxtConfig({
   ssr: false,
+  bridge: false,
   head: {
     title: 'Espace Public',
     meta: [
@@ -89,4 +90,4 @@ export default {
       ],
     },
   },
-}
+})

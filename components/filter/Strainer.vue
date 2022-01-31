@@ -69,7 +69,7 @@ import ToggleSwitch from '@/components/atoms/ToggleSwitch'
 export default {
   name: 'Strainer',
 
-  compoennts: {
+  components: {
     SelectField,
     ToggleGeoLocation,
     DatePicker,
