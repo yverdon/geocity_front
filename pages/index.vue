@@ -91,11 +91,14 @@ export default {
       this.view = 'map'
 
       // Add setTimeout otherwise the $refs.map was not define,
-      // TODO: refactor the way how we set the center position
-      // with something like that : feature.getGeometry().
       setTimeout(() => {
-        this.$refs.map.center = feature.geometry.geometries[0].coordinates[0]
-        this.$refs.map.zoomDefault = 10
+        if (feature.bbox) {
+          this.$refs.map.center = [
+            feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
+            feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2,
+          ]
+        }
+        this.$refs.map.zoomDefault = 12
       }, 10)
     },
 
