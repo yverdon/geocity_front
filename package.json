@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxt generate",
+    "generate": "nuxi generate",
     "start": "nuxi preview",
     "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
     "release": "release-it",
@@ -42,6 +42,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "release-it": "^14.12.3"
   }

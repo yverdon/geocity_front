@@ -2,6 +2,7 @@ import { defineNuxtConfig } from '@nuxt/bridge'
 import fr from './locales/fr.json'
 
 export default defineNuxtConfig({
+  target: 'static',
   ssr: false,
   bridge: false,
   head: {
@@ -81,13 +82,10 @@ export default defineNuxtConfig({
       display: 'fullscreen',
       prefer_related_applications: false,
       theme_color: '#008c6f',
-      icons: [
-        {
-          src: 'logo-pwa.png',
-          type: 'image/png',
-          sizes: '512x512',
-        },
-      ],
+    },
+    icon: {
+      fileName: 'logo-pwa.png',
+      sizes: [512],
     },
   },
 })
