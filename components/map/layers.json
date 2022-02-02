@@ -1,16 +1,10 @@
 [
   {
-    "name": "Sputnik Maps",
-    "type": "sputnik",
-    "title": "Sputnik Maps",
-    "visible": false
-  },
-  {
     "name": "asit-vd-1",
     "type": "wmts",
     "title": "Cadastre",
     "visible": true,
-    "layerName": "asitvd.fond_cadastral",
+    "layerName": "asitvd.fond_gris",
     "matrixSet": "2056",
     "style": "default",
     "url": "https://ows.asitvd.ch/wmts/",
