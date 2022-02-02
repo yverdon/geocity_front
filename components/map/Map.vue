@@ -247,17 +247,27 @@ export default {
      */
     styleFuncFactory() {
       return (feature) => {
+        let typeStyle = this.events.type[0]
         if (feature.getProperties().permit_request.meta_types) {
-          const typeStyle =
-            this.events.type[
-              feature.getProperties().permit_request.meta_types[0]
-            ]
+          /* Specific style is only applied when on single meta_type is defined */
+          if (feature.getProperties().permit_request.meta_types.length === 1) {
+            typeStyle =
+              this.events.type[
+                feature.getProperties().permit_request.meta_types[0]
+              ]
+          }
           const genericStyle = this.map.$createStyle(pointer(typeStyle))
           const polygonFillStyle = this.map.$createStyle({
             fillColor: fill(typeStyle),
           })
           const markers = this.map.$createStyle(mapMarker(typeStyle))
-
+          return [polygonFillStyle, genericStyle, markers]
+        } else {
+          const genericStyle = this.map.$createStyle(pointer(typeStyle))
+          const polygonFillStyle = this.map.$createStyle({
+            fillColor: fill(typeStyle),
+          })
+          const markers = this.map.$createStyle(mapMarker(typeStyle))
           return [polygonFillStyle, genericStyle, markers]
         }
       }

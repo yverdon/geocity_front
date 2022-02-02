@@ -70,7 +70,7 @@ export default {
 
   data() {
     return {
-      view: 'calendar',
+      view: process.env.DEFAULT_VIEW,
     }
   },
 
