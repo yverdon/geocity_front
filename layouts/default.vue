@@ -11,9 +11,7 @@ import Header from '@/components/layers/Header.vue'
 import Footer from '@/components/layers/Footer.vue'
 
 export default {
-  components: {
-    Header,
-    Footer,
-  },
+  components:
+    process.env.SHOW_FOOTER_AND_HEADER === 'true' ? { Header, Footer } : {},
 }
 </script>
