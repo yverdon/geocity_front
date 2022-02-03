@@ -72,7 +72,10 @@ export default {
       this.calendarOptions.events = []
       features.forEach((feature) => {
         this.calendarOptions.events.push({
-          title: feature.properties.permit_request.administrative_entity.name,
+          title:
+            feature.properties.permit_request.shortname === ''
+              ? feature.properties.permit_request.administrative_entity.name
+              : feature.properties.permit_request.shortname,
           comment: feature.properties.comment,
           externalLink: feature.properties.external_link,
           start: feature.properties.starts_at,

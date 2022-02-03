@@ -110,8 +110,10 @@ export default {
       if (this.selectedFeature.length) {
         return {
           title:
-            this.selectedFeature[0].properties.permit_request
-              .administrative_entity.name,
+            this.selectedFeature[0].properties.permit_request.shortname === ''
+              ? this.selectedFeature[0].properties.permit_request
+                  .administrative_entity.name
+              : this.selectedFeature[0].properties.permit_request.shortname,
           comment: this.selectedFeature[0].properties.comment,
           link: this.selectedFeature[0].properties.external_link,
           start: this.selectedFeature[0].properties.starts_at,
