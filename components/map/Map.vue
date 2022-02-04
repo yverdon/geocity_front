@@ -293,10 +293,16 @@ export default {
         pixel,
         function (feature) {
           if (feature.getProperties().permit_request.meta_types) {
-            const typeStyle =
-              this.events.type[
-                feature.getProperties().permit_request.meta_types[0]
-              ]
+            let typeStyle = this.events.type[0]
+            if (
+              feature.getProperties().permit_request.meta_types.length === 1
+            ) {
+              typeStyle =
+                this.events.type[
+                  feature.getProperties().permit_request.meta_types[0]
+                ]
+            }
+
             const hoverStyle = this.map.$createStyle(pointer(typeStyle, true))
             const polygonFillStyle = this.map.$createStyle({
               fillColor: fill(typeStyle, true),
