@@ -51,11 +51,16 @@ export default {
         ? parseISO(process.env.GEOCITY_API_EVENTS_END)
         : addYears(new Date(), 1)
 
+    const adminentities =
+      process.env.GEOCITY_API_ADMINENTITIES.length > 0
+        ? `&adminentities=${process.env.GEOCITY_API_ADMINENTITIES}`
+        : ''
+
     const events = await $axios.get(
       `${process.env.GEOCITY_API}?starts_at=${format(
         start,
         'yyyy-MM-dd'
-      )}&ends_at=${format(end, 'yyyy-MM-dd')}`
+      )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}`
     )
     const locations = await $axios.get(process.env.LOCATION_API)
 

@@ -1,0 +1,10 @@
+# Main app for https://geocity.ch/app
+PRODUCTION_PATH=/app
+LOCATION_API=
+GEOCITY_API=https://geocity.ch/rest/events/
+GEOCITY_API_EVENTS_START=2022-01-01
+GEOCITY_API_EVENTS_END=2030-12-01
+GEOCITY_API_ADMINENTITIES=
+CTA_LINK=https://geocity.ch
+DEFAULT_VIEW='map'
+SHOW_FOOTER_AND_HEADER=true
