@@ -47,7 +47,7 @@ The `.env` file should contains:
 The location API
 
 ```bash
-LOCATION_API=https://api3.geo.admin.ch
+LOCATION_API=https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=yverdon-les-bains&type=locations
 ```
 
 The main GeoCity API
