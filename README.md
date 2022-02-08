@@ -77,6 +77,13 @@ GEOCITY_API_EVENTS_END=2022-12-01
 CTA_LINK=
 ```
 
+:earth_africa: / :calendar:
+
+Choose the default view, value can be 'calendar' or 'map'
+```bash
+DEFAULT_VIEW='calendar'
+```
+
 ## Release
 
 The `CHANGELOG.md` file is automatically update at the root of the project based on the commit messages as long as they follow the [Angular commit guidelines](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines). It will also bump the version number in the `package.json`, run the generate command above, commit, tag and push the changes. This process is interactive and you’ll be able to skip steps manually if you like.
