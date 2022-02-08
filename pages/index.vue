@@ -56,11 +56,16 @@ export default {
         ? `&adminentities=${process.env.GEOCITY_API_ADMINENTITIES}`
         : ''
 
+    const showonlyfuture =
+      process.env.GEOCITY_API_SHOW_ONLY_FUTURE > length > 0
+        ? `&show_only_future=${process.env.GEOCITY_API_SHOW_ONLY_FUTURE}`
+        : ''
+
     const events = await $axios.get(
       `${process.env.GEOCITY_API}?starts_at=${format(
         start,
         'yyyy-MM-dd'
-      )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}`
+      )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}${showonlyfuture}`
     )
     const locations = await $axios.get(process.env.LOCATION_API)
 
