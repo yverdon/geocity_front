@@ -120,4 +120,4 @@ yarn deploy
 
 🚨 Notice the `--delete` flag which means all files not present locally will be deleted on the remote server. Be careful, this can leads to data loss!
 
-🚨 Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/master/env.demo#L30
+🚨 Make sure that the static server file is listed in the ALLOWED_CORS environment variable in the backend config https://github.com/yverdon/geocity/blob/main/env.demo#L45
