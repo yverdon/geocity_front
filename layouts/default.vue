@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col min-h-screen">
-    <Header class="container mx-auto px-4" />
+    <Header v-if="isLayoutDisplay" class="container mx-auto px-4" />
     <Nuxt />
-    <Footer class="container mx-auto px-4" />
+    <Footer v-if="isLayoutDisplay" class="container mx-auto px-4" />
   </div>
 </template>
 
@@ -11,7 +11,15 @@ import Header from '@/components/layers/Header.vue'
 import Footer from '@/components/layers/Footer.vue'
 
 export default {
-  components:
-    process.env.SHOW_FOOTER_AND_HEADER === 'true' ? { Header, Footer } : {},
+  components: {
+    Header,
+    Footer,
+  },
+
+  data() {
+    return {
+      isLayoutDisplay: process.env.DISPLAY_FOOTER_AND_HEADER === 'true',
+    }
+  },
 }
 </script>

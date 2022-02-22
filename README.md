@@ -31,6 +31,8 @@ $ yarn dev
 $ yarn generate
 ```
 
+Additionnal configuration examples for deployment are availables under /deploy_configurations
+
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 ## Configuration file
@@ -69,7 +71,7 @@ PRODUCTION_PATH=/your-custom-path/
 ```bash
 GEOCITY_API_EVENTS_START=2020-01-01
 GEOCITY_API_EVENTS_END=2050-12-01
-GEOCITY_API_ADMINENTITIES=34
+GEOCITY_API_ADMINISTRATIVE_ENTITES=3
 GEOCITY_API_SHOW_ONLY_FUTURE=true
 ```
 

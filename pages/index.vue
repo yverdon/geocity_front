@@ -1,7 +1,10 @@
 <template>
   <div
-    :class="{ 'bg-gray-200 animate-pulse': isLoading }"
-    class="flex-grow lg:mt-12 py-6 lg:py-12 bg-gray-100"
+    :class="{
+      'bg-gray-200 animate-pulse': isLoading,
+      'lg:mt-12': isLayoutDisplay,
+    }"
+    class="flex-grow py-6 lg:py-12 bg-gray-100"
   >
     <div v-if="!isLoading">
       <Strainer
@@ -52,12 +55,12 @@ export default {
         : addYears(new Date(), 1)
 
     const adminentities =
-      process.env.GEOCITY_API_ADMINENTITIES.length > 0
-        ? `&adminentities=${process.env.GEOCITY_API_ADMINENTITIES}`
+      process.env.GEOCITY_API_ADMINISTRATIVE_ENTITES.length > 0
+        ? `&adminentities=${process.env.GEOCITY_API_ADMINISTRATIVE_ENTITES}`
         : ''
 
     const showonlyfuture =
-      process.env.GEOCITY_API_SHOW_ONLY_FUTURE > length > 0
+      process.env.GEOCITY_API_SHOW_ONLY_FUTURE.length > 0
         ? `&show_only_future=${process.env.GEOCITY_API_SHOW_ONLY_FUTURE}`
         : ''
 
@@ -81,6 +84,7 @@ export default {
   data() {
     return {
       view: process.env.DEFAULT_VIEW,
+      isLayoutDisplay: process.env.DISPLAY_FOOTER_AND_HEADER === 'true',
     }
   },
 
