@@ -182,7 +182,7 @@ export default {
     zoomToCoordinates(location) {
       if (location) {
         this.center = [location.attrs.y, location.attrs.x]
-        this.zoomDefault = 10
+        this.zoomDefault = 12
       } else {
         this.center = [2538236.1400353624, 1180746.4827439308]
         this.zoomDefault = 8

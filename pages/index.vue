@@ -1,7 +1,10 @@
 <template>
   <div
-    :class="{ 'bg-gray-200 animate-pulse': isLoading }"
-    class="flex-grow lg:mt-12 py-6 lg:py-12 bg-gray-100"
+    :class="{
+      'bg-gray-200 animate-pulse': isLoading,
+      'lg:mt-12': isLayoutDisplay,
+    }"
+    class="flex-grow py-6 lg:py-12 bg-gray-100"
   >
     <div v-if="!isLoading">
       <Strainer
@@ -51,11 +54,21 @@ export default {
         ? parseISO(process.env.GEOCITY_API_EVENTS_END)
         : addYears(new Date(), 1)
 
+    const adminentities =
+      process.env.GEOCITY_API_ADMINISTRATIVE_ENTITES.length > 0
+        ? `&adminentities=${process.env.GEOCITY_API_ADMINISTRATIVE_ENTITES}`
+        : ''
+
+    const showonlyfuture =
+      process.env.GEOCITY_API_SHOW_ONLY_FUTURE.length > 0
+        ? `&show_only_future=${process.env.GEOCITY_API_SHOW_ONLY_FUTURE}`
+        : ''
+
     const events = await $axios.get(
       `${process.env.GEOCITY_API}?starts_at=${format(
         start,
         'yyyy-MM-dd'
-      )}&ends_at=${format(end, 'yyyy-MM-dd')}`
+      )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}${showonlyfuture}`
     )
     const locations = await $axios.get(process.env.LOCATION_API)
 
@@ -71,6 +84,7 @@ export default {
   data() {
     return {
       view: process.env.DEFAULT_VIEW,
+      isLayoutDisplay: process.env.DISPLAY_FOOTER_AND_HEADER === 'true',
     }
   },
 
