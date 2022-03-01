@@ -47,10 +47,10 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek',
+          right: 'timeGridDay,timeGridWeek,dayGridMonth,listMonth',
         },
         eventClick: this.handleEventClick,
-        initialView: window.innerWidth >= 1024 ? 'dayGridMonth' : 'listWeek',
+        initialView: 'listMonth',
         locale: fr,
         initialEvents: [],
         events: [],
