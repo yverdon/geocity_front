@@ -31,8 +31,6 @@ $ yarn dev
 $ yarn generate
 ```
 
-Additionnal configuration examples for deployment are availables under /deploy_configurations
-
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 ## Configuration file
@@ -42,7 +40,9 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 $ cp .env.example .env
 ```
 
-The `.env` file should contains:
+Additionnal configuration examples for deployment are availables under ```/deploy_configurations```
+
+The `.env` file must contain:
 
 🚨 Mandatory API URLs
 
@@ -68,11 +68,27 @@ PRODUCTION_PATH=/your-custom-path/
 
 🔍 Filtering events from GeoCity API
 
+:date: First event date
+
 ```bash
 GEOCITY_API_EVENTS_START=2020-01-01
+```
+
+:date: Last event date
+
+```bash
 GEOCITY_API_EVENTS_END=2050-12-01
-GEOCITY_API_ADMINISTRATIVE_ENTITES=3
+```
+
+:date: Only display events that occure in the future
+
+```bash
 GEOCITY_API_SHOW_ONLY_FUTURE=true
+```
+
+:office: Community / City / Office for which events are displayed
+```bash
+GEOCITY_API_ADMINISTRATIVE_ENTITES=3
 ```
 
 🔗 Link to the Django app login page
@@ -86,6 +102,11 @@ CTA_LINK=
 Choose the default view, value can be 'calendar' or 'map'
 ```bash
 DEFAULT_VIEW='calendar'
+```
+
+:eyes: Show or hide the header and footer
+```bash
+DISPLAY_FOOTER_AND_HEADER=true
 ```
 
 ## Release
