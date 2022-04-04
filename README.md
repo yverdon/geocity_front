@@ -35,6 +35,8 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## Configuration file
 
+Additionnal configuration examples for deployment are availables under `/deploy_configurations`
+
 ```bash
 # Create your env. file
 $ cp .env.example .env
