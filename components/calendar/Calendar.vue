@@ -50,7 +50,12 @@ export default {
           right: 'timeGridDay,timeGridWeek,dayGridMonth,listMonth',
         },
         eventClick: this.handleEventClick,
-        initialView: 'listMonth',
+        initialView:
+          process.env.DEFAULT_CALENDAR_MODE !== 'default'
+            ? process.env.DEFAULT_CALENDAR_MODE
+            : window.innerWidth >= 1024
+            ? 'dayGridMonth'
+            : 'listWeek',
         locale: fr,
         initialEvents: [],
         events: [],

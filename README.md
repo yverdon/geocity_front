@@ -89,6 +89,7 @@ GEOCITY_API_SHOW_ONLY_FUTURE=true
 ```
 
 :office: Community / City / Office for which events are displayed
+
 ```bash
 GEOCITY_API_ADMINISTRATIVE_ENTITES=3
 ```
@@ -99,9 +100,7 @@ GEOCITY_API_ADMINISTRATIVE_ENTITES=3
 CTA_LINK=
 ```
 
-:earth_africa: / :calendar:
-
-Choose the default view, value can be 'calendar' or 'map'
+:earth_africa: / :calendar: Choose the default view, value can be 'calendar' or 'map'
 ```bash
 DEFAULT_VIEW='calendar'
 ```
@@ -109,6 +108,12 @@ DEFAULT_VIEW='calendar'
 :eyes: Show or hide the header and footer
 ```bash
 DISPLAY_FOOTER_AND_HEADER=true
+```
+
+:calendar: Choose the default calendar visualisation mode.
+Value can be : 'default', timeGridDay', 'timeGridWeek', 'dayGridMonth', 'listMonth'.
+```bash
+DEFAULT_CALENDAR_MODE='default'
 ```
 
 ## Release
