@@ -42,6 +42,9 @@ export default defineNuxtConfig({
     {
       src: '@/plugins/vue-js-modal.js',
     },
+    {
+      src: '@/plugins/floating-vue.js',
+    },
   ],
   components: true,
   buildModules: [

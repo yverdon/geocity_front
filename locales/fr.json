@@ -18,5 +18,6 @@
   "calendar": "Calendrier",
   "tracking-toggle": "Active geolocation",
   "clear-date-selection": "Supprimer dates sélection",
-  "see-on-map": "Voir sur la carte"
+  "see-on-map": "Voir sur la carte",
+  "logout": "Déconnexion"
 }
