@@ -5,9 +5,7 @@
   "description": "Public space is the point of access to information on the activities planned on the territory of your municipality",
   "scripts": {
     "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate",
-    "start": "nuxi preview",
+    "build": "nuxi generate",
     "deploy": "rsync -e 'ssh -p PORT' -avzP --delete --exclude='.*' dist/ USERNAME@SERVER",
     "release": "release-it",
     "eslint": "eslint --ext .js,.vue",
@@ -43,8 +41,12 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "msw": "^0.39.2",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "release-it": "^14.12.3"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

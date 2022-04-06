@@ -83,7 +83,7 @@ export default {
       events: eventWithType,
       locations: locations.data.results,
       isLoading: true,
-      user: user.data[0],
+      user: user.data,
     }
   },
 

@@ -45,6 +45,10 @@ export default defineNuxtConfig({
     {
       src: '@/plugins/floating-vue.js',
     },
+    {
+      src: '@/plugins/msw.js',
+      mode: 'client',
+    },
   ],
   components: true,
   buildModules: [

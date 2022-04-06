@@ -28,10 +28,14 @@ $ yarn install
 $ yarn dev
 
 # generate static project
-$ yarn generate
+$ yarn build
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Mock Service Worker
+
+To enable MSW change the value of your env. variable `MSW` to 'enable'
 
 ## Configuration file
 
