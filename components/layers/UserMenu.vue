@@ -29,7 +29,7 @@ export default {
 
   computed: {
     setLogoutLink() {
-      return `${process.env.CTA_LINK}/account/logout`
+      return `${process.env.CTA_LINK}/account/logout/?next=${process.env.PRODUCTION_PATH}`
     },
   },
 }
