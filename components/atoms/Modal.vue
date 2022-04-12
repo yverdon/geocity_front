@@ -2,8 +2,9 @@
   <vue-modal
     v-if="content"
     adaptive
+    scrollable
     :width="setWidth"
-    :max-width="600"
+    :max-width="850"
     :height="'auto'"
     :name="name"
     @closed="$emit('close')"
@@ -20,26 +21,43 @@
 
     <ul>
       <li v-if="content.start" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('start') }}:</span>
+        <span class="w-80 font-bold pr-2">{{ $t('start') }}:</span>
         {{ $dateFns.format(content.start, 'dd.MM.yyyy') }}
       </li>
       <li v-if="content.end" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('end') }}:</span>
+        <span class="w-80 font-bold pr-2">{{ $t('end') }}:</span>
         {{ $dateFns.format(content.end, 'dd.MM.yyyy') }}
       </li>
       <li v-if="content.comment" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('details') }}:</span>
+        <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
       <li v-if="content.link" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('more') }}:</span>
+        <span class="w-80 font-bold pr-2">{{ $t('more') }}:</span>
         <a
           :href="content.link"
           target="_blank"
           class="text-brand hover:text-brand-dark"
-          >{{ content.link }}</a
         >
+          {{ content.link }}
+        </a>
       </li>
+      <li v-if="content.comment" class="flex py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
+        {{ content.comment }}
+      </li>
+      <template v-if="content.permitsDetails">
+        <li
+          v-for="permitsDetail in Object.entries(content.permitsDetails)"
+          :key="permitsDetail.name"
+          class="flex py-2"
+        >
+          <span class="w-80 font-bold pr-2 flex-none">
+            {{ permitsDetail[0] }} :
+          </span>
+          <p>{{ permitsDetail[1] }}</p>
+        </li>
+      </template>
     </ul>
 
     <section

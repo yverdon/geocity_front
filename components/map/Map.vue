@@ -35,10 +35,7 @@
           </template>
         </vl-geoloc>
 
-        <vl-interaction-select
-          :features.sync="selectedFeature"
-          @select="$modal.show('map-modal')"
-        >
+        <vl-interaction-select @select="handleEventClick">
           <vl-style-func :factory="styleFuncFactory" />
         </vl-interaction-select>
 
@@ -49,11 +46,7 @@
       <ToggleLayers />
     </div>
 
-    <Modal
-      :name="'map-modal'"
-      :content="modalContent"
-      @close="selectedFeature = []"
-    />
+    <Modal :name="'map-modal'" :content="modalContent" />
   </div>
 </template>
 
@@ -99,30 +92,10 @@ export default {
 
       map: [],
       features: [],
-      selectedFeature: [],
       clickCoordinate: [],
       deviceCoordinate: [],
+      modalContent: {},
     }
-  },
-
-  computed: {
-    modalContent() {
-      if (this.selectedFeature.length) {
-        return {
-          title:
-            this.selectedFeature[0].properties.permit_request.shortname === ''
-              ? this.selectedFeature[0].properties.permit_request
-                  .administrative_entity.name
-              : this.selectedFeature[0].properties.permit_request.shortname,
-          comment: this.selectedFeature[0].properties.comment,
-          link: this.selectedFeature[0].properties.external_link,
-          start: this.selectedFeature[0].properties.starts_at,
-          end: this.selectedFeature[0].properties.ends_at,
-        }
-      } else {
-        return {}
-      }
-    },
   },
 
   mounted() {
@@ -315,6 +288,30 @@ export default {
           return true
         }.bind(this)
       )
+    },
+
+    async handleEventClick(feature) {
+      let permitsDetails = {}
+      if (this.$store.state.user.is_logged) {
+        permitsDetails = await this.$store.dispatch(
+          'getPermitsDetails',
+          feature.values_.permit_request.id
+        )
+      }
+
+      this.modalContent = {
+        title:
+          feature.values_.permit_request.shortname === ''
+            ? feature.values_.permit_request.administrative_entity.name
+            : feature.values_.permit_request.shortname,
+        comment: feature.values_.comment,
+        link: feature.values_.external_link,
+        start: feature.values_.starts_at,
+        end: feature.values_.ends_at,
+        permitsDetails: permitsDetails.wot_properties,
+      }
+
+      this.$modal.show('map-modal')
     },
   },
 }

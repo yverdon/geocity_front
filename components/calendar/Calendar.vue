@@ -113,14 +113,22 @@ export default {
       this.formatFeatures(filterdFeatures)
     },
 
-    handleEventClick(info) {
+    async handleEventClick(info) {
+      let permitsDetails = {}
+      if (this.$store.state.user.is_logged) {
+        permitsDetails = await this.$store.dispatch(
+          'getPermitsDetails',
+          info.event.extendedProps.feature.properties.permit_request.id
+        )
+      }
+
       this.modalContent = {
         title: info.event.title,
         comment: info.event.extendedProps.comment,
         link: info.event.extendedProps.externalLink,
-        feature: info.event.extendedProps.feature,
         start: info.event.start,
         end: info.event.end,
+        permitsDetails: permitsDetails.wot_properties,
       }
 
       this.$modal.show('calendar-modal')
