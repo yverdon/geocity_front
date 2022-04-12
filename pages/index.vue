@@ -65,11 +65,16 @@ export default {
         : ''
 
     const events = await $axios.get(
-      `${process.env.GEOCITY_API}?starts_at=${format(
+      `${process.env.GEOCITY_API}/events/?starts_at=${format(
         start,
         'yyyy-MM-dd'
       )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}${showonlyfuture}`
     )
+
+    const user = await $axios.get(`${process.env.GEOCITY_API}/current_user/`, {
+      withCredentials: true,
+    })
+
     const locations = await $axios.get(process.env.LOCATION_API)
 
     const eventWithType = Object.assign(events.data, { type: eventsType })
@@ -78,6 +83,7 @@ export default {
       events: eventWithType,
       locations: locations.data.results,
       isLoading: true,
+      user: user.data,
     }
   },
 
@@ -90,6 +96,7 @@ export default {
 
   mounted() {
     this.isLoading = false
+    this.$store.commit('setUser', this.user)
   },
 
   methods: {
