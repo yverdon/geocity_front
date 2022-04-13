@@ -49,6 +49,10 @@ export default {
           center: 'title',
           right: 'timeGridDay,timeGridWeek,dayGridMonth,listMonth',
         },
+        dayMaxEvents: 0,
+        eventMaxStack: 3,
+        eventDisplay: 'block',
+        eventOrder: 'title,start,-duration,allDay',
         eventClick: this.handleEventClick,
         initialView:
           process.env.DEFAULT_CALENDAR_MODE !== 'default'
