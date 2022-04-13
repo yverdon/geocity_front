@@ -128,7 +128,7 @@ export default {
         link: info.event.extendedProps.externalLink,
         start: info.event.start,
         end: info.event.end,
-        permitsDetails: permitsDetails.wot_properties,
+        permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
       }
 
       this.$modal.show('calendar-modal')

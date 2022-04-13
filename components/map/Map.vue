@@ -308,7 +308,7 @@ export default {
         link: feature.values_.external_link,
         start: feature.values_.starts_at,
         end: feature.values_.ends_at,
-        permitsDetails: permitsDetails.wot_properties,
+        permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
       }
 
       this.$modal.show('map-modal')
