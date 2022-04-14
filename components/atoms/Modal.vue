@@ -1,8 +1,8 @@
 <template>
   <vue-modal
     v-if="content"
-    adaptive
     scrollable
+    adaptive
     :width="setWidth"
     :max-width="850"
     :height="'auto'"
@@ -20,19 +20,19 @@
     </header>
 
     <ul>
-      <li v-if="content.start" class="flex py-2">
+      <li v-if="content.start" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('start') }}:</span>
         {{ $dateFns.format(content.start, 'dd.MM.yyyy') }}
       </li>
-      <li v-if="content.end" class="flex py-2">
+      <li v-if="content.end" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('end') }}:</span>
         {{ $dateFns.format(content.end, 'dd.MM.yyyy') }}
       </li>
-      <li v-if="content.comment" class="flex py-2">
+      <li v-if="content.comment" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
-      <li v-if="content.link" class="flex py-2">
+      <li v-if="content.link" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('more') }}:</span>
         <a
           :href="content.link"
@@ -42,21 +42,28 @@
           {{ content.link }}
         </a>
       </li>
-      <li v-if="content.comment" class="flex py-2">
+      <li v-if="content.comment" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
       <template v-if="content.permitsDetails">
-        <li
-          v-for="permitsDetail in Object.entries(content.permitsDetails)"
-          :key="permitsDetail.name"
-          class="flex py-2"
-        >
-          <span class="w-80 font-bold pr-2 flex-none">
-            {{ permitsDetail[0] }} :
-          </span>
-          <p>{{ permitsDetail[1] }}</p>
-        </li>
+        <template v-for="permitsDetail in content.permitsDetails">
+          <li
+            v-for="(detail, index) in permitsDetail"
+            :key="detail[index]"
+            class="flex flex-col md:flex-row py-2"
+          >
+            <template v-if="detail.key === 'work_object_type'">
+              <p class="text-lead mt-4">{{ detail.value }}</p>
+            </template>
+            <template v-else>
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p>{{ detail.value }}</p>
+            </template>
+          </li>
+        </template>
       </template>
     </ul>
 
@@ -105,7 +112,13 @@ export default {
 </script>
 
 <style lang="postcss">
+.vm--container {
+  @apply mt-4 pb-8;
+  z-index: 10000;
+}
+
 .vm--modal {
+  height: auto !important;
   @apply p-4;
   @apply border-brand border-2;
 }

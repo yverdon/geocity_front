@@ -197,4 +197,11 @@ export default {
     @apply block text-base;
   }
 }
+
+@media (max-width: 800px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 </style>

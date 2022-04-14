@@ -20,17 +20,52 @@ export default [
       return res(
         ctx.json({
           id: 100,
-          wot_properties: {
-            name: "Annuel (résident, taxi A, livraison de denrées périssables, marché, etc…) (Droits d'accès)",
-            "Numéro d'immatriculation du véhicule entrant": 'VD 292150',
-            'Motif précis de la demande': 'Clients taxi',
-            'Adresse du bâtiment desservi':
-              'Rue du Milieu 20, 1400 Yverdon-les-Bains',
-            'Valable dès le': '2021-05-05',
-            'Fréquence accès envisagée': 'Tous les jours et le samedi',
-            'Carte grise du véhicule entrant':
-              'permit_requests_uploads/279/100_70.jpg',
-          },
+          wot_properties: [
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+          ],
         })
       )
     }
@@ -42,17 +77,96 @@ export default [
       return res(
         ctx.json({
           id: 200,
-          wot_properties: {
-            name: 'Permis de fouille (Chantier sur la voie publique)',
-            Description: 'changer rob eau',
-            'Largeur [m]': 1.2,
-            'Longueur [m]': 1.2,
-            'Marquage routier endommagé': false,
-            "Moins de 3m d'un tronc d'arbre ou haie": false,
-            'Sur la chaussée': true,
-            'Sur une surface verte': false,
-            'Sur un trottoir': false,
-          },
+          wot_properties: [
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+            [
+              {
+                key: 'work_object_type',
+                value: "Demande express (Droit d'accès (express))",
+                type: 'text',
+              },
+              {
+                key: 'Nom et prénom du chauffeur',
+                value: 'XXX',
+                type: 'text',
+              },
+              {
+                key: "Numéro d'immatriculation du véhicule entrant",
+                value: 'VD456565',
+                type: 'text',
+              },
+              {
+                key: 'Motif précis de la demande',
+                value: 'Résident',
+                type: 'text',
+              },
+            ],
+          ],
         })
       )
     }
