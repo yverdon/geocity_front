@@ -56,6 +56,36 @@
             <template v-if="detail.key === 'work_object_type'">
               <p class="text-lead mt-4">{{ detail.value }}</p>
             </template>
+            <template v-else-if="detail.type === 'file'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p><a
+                  :href="detail.value"
+                  target="_blank"
+                  class="text-brand hover:text-brand-dark"
+                >
+                {{ detail.name }}
+              </a></p>
+            </template>
+            <template v-else-if="detail.type === 'checkbox'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p v-if="detail.value">Oui <input type="checkbox" class="form-checkbox h-4 w-4" onclick="return false;" checked></p>
+              <p v-else>Non <input type="checkbox" class="form-checkbox h-4 w-4" onclick="return false;"></p>
+            </template>
+            <template v-else-if="detail.type === 'list_multiple'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <ul class="bg-white rounded-lg border border-gray-200 w-96 text-gray-900"><li 
+                v-for="value in detail.value"
+                class="px-6 py-2 border-b border-gray-200 w-full"
+              >
+                {{ value }}
+              </li></ul>
+            </template>
             <template v-else>
               <span class="w-80 font-bold pr-2 flex-none">
                 {{ detail.key }} :
