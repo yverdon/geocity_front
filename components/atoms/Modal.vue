@@ -60,20 +60,22 @@
               <span class="w-80 font-bold pr-2 flex-none">
                 {{ detail.key }} :
               </span>
-              <p><a
-                  :href="detail.value"
+              <p>
+                <svg-icon name="download" class="icon--75" />
+                <a
+                  :href="GetFileLink + detail.value"
                   target="_blank"
                   class="text-brand hover:text-brand-dark"
                 >
-                {{ detail.name }}
+                Télécharger le document
               </a></p>
             </template>
             <template v-else-if="detail.type === 'checkbox'">
               <span class="w-80 font-bold pr-2 flex-none">
                 {{ detail.key }} :
               </span>
-              <p v-if="detail.value">Oui <input type="checkbox" class="form-checkbox h-4 w-4" onclick="return false;" checked></p>
-              <p v-else>Non <input type="checkbox" class="form-checkbox h-4 w-4" onclick="return false;"></p>
+              <p v-if="detail.value"><svg-icon name="circle-check" class="icon--100" /></p>
+              <p v-else><svg-icon name="circle-xmark" class="icon--100" /></p>
             </template>
             <template v-else-if="detail.type === 'list_multiple'">
               <span class="w-80 font-bold pr-2 flex-none">
@@ -129,6 +131,10 @@ export default {
   computed: {
     setWidth() {
       return window.innerWidth - 20
+    },
+
+    GetFileLink() {
+      return `${process.env.CTA_LINK}`
     },
   },
 

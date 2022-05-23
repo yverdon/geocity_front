@@ -86,8 +86,7 @@ export default [
               },
               {
                 key: "File",
-                value: "http://localhost:9095/permit-requests/media/36/",
-                name: "8_9.pdf",
+                value: "/permit-requests/media/36/",
                 type: "file"
               },
               {
@@ -145,8 +144,7 @@ export default [
               },
               {
                 key: "File",
-                value: "http://localhost:9095/permit-requests/media/37/",
-                name: "5_9.pdf",
+                value: "/permit-requests/media/37/",
                 type: "file"
               },
               {
