@@ -64,18 +64,39 @@ export default {
         ? `&show_only_future=${process.env.GEOCITY_API_SHOW_ONLY_FUTURE}`
         : ''
 
-    const events = await $axios.get(
-      `${process.env.GEOCITY_API}/events/?starts_at=${format(
-        start,
-        'yyyy-MM-dd'
-      )}&ends_at=${format(end, 'yyyy-MM-dd')}${adminentities}${showonlyfuture}`
-    )
+    const events = await $axios
+      .get(
+        `${process.env.GEOCITY_API}/events/?starts_at=${format(
+          start,
+          'yyyy-MM-dd'
+        )}&ends_at=${format(
+          end,
+          'yyyy-MM-dd'
+        )}${adminentities}${showonlyfuture}`
+      )
+      .then((response) => response)
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
 
-    const user = await $axios.get(`${process.env.GEOCITY_API}/current_user/`, {
-      withCredentials: true,
-    })
+    const user = await $axios
+      .get(`${process.env.GEOCITY_API}/current_user/`, {
+        withCredentials: true,
+      })
+      .then((response) => response)
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
 
-    const locations = await $axios.get(process.env.LOCATION_API)
+    const locations = await $axios
+      .get(process.env.LOCATION_API)
+      .then((response) => response)
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
 
     const eventWithType = Object.assign(events.data, { type: eventsType })
 

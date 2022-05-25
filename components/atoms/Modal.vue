@@ -1,9 +1,10 @@
 <template>
   <vue-modal
     v-if="content"
+    scrollable
     adaptive
     :width="setWidth"
-    :max-width="600"
+    :max-width="850"
     :height="'auto'"
     :name="name"
     @closed="$emit('close')"
@@ -19,27 +20,83 @@
     </header>
 
     <ul>
-      <li v-if="content.start" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('start') }}:</span>
+      <li v-if="content.start" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('start') }}:</span>
         {{ $dateFns.format(content.start, 'dd.MM.yyyy') }}
       </li>
-      <li v-if="content.end" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('end') }}:</span>
+      <li v-if="content.end" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('end') }}:</span>
         {{ $dateFns.format(content.end, 'dd.MM.yyyy') }}
       </li>
-      <li v-if="content.comment" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('details') }}:</span>
+      <li v-if="content.comment" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
-      <li v-if="content.link" class="flex py-2">
-        <span class="font-bold pr-2">{{ $t('more') }}:</span>
+      <li v-if="content.link" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('more') }}:</span>
         <a
           :href="content.link"
           target="_blank"
           class="text-brand hover:text-brand-dark"
-          >{{ content.link }}</a
         >
+          {{ content.link }}
+        </a>
       </li>
+      <li v-if="content.comment" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
+        {{ content.comment }}
+      </li>
+      <template v-if="content.permitsDetails">
+        <template v-for="permitsDetail in content.permitsDetails">
+          <li
+            v-for="(detail, index) in permitsDetail"
+            :key="detail[index]"
+            class="flex flex-col md:flex-row py-2"
+          >
+            <template v-if="detail.key === 'work_object_type'">
+              <p class="text-lead mt-4">{{ detail.value }}</p>
+            </template>
+            <template v-else-if="detail.type === 'file'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p>
+                <svg-icon name="download" class="icon--75" />
+                <a
+                  :href="GetFileLink + detail.value"
+                  target="_blank"
+                  class="text-brand hover:text-brand-dark"
+                >
+                Télécharger le document
+              </a></p>
+            </template>
+            <template v-else-if="detail.type === 'checkbox'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p v-if="detail.value"><svg-icon name="circle-check" class="icon--100" /></p>
+              <p v-else><svg-icon name="circle-xmark" class="icon--100" /></p>
+            </template>
+            <template v-else-if="detail.type === 'list_multiple'">
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <ul class="bg-white rounded-lg border border-gray-200 w-96 text-gray-900"><li 
+                v-for="value in detail.value"
+                class="px-6 py-2 border-b border-gray-200 w-full"
+              >
+                {{ value }}
+              </li></ul>
+            </template>
+            <template v-else>
+              <span class="w-80 font-bold pr-2 flex-none">
+                {{ detail.key }} :
+              </span>
+              <p>{{ detail.value }}</p>
+            </template>
+          </li>
+        </template>
+      </template>
     </ul>
 
     <section
@@ -75,6 +132,10 @@ export default {
     setWidth() {
       return window.innerWidth - 20
     },
+
+    GetFileLink() {
+      return `${process.env.CTA_LINK}`
+    },
   },
 
   methods: {
@@ -87,7 +148,13 @@ export default {
 </script>
 
 <style lang="postcss">
+.vm--container {
+  @apply mt-4 pb-8;
+  z-index: 10000;
+}
+
 .vm--modal {
+  height: auto !important;
   @apply p-4;
   @apply border-brand border-2;
 }

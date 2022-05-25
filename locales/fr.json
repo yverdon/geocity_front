@@ -19,5 +19,6 @@
   "tracking-toggle": "Active geolocation",
   "clear-date-selection": "Supprimer dates sélection",
   "see-on-map": "Voir sur la carte",
-  "logout": "Déconnexion"
+  "logout": "Déconnexion",
+  "error": "Une erreur, c'est produite veuillez reesayer plus tard"
 }

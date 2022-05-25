@@ -49,6 +49,10 @@ export default {
           center: 'title',
           right: 'timeGridDay,timeGridWeek,dayGridMonth,listMonth',
         },
+        dayMaxEvents: 0,
+        eventMaxStack: 3,
+        eventDisplay: 'block',
+        eventOrder: 'title,start,-duration,allDay',
         eventClick: this.handleEventClick,
         initialView:
           process.env.DEFAULT_CALENDAR_MODE !== 'default'
@@ -113,14 +117,22 @@ export default {
       this.formatFeatures(filterdFeatures)
     },
 
-    handleEventClick(info) {
+    async handleEventClick(info) {
+      let permitsDetails = {}
+      if (this.$store.state.user.is_logged) {
+        permitsDetails = await this.$store.dispatch(
+          'getPermitsDetails',
+          info.event.extendedProps.feature.properties.permit_request.id
+        )
+      }
+
       this.modalContent = {
         title: info.event.title,
         comment: info.event.extendedProps.comment,
         link: info.event.extendedProps.externalLink,
-        feature: info.event.extendedProps.feature,
         start: info.event.start,
         end: info.event.end,
+        permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
       }
 
       this.$modal.show('calendar-modal')
@@ -187,6 +199,13 @@ export default {
 
   .fc .fc-toolbar-title {
     @apply block text-base;
+  }
+}
+
+@media (max-width: 800px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 </style>
