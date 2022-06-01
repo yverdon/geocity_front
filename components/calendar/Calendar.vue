@@ -193,6 +193,7 @@ export default {
   .fc .fc-timeGridDay-button,
   .fc .fc-timeGridWeek-button,
   .fc .fc-dayGridMonth-button,
+  .fc .fc-listMonth-button,
   .fc .fc-listWeek-button {
     @apply hidden;
   }

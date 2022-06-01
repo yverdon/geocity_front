@@ -8,7 +8,7 @@
           class="flex-grow"
           @change="typeFilter($event)"
         />
-        <div
+        <div v-if="hasLocationAPI"
           :class="{
             'hidden md:flex md:items-end': switcherSelected === 'calendar',
             'flex items-end': switcherSelected === 'map',
@@ -20,10 +20,6 @@
             :disabled="switcherSelected === 'map' ? false : true"
             class="flex-grow"
             @change="$emit('zoom', $event)"
-          />
-          <ToggleGeoLocation
-            :disabled="switcherSelected === 'map' ? false : true"
-            @click="$emit('tracking', $event)"
           />
         </div>
       </div>
@@ -40,19 +36,46 @@
             @change="dateFilter($event)"
           />
         </div>
-        <div
+        <div v-if="hasLocationAPI"
           :class="{
-            'mt-8': switcherSelected === 'map',
-            'md:mt-8': switcherSelected === 'calendar',
+            'mt-8 flex': switcherSelected === 'map',
+            'md:mt-8 flex': switcherSelected === 'calendar',
           }"
         >
           <ToggleSwitch
             :options="switcherOption"
             :selected="switcherSelected"
             :group="switcherGroupName"
+            class="flex-grow"
             @toggle="toggleSwitcher"
           />
+          <ToggleGeoLocation
+            :disabled="switcherSelected === 'map' ? false : true"
+            class="flex-none"
+            @click="$emit('tracking', $event)"
+          />
         </div>
+      </div>
+    </section>
+    <section class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
+      <div v-if="hasLocationAPI === false"
+        :class="{
+          'mt-8 flex': switcherSelected === 'map',
+          'md:mt-8 flex': switcherSelected === 'calendar',
+        }"
+      >
+        <ToggleSwitch
+          :options="switcherOption"
+          :selected="switcherSelected"
+          :group="switcherGroupName"
+          class="flex-grow"
+          @toggle="toggleSwitcher"
+        />
+        <ToggleGeoLocation
+          :disabled="switcherSelected === 'map' ? false : true"
+          class="flex-none"
+          @click="$emit('tracking', $event)"
+        />
       </div>
     </section>
   </div>
@@ -110,6 +133,15 @@ export default {
   computed: {
     switcherSelected() {
       return this.view
+    },
+
+    hasLocationAPI() {
+      if (`${process.env.LOCATION_API}`){
+        return true
+      }
+      else {
+        return false
+      }
     },
   },
 
