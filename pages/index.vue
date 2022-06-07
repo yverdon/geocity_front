@@ -90,16 +90,23 @@ export default {
         console.error(error)
       })
 
-    const locations = await $axios
-      .get(process.env.LOCATION_API)
-      .then((response) => response)
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error(error)
-      })
+    let locations = {}
+    if (`${process.env.LOCATION_API}`) {
+      locations = await $axios
+        .get(process.env.LOCATION_API)
+        .then((response) => response)
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error(error)
+        })
+    } else {
+      locations = {
+        data: '',
+        status: 200,
+      }
+    }
 
     const eventWithType = Object.assign(events.data, { type: eventsType })
-
     return {
       events: eventWithType,
       locations: locations.data.results,

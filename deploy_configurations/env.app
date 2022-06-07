@@ -1,7 +1,7 @@
 # Specific for https://geocity.ch/app
 PRODUCTION_PATH=/app
 #Must not be empty
-LOCATION_API=https://api3.geo.admin.ch/
+LOCATION_API=
 GEOCITY_API=https://geocity.ch/rest/
 GEOCITY_API_EVENTS_START=2022-01-01
 GEOCITY_API_EVENTS_END=2030-12-01
