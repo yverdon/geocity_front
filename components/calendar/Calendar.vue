@@ -119,12 +119,10 @@ export default {
 
     async handleEventClick(info) {
       let permitsDetails = {}
-      if (this.$store.state.user.is_logged) {
-        permitsDetails = await this.$store.dispatch(
-          'getPermitsDetails',
-          info.event.extendedProps.feature.properties.permit_request.id
-        )
-      }
+      permitsDetails = await this.$store.dispatch(
+        'getPermitsDetails',
+        info.event.extendedProps.feature.properties.permit_request.id
+      )
 
       this.modalContent = {
         title: info.event.title,
