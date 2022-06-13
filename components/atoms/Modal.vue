@@ -46,6 +46,21 @@
         <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
+      <li v-if="content.current_inquiry_documents" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('Documents') }}:</span>
+        <ul>
+          <li v-for="document in content.current_inquiry_documents">
+            <svg-icon name="download" class="icon--75" />
+            <a
+              :href="document.uri"
+              target="_blank"
+              class="text-brand hover:text-brand-dark"
+            >
+              {{document.name}}
+            </a>
+          </li>
+        </ul>
+      </li>
       <template v-if="content.permitsDetails">
         <template v-for="permitsDetail in content.permitsDetails">
           <li

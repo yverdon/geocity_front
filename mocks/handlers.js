@@ -242,6 +242,24 @@ export default [
                 works_object_types_names: {
                   154: "Yvent - ébauches d'événements (Yvent - ébauches d'événements)",
                 },
+                current_inquiry: {
+                  id: 1,
+                  start_date: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+                  end_date: add(
+                    parseISO(format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")),
+                    { hours: 4 }
+                  ),
+                  documents: [
+                    {
+                      name: 'document_1.pdf',
+                      uri: 'http://localhost:9095/permit-requests/documents/document_1.pdf/download',
+                    },
+                    {
+                      name: 'document_2.pdf',
+                      uri: 'http://localhost:9095/permit-requests/documents/document_2.pdf/download',
+                    }
+                  ]
+                },
               },
               starts_at: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
               ends_at: add(
