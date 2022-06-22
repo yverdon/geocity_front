@@ -131,7 +131,11 @@ export default {
         start: info.event.start,
         end: info.event.end,
         permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
-        current_inquiry_documents: info.event.extendedProps.feature.properties.permit_request.current_inquiry ? info.event.extendedProps.feature.properties.permit_request.current_inquiry.documents : false,
+        current_inquiry_documents: info.event.extendedProps.feature.properties
+          .permit_request.current_inquiry
+          ? info.event.extendedProps.feature.properties.permit_request
+              .current_inquiry.documents
+          : false,
       }
 
       this.$modal.show('calendar-modal')

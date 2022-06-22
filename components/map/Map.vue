@@ -296,7 +296,6 @@ export default {
         'getPermitsDetails',
         feature.values_.permit_request.id
       )
-
       this.modalContent = {
         title:
           feature.values_.permit_request.shortname === ''
@@ -307,6 +306,10 @@ export default {
         start: feature.values_.starts_at,
         end: feature.values_.ends_at,
         permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
+        current_inquiry_documents: feature.values_.permit_request
+          .current_inquiry
+          ? feature.values_.permit_request.current_inquiry.documents
+          : false,
       }
 
       this.$modal.show('map-modal')
