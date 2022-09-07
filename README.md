@@ -61,7 +61,7 @@ LOCATION_API=https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText
 The main GeoCity API
 
 ```bash
-GEOCITY_API=https://form-preprod.mapnv.ch/rest/events/
+GEOCITY_API=https://form-preprod.mapnv.ch/rest
 ```
 
 🚀 For production
