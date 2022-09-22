@@ -142,13 +142,12 @@ export default {
       // Add setTimeout otherwise the $refs.map was not define,
       setTimeout(() => {
         if (feature.bbox) {
-          this.$refs.map.center = [
-            feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
-            feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2,
-          ]
+          this.$refs.map.map.getView().fit(feature.bbox, {
+            duration: 1000,
+            maxZoom: 12,
+          })
         }
-        this.$refs.map.zoomDefault = 12
-      }, 10)
+      }, 1500)
     },
 
     filter(query) {

@@ -136,6 +136,7 @@ export default {
           ? info.event.extendedProps.feature.properties.permit_request
               .current_inquiry.documents
           : false,
+        feature: info.event.extendedProps.feature,
       }
 
       this.$modal.show('calendar-modal')
