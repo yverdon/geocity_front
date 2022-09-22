@@ -8,7 +8,8 @@
           class="flex-grow"
           @change="typeFilter($event)"
         />
-        <div v-if="hasLocationAPI"
+        <div
+          v-if="hasLocationAPI"
           :class="{
             'hidden md:flex md:items-end': switcherSelected === 'calendar',
             'flex items-end': switcherSelected === 'map',
@@ -36,7 +37,8 @@
             @change="dateFilter($event)"
           />
         </div>
-        <div v-if="hasLocationAPI"
+        <div
+          v-if="hasLocationAPI"
           :class="{
             'mt-8 flex': switcherSelected === 'map',
             'md:mt-8 flex': switcherSelected === 'calendar',
@@ -58,7 +60,8 @@
       </div>
     </section>
     <section class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-      <div v-if="hasLocationAPI === false"
+      <div
+        v-if="hasLocationAPI === false"
         :class="{
           'mt-8 flex': switcherSelected === 'map',
           'md:mt-8 flex': switcherSelected === 'calendar',
@@ -136,10 +139,9 @@ export default {
     },
 
     hasLocationAPI() {
-      if (`${process.env.LOCATION_API}`){
+      if (`${process.env.LOCATION_API}`) {
         return true
-      }
-      else {
+      } else {
         return false
       }
     },

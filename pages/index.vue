@@ -63,7 +63,10 @@ export default {
       process.env.GEOCITY_API_SHOW_ONLY_FUTURE.length > 0
         ? `&show_only_future=${process.env.GEOCITY_API_SHOW_ONLY_FUTURE}`
         : ''
-
+    // eslint-disable-next-line no-console
+    console.log(showonlyfuture)
+    // eslint-disable-next-line no-console
+    // console.log(events_start)
     const events = await $axios
       .get(
         `${process.env.GEOCITY_API}/events/?starts_at=${format(
@@ -125,6 +128,13 @@ export default {
   mounted() {
     this.isLoading = false
     this.$store.commit('setUser', this.user)
+    this.events_start = this.$route.query.events_start
+    this.events_end = this.$route.query.events_end
+    this.administratives_entities = this.$route.query.administratives_entities
+    this.show_only_future = this.$route.query.show_only_future
+    this.default_view = this.$route.query.default_view
+    this.display_footer_and_header = this.$route.query.display_footer_and_header
+    this.default_calendar_mode = this.$route.query.default_calendar_mode
   },
 
   methods: {
