@@ -139,13 +139,15 @@ export default {
     triggerMapFromModalCalendar(feature) {
       this.view = 'map'
 
-      // Add setTimeout otherwise the $refs.map was not define,
-      setTimeout(() => {
-        this.$refs.map.map.getView().fit(feature.bbox, {
-          duration: 1000,
-          maxZoom: 12,
-        })
-      }, 1500)
+      if (feature.bbox) {
+        // Add setTimeout otherwise the $refs.map was not define,
+        setTimeout(() => {
+          this.$refs.map.map.getView().fit(feature.bbox, {
+            duration: 1000,
+            maxZoom: 12,
+          })
+        }, 1500)
+      }
     },
 
     filter(query) {
