@@ -176,7 +176,7 @@ export default {
 
         if (query.type.length) {
           return (
-            feature.properties.permit_request.meta_types[0] === query.type[0] &&
+            feature.properties.submission.meta_types[0] === query.type[0] &&
             this.dateIntervalFilter({
               queryDates: [query.dates[0], query.dates[1]],
               featureDates: [featureStartDate, featureEndDate],
@@ -223,13 +223,11 @@ export default {
     styleFuncFactory() {
       return (feature) => {
         let typeStyle = this.events.type[0]
-        if (feature.getProperties().permit_request.meta_types) {
+        if (feature.getProperties().submission.meta_types) {
           /* Specific style is only applied when on single meta_type is defined */
-          if (feature.getProperties().permit_request.meta_types.length === 1) {
+          if (feature.getProperties().submission.meta_types.length === 1) {
             typeStyle =
-              this.events.type[
-                feature.getProperties().permit_request.meta_types[0]
-              ]
+              this.events.type[feature.getProperties().submission.meta_types[0]]
           }
           const genericStyle = this.map.$createStyle(pointer(typeStyle))
           const polygonFillStyle = this.map.$createStyle({
@@ -265,14 +263,12 @@ export default {
       this.map.forEachFeatureAtPixel(
         pixel,
         function (feature) {
-          if (feature.getProperties().permit_request.meta_types) {
+          if (feature.getProperties().submission.meta_types) {
             let typeStyle = this.events.type[0]
-            if (
-              feature.getProperties().permit_request.meta_types.length === 1
-            ) {
+            if (feature.getProperties().submission.meta_types.length === 1) {
               typeStyle =
                 this.events.type[
-                  feature.getProperties().permit_request.meta_types[0]
+                  feature.getProperties().submission.meta_types[0]
                 ]
             }
 
@@ -291,24 +287,25 @@ export default {
     },
 
     async handleEventClick(feature) {
-      let permitsDetails = {}
-      permitsDetails = await this.$store.dispatch(
-        'getPermitsDetails',
-        feature.values_.permit_request.id
+      let submissionsDetails = {}
+      submissionsDetails = await this.$store.dispatch(
+        'getsubmissionsDetails',
+        feature.values_.submission.id
       )
       this.modalContent = {
         title:
-          feature.values_.permit_request.shortname === ''
-            ? feature.values_.permit_request.administrative_entity.name
-            : feature.values_.permit_request.shortname,
+          feature.values_.submission.shortname === ''
+            ? feature.values_.submission.administrative_entity.name
+            : feature.values_.submission.shortname,
         comment: feature.values_.comment,
         link: feature.values_.external_link,
         start: feature.values_.starts_at,
         end: feature.values_.ends_at,
-        permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
-        current_inquiry_documents: feature.values_.permit_request
-          .current_inquiry
-          ? feature.values_.permit_request.current_inquiry.documents
+        submissionsDetails: submissionsDetails
+          ? submissionsDetails.wot_properties
+          : {},
+        current_inquiry_documents: feature.values_.submission.current_inquiry
+          ? feature.values_.submission.current_inquiry.documents
           : false,
       }
 

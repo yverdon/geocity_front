@@ -9,9 +9,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async getPermitsDetails({ commit }, id) {
-    const permitsDetails = await this.$axios
-      .$get(`${process.env.GEOCITY_API}/permits_details/${id}/`, {
+  async getsubmissionsDetails({ commit }, id) {
+    const submissionsDetails = await this.$axios
+      .$get(`${process.env.GEOCITY_API}/submissions_details/${id}/`, {
         withCredentials: true,
       })
       .then((response) => response)
@@ -20,6 +20,6 @@ export const actions = {
         console.error(error)
       })
 
-    return permitsDetails
+    return submissionsDetails
   },
 }
