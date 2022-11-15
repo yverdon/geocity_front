@@ -131,7 +131,7 @@ export default {
         start: info.event.start,
         end: info.event.end,
         submissionsDetails: submissionsDetails
-          ? submissionsDetails.wot_properties
+          ? submissionsDetails.fields
           : {},
         current_inquiry_documents: info.event.extendedProps.feature.properties
           .submission.current_inquiry

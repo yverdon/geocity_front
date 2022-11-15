@@ -20,10 +20,10 @@ export default [
       return res(
         ctx.json({
           id: 100,
-          wot_properties: [
+          fields: [
             [
               {
-                key: 'work_object_type',
+                key: 'form',
                 value: "Demande express (Droit d'accès (express))",
                 type: 'text',
               },
@@ -45,7 +45,7 @@ export default [
             ],
             [
               {
-                key: 'work_object_type',
+                key: 'form',
                 value: "Demande express (Droit d'accès (express))",
                 type: 'text',
               },
@@ -77,10 +77,10 @@ export default [
       return res(
         ctx.json({
           id: 200,
-          wot_properties: [
+          fields: [
             [
               {
-                key: 'work_object_type',
+                key: 'form',
                 value: 'Avant-toits (Construction)',
                 type: 'text',
               },
@@ -132,7 +132,7 @@ export default [
             ],
             [
               {
-                key: 'work_object_type',
+                key: 'form',
                 value: 'Avant-toits (Démolition)',
                 type: 'text',
               },
@@ -226,11 +226,11 @@ export default [
                   link: '',
                   phone: '0244236694',
                 },
-                works_object_types: [154],
+                forms: [154],
                 meta_types: [4],
                 intersected_geometries:
                   '14530 - Zone archéologique -  1256 -  <br>21860 - Parcelle - Parcelle privée387 - 1920<br>21868 - Parcelle - Parcelle privée387 - 6466<br>',
-                works_object_types_names: {
+                forms_names: {
                   154: "Yvent - ébauches d'événements (Yvent - ébauches d'événements)",
                 },
                 current_inquiry: {
@@ -297,11 +297,11 @@ export default [
                   link: '',
                   phone: '0244236694',
                 },
-                works_object_types: [154],
+                forms: [154],
                 meta_types: [4],
                 intersected_geometries:
                   '14530: Zone archéologique ;   ;\r\n                    1256 ;   <br>\r\n                    \r\n                    24326: Parcelle ; Parcelle privée ;\r\n                    387 ; 1881 <br>\r\n                    \r\n                    24154: Parcelle ; Parcelle privée ;\r\n                    387 ; 1882 <br>\r\n                    \r\n                    21860: Parcelle ; Parcelle privée ;\r\n                    387 ; 1920 <br>',
-                works_object_types_names: {
+                forms_names: {
                   154: "Yvent - ébauches d'événements (Yvent - ébauches d'événements)",
                 },
               },
@@ -331,10 +331,10 @@ export default [
                   link: 'https://mapnv.ch',
                   phone: '',
                 },
-                works_object_types: [],
+                forms: [],
                 meta_types: [],
                 intersected_geometries: '',
-                works_object_types_names: {},
+                forms_names: {},
               },
               starts_at: null,
               ends_at: null,
@@ -356,10 +356,10 @@ export default [
                   link: 'https://mapnv.ch',
                   phone: '',
                 },
-                works_object_types: [],
+                forms: [],
                 meta_types: [],
                 intersected_geometries: '',
-                works_object_types_names: {},
+                forms_names: {},
               },
               starts_at: '2021-07-13',
               ends_at: '2022-07-13',
@@ -381,10 +381,10 @@ export default [
                   link: 'https://mapnv.ch',
                   phone: '',
                 },
-                works_object_types: [],
+                forms: [],
                 meta_types: [],
                 intersected_geometries: '',
-                works_object_types_names: {},
+                forms_names: {},
               },
               starts_at: '2021-07-27',
               ends_at: '2022-07-27',
@@ -406,10 +406,10 @@ export default [
                   link: 'https://mapnv.ch',
                   phone: '',
                 },
-                works_object_types: [],
+                forms: [],
                 meta_types: [],
                 intersected_geometries: '',
-                works_object_types_names: {},
+                forms_names: {},
               },
               starts_at: '2021-08-05',
               ends_at: '2022-08-05',

@@ -61,14 +61,14 @@
           </li>
         </ul>
       </li>
-      <template v-if="content.permitsDetails">
-        <template v-for="permitsDetail in content.permitsDetails">
+      <template v-if="content.submissionsDetails">
+        <template v-for="submissionsDetail in content.submissionsDetails">
           <li
-            v-for="(detail, index) in permitsDetail"
+            v-for="(detail, index) in submissionsDetail"
             :key="detail[index]"
             class="flex flex-col md:flex-row py-2"
           >
-            <template v-if="detail.key === 'work_object_type'">
+            <template v-if="detail.key === 'form'">
               <p class="text-lead mt-4">{{ detail.value }}</p>
             </template>
             <template v-else-if="detail.type === 'file'">
