@@ -177,6 +177,10 @@ export default {
 </script>
 
 <style lang="postcss">
+.fc .fc-popover {
+  z-index: 1 !important;
+}
+
 .vm--container {
   @apply mt-4 pb-8;
   z-index: 10000;
