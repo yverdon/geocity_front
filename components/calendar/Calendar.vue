@@ -120,7 +120,7 @@ export default {
     async handleEventClick(info) {
       let submissionsDetails = {}
       submissionsDetails = await this.$store.dispatch(
-        'getsubmissionsDetails',
+        'getSubmissionsDetails',
         info.event.extendedProps.feature.properties.submission.id
       )
 
@@ -131,7 +131,7 @@ export default {
         start: info.event.start,
         end: info.event.end,
         submissionsDetails: submissionsDetails
-          ? submissionsDetails.fields
+          ? submissionsDetails.fields_values
           : {},
         current_inquiry_documents: info.event.extendedProps.feature.properties
           .submission.current_inquiry

@@ -289,7 +289,7 @@ export default {
     async handleEventClick(feature) {
       let submissionsDetails = {}
       submissionsDetails = await this.$store.dispatch(
-        'getsubmissionsDetails',
+        'getSubmissionsDetails',
         feature.values_.submission.id
       )
       this.modalContent = {
@@ -302,7 +302,7 @@ export default {
         start: feature.values_.starts_at,
         end: feature.values_.ends_at,
         submissionsDetails: submissionsDetails
-          ? submissionsDetails.fields
+          ? submissionsDetails.field_values
           : {},
         current_inquiry_documents: feature.values_.submission.current_inquiry
           ? feature.values_.submission.current_inquiry.documents

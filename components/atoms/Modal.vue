@@ -46,17 +46,23 @@
         <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
         {{ content.comment }}
       </li>
-      <li v-if="content.current_inquiry_documents" class="flex flex-col md:flex-row py-2">
+      <li
+        v-if="content.current_inquiry_documents"
+        class="flex flex-col md:flex-row py-2"
+      >
         <span class="w-80 font-bold pr-2">{{ $t('Documents') }}:</span>
         <ul>
-          <li v-for="document in content.current_inquiry_documents">
+          <li
+            v-for="document in content.current_inquiry_documents"
+            :key="document.id"
+          >
             <svg-icon name="download" class="icon--75" />
             <a
               :href="document.uri"
               target="_blank"
               class="text-brand hover:text-brand-dark"
             >
-              {{document.name}}
+              {{ document.name }}
             </a>
           </li>
         </ul>
@@ -82,26 +88,34 @@
                   target="_blank"
                   class="text-brand hover:text-brand-dark"
                 >
-                Télécharger le document
-              </a></p>
+                  Télécharger le document
+                </a>
+              </p>
             </template>
             <template v-else-if="detail.type === 'checkbox'">
               <span class="w-80 font-bold pr-2 flex-none">
                 {{ detail.key }} :
               </span>
-              <p v-if="detail.value"><svg-icon name="circle-check" class="icon--100" /></p>
+              <p v-if="detail.value">
+                <svg-icon name="circle-check" class="icon--100" />
+              </p>
               <p v-else><svg-icon name="circle-xmark" class="icon--100" /></p>
             </template>
             <template v-else-if="detail.type === 'list_multiple'">
               <span class="w-80 font-bold pr-2 flex-none">
                 {{ detail.key }} :
               </span>
-              <ul class="bg-white rounded-lg border border-gray-200 w-96 text-gray-900"><li 
-                v-for="value in detail.value"
-                class="px-6 py-2 border-b border-gray-200 w-full"
+              <ul
+                class="bg-white rounded-lg border border-gray-200 w-96 text-gray-900"
               >
-                {{ value }}
-              </li></ul>
+                <li
+                  v-for="value in detail.value"
+                  :key="value.id"
+                  class="px-6 py-2 border-b border-gray-200 w-full"
+                >
+                  {{ value }}
+                </li>
+              </ul>
             </template>
             <template v-else>
               <span class="w-80 font-bold pr-2 flex-none">

@@ -9,7 +9,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async getsubmissionsDetails({ commit }, id) {
+  async getSubmissionsDetails({ commit }, id) {
     const submissionsDetails = await this.$axios
       .$get(`${process.env.GEOCITY_API}/submissions_details/${id}/`, {
         withCredentials: true,
