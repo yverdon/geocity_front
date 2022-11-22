@@ -82,9 +82,9 @@ export default {
       features.forEach((feature) => {
         this.calendarOptions.events.push({
           title:
-            feature.properties.permit_request.shortname === ''
-              ? feature.properties.permit_request.administrative_entity.name
-              : feature.properties.permit_request.shortname,
+            feature.properties.submission.shortname === ''
+              ? feature.properties.submission.administrative_entity.name
+              : feature.properties.submission.shortname,
           comment: feature.properties.comment,
           externalLink: feature.properties.external_link,
           start: feature.properties.starts_at,
@@ -110,7 +110,7 @@ export default {
 
       // eslint-disable-next-line array-callback-return
       this.events.features.filter((feature) => {
-        if (feature.properties.permit_request.meta_types[0] === query.type[0]) {
+        if (feature.properties.submission.meta_types[0] === query.type[0]) {
           filterdFeatures.push(feature)
         }
       })
@@ -118,10 +118,10 @@ export default {
     },
 
     async handleEventClick(info) {
-      let permitsDetails = {}
-      permitsDetails = await this.$store.dispatch(
-        'getPermitsDetails',
-        info.event.extendedProps.feature.properties.permit_request.id
+      let submissionsDetails = {}
+      submissionsDetails = await this.$store.dispatch(
+        'getSubmissionsDetails',
+        info.event.extendedProps.feature.properties.submission.id
       )
 
       this.modalContent = {
@@ -130,10 +130,12 @@ export default {
         link: info.event.extendedProps.externalLink,
         start: info.event.start,
         end: info.event.end,
-        permitsDetails: permitsDetails ? permitsDetails.wot_properties : {},
+        submissionsDetails: submissionsDetails
+          ? submissionsDetails.fields_values
+          : {},
         current_inquiry_documents: info.event.extendedProps.feature.properties
-          .permit_request.current_inquiry
-          ? info.event.extendedProps.feature.properties.permit_request
+          .submission.current_inquiry
+          ? info.event.extendedProps.feature.properties.submission
               .current_inquiry.documents
           : false,
         feature: info.event.extendedProps.feature,
