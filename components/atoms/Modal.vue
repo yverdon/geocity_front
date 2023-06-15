@@ -140,7 +140,7 @@
           {{ $t('see-on-map') }}
         </button>
         <a
-          v-if="content.id"
+          v-if="content.id && $store.state.user.is_logged"
           :href="GetSubmissionUrl + '/submissions/' + content.id"
           target="_blank"
           class="text-brand hover:text-brand-dark"
