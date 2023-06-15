@@ -125,6 +125,7 @@ export default {
       )
 
       this.modalContent = {
+        id: info.event.extendedProps.feature.properties.submission.id,
         title: info.event.title,
         comment: info.event.extendedProps.comment,
         link: info.event.extendedProps.externalLink,

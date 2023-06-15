@@ -132,12 +132,22 @@
       v-if="name === 'calendar-modal'"
       class="flex flex-col items-center mt-6"
     >
-      <button
-        class="btn btn--secondary"
-        @click="$emit('modal-trigger-map', content.feature)"
-      >
-        {{ $t('see-on-map') }}
-      </button>
+      <div class="space-x-12">
+        <button
+          class="btn btn--secondary"
+          @click="$emit('modal-trigger-map', content.feature)"
+        >
+          {{ $t('see-on-map') }}
+        </button>
+        <a
+          v-if="content.id"
+          :href="GetSubmissionUrl + '/submissions/' + content.id"
+          target="_blank"
+          class="text-brand hover:text-brand-dark"
+        >
+          Voir la demande {{ content.id }}
+        </a>
+      </div>
     </section>
   </vue-modal>
 </template>
@@ -163,6 +173,10 @@ export default {
     },
 
     GetFileLink() {
+      return `${process.env.CTA_LINK}`
+    },
+
+    GetSubmissionUrl() {
       return `${process.env.CTA_LINK}`
     },
   },
