@@ -147,6 +147,16 @@
         >
           Voir la demande {{ content.id }}
         </a>
+        <a
+          v-if="content.id && $store.state.user.is_logged"
+          :href="
+            GetSubmissionUrl + '/submissions/' + content.id + '/properties'
+          "
+          target="_blank"
+          class="text-brand hover:text-brand-dark"
+        >
+          Modifier la demande {{ content.id }}
+        </a>
       </div>
     </section>
   </vue-modal>
