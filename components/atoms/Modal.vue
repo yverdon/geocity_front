@@ -10,7 +10,9 @@
     @closed="$emit('close')"
   >
     <header class="flex items-center mb-4">
-      <p v-if="content.title" class="text-lead">{{ content.title }}</p>
+      <p v-if="content.title" class="text-lead">
+        {{ content.title }}
+      </p>
       <button
         class="btn btn--secondary btn--small ml-auto"
         @click="handleCloseButton"
@@ -128,12 +130,10 @@
       </template>
     </ul>
 
-    <section
-      v-if="name === 'calendar-modal'"
-      class="flex flex-col items-center mt-6"
-    >
+    <section class="flex flex-col items-center mt-6">
       <div class="space-x-12">
         <button
+          v-if="name === 'calendar-modal'"
           class="btn btn--secondary"
           @click="$emit('modal-trigger-map', content.feature)"
         >

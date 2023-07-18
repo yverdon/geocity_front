@@ -293,6 +293,7 @@ export default {
         feature.values_.submission.id
       )
       this.modalContent = {
+        id: feature.values_.submission.id,
         title:
           feature.values_.submission.shortname === ''
             ? feature.values_.submission.administrative_entity.name
