@@ -1,5 +1,5 @@
 {
-  "copyright": "© Ville d'Yverdon-les-Bains 2022",
+  "copyright": "© Ville d'Yverdon-les-Bains 2024",
   "connexion": "Connexion",
   "introduction": "Espace public est le point d'accès à l'information sur les activités planifiées sur le territoire de votre commune.",
   "ask": "Vous souhaitez demander une autorisation relative à un chantier ou une manifestation ?",
@@ -12,13 +12,13 @@
   "see-on-calendar": "Voir sur le calendrier",
   "event-type": "Type d'événement",
   "where": "Où?",
-  "select-no-option": "Pas de résultas",
+  "select-no-option": "Pas de résultats",
   "date-range": "Période",
   "map": "Plan",
   "calendar": "Calendrier",
-  "tracking-toggle": "Active geolocation",
+  "tracking-toggle": "Active géolocalisation",
   "clear-date-selection": "Supprimer dates sélection",
   "see-on-map": "Voir sur la carte",
   "logout": "Déconnexion",
-  "error": "Une erreur, c'est produite veuillez reesayer plus tard"
+  "error": "Une erreur, c'est produite veuillez ressayer plus tard"
 }

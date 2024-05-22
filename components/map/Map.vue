@@ -166,7 +166,7 @@ export default {
      * Filter Features
      * @param {Object} query
      * Get the query search selected thought the `Strainer` component and
-     * filter the data `features` Object to pass down the filtred `features`
+     * filter the data `features` Object to pass down the filtered `features`
      * to the `LayerVector` component.
      */
     filterFeatures(query) {

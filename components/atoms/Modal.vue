@@ -22,13 +22,21 @@
     </header>
 
     <ul>
-      <li v-if="content.start" class="flex flex-col md:flex-row py-2">
+      <li v-if="content.startDisplay" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('start') }}:</span>
-        {{ $dateFns.format(content.start, 'dd.MM.yyyy') }}
+        {{ $dateFns.format(content.startDisplay, 'dd.MM.yyyy HH:mm') }}
       </li>
-      <li v-if="content.end" class="flex flex-col md:flex-row py-2">
+      <li v-else-if="content.start" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('start') }}:</span>
+        {{ $dateFns.format(content.start, 'dd.MM.yyyy HH:mm') }}
+      </li>
+      <li v-if="content.endDisplay" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('end') }}:</span>
-        {{ $dateFns.format(content.end, 'dd.MM.yyyy') }}
+        {{ $dateFns.format(content.endDisplay, 'dd.MM.yyyy HH:mm') }}
+      </li>
+      <li v-else-if="content.end" class="flex flex-col md:flex-row py-2">
+        <span class="w-80 font-bold pr-2">{{ $t('end') }}:</span>
+        {{ $dateFns.format(content.end, 'dd.MM.yyyy HH:mm') }}
       </li>
       <li v-if="content.comment" class="flex flex-col md:flex-row py-2">
         <span class="w-80 font-bold pr-2">{{ $t('details') }}:</span>
