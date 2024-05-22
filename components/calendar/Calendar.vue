@@ -80,6 +80,30 @@ export default {
     formatFeatures(features) {
       this.calendarOptions.events = []
       features.forEach((feature) => {
+        const startsDisplay = new Date(feature.properties.starts_at)
+        const startsAt = new Date(startsDisplay)
+        const endsDisplay = new Date(feature.properties.ends_at)
+        const endsAt = new Date(endsDisplay)
+
+        const daySplitStart = process.env.DAY_SPLIT_START
+        const daySplitEnd = process.env.DAY_SPLIT_END
+
+        if (daySplitStart && daySplitEnd) {
+          const isSameDay = startsAt.getDate() === endsDisplay.getDate()
+
+          // If the day of start and end is not the same and event finish before daySplitStart, make the event finish 1 day earlier at daySplitEnd
+          if (!isSameDay && endsDisplay.getHours() < daySplitStart) {
+            endsAt.setDate(endsDisplay.getDate() - 1) // Remove 1 day
+            endsAt.setHours(daySplitEnd, 0, 0, 0)
+          }
+
+          // If the day of start and end is not the same and event starts before daySplitEnd, make the event start 1 day later at daySplitStart
+          if (!isSameDay && startsDisplay.getHours() > daySplitEnd) {
+            startsAt.setDate(startsDisplay.getDate() + 1) // add 1 day
+            startsAt.setHours(daySplitStart, 0, 0, 0)
+          }
+        }
+
         this.calendarOptions.events.push({
           title:
             feature.properties.submission.shortname === ''
@@ -87,8 +111,10 @@ export default {
               : feature.properties.submission.shortname,
           comment: feature.properties.comment,
           externalLink: feature.properties.external_link,
-          start: feature.properties.starts_at,
-          end: feature.properties.ends_at,
+          start: startsAt,
+          end: endsAt,
+          startDisplay: startsDisplay,
+          endDisplay: endsDisplay,
           feature,
         })
       })
@@ -98,7 +124,7 @@ export default {
      * Filter Features
      * @param {Object} query
      * Get the query search selected thought the `Strainer` component and
-     * filter the data `features` Object to pass down the filtred `features`
+     * filter the data `features` Object to pass down the filtered `features`
      * to the `FullCalendar` component.
      */
     filterFeatures(query) {
@@ -123,7 +149,6 @@ export default {
         'getSubmissionsDetails',
         info.event.extendedProps.feature.properties.submission.id
       )
-
       this.modalContent = {
         id: info.event.extendedProps.feature.properties.submission.id,
         title: info.event.title,
@@ -131,6 +156,8 @@ export default {
         link: info.event.extendedProps.externalLink,
         start: info.event.start,
         end: info.event.end,
+        startDisplay: info.event.extendedProps.startDisplay,
+        endDisplay: info.event.extendedProps.endDisplay,
         submissionsDetails: submissionsDetails
           ? submissionsDetails.fields_values
           : {},
